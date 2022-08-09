@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/assets/style/css/main.css">
+    <script src="https://kit.fontawesome.com/fed86a3182.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="dark-layer" id="darkLayer">
+    </div>
+    <header class="position-sticky top-0">
+        <div class="header-left">
+            <a asp-controller="home" asp-action="index" class="header-logo">
+                <img src="~/assets/images/logo.svg" alt="">
+            </a>
+            <nav id="headerNavbar">
+                <ul>
+                    <li><a asp-controller="home" asp-action="index">Home</a></li>
+                    <li><a asp-controller="home" asp-action="index">Users</a></li>
+                    <li><a asp-controller="home" asp-action="index">Communities</a></li>
+                    <li><a asp-controller="home" asp-action="index">Rules</a></li>
+                </ul>
+            </nav>
+
+
+        </div>
+
+        <div class="header-right">
+            <div class="dark-mode-switch">
+                <label class="switch" id="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                    <i class="fa-solid fa-sun"></i>
+                    <i class="fa-solid fa-moon"></i>
+                </label>
+            </div>
+            <div class="search-header">
+                <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+            </div>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="header-user-box">
+                    <a class="header-user" id="headerUser">
+                        <img src="https://picsum.photos/300/600" alt="">
+                        <span>@User.Identity.Name</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+
+                    </a>
+
+                </div>
+            }
+            else
+            {
+                <div class="login-register-btn-box">
+                    <a class="login-btn" asp-controller="account" asp-action="login">Login</a>
+                    <a class="register-btn" asp-controller="account" asp-action="register">Register</a>
+                </div>
+            }
+
+
+
+            <a class="hamburgerMenuBtn" id="hamburgerMenuBtn">
+                <span class="hamburgerSpan"> </span>
+                <span class="hamburgerSpan"> </span>
+                <span class="hamburgerSpan"> </span>
+            </a>
+        </div>
+
+    </header>
+    <div class="search-area" id="searchArea">
+        <form action="">
+            <select>
+                <option value="topic">Topic</option>
+                <option value="member">Member</option>
+                <option value="community">Community</option>
+            </select>
+            <div class="search-box">
+                <input type="text" placeholder="Search">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </form>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="user-nav" id="userNav">
+            <ul>
+                <li><a asp-controller="user" asp-action="index" asp-route-id="@User.Identity.Name"><i class="fa-solid fa-user"></i> Your profile</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Your communities</a></li>
+                <li><a href="#"><i class="fa-solid fa-bookmark"></i> Your bookmarks</a></li>
+                <li><a href="#"><i class="fa-solid fa-message"></i> Your topics</a></li>
+                <li><a href="#"><i class="fa-solid fa-comment-dots"></i> Your answers</a></li>
+                <li><a href="#"><i class="fa-solid fa-comments"></i> Your comments</a></li>
+                <li><a href="#"><i class="fa-solid fa-square-check"></i> Your votes</a></li>
+                <hr>
+                <li><a asp-controller="account" asp-action="logout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a></li>
+            </ul>
+        </div>
+    }
+
+
+    <nav id="mobileNavbar">
+        <div class="mobile-links">
+            <ul>
+                <li><a asp-controller="home" asp-action="index">Home</a></li>
+                <li><a asp-controller="home" asp-action="index">Users</a></li>
+                <li><a asp-controller="home" asp-action="index">Communities</a></li>
+                <li><a asp-controller="home" asp-action="index">Rules</a></li>
+            </ul>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="mobile-user-bar">
+                <a class="mobile-user header-user">
+                    <img src="https://picsum.photos/300/600" alt="">
+                    <span>@User.Identity.Name</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="login-register-btn-box">
+                <a class="login-btn" asp-controller="account" asp-action="login">Login</a>
+                <a class="register-btn" asp-controller="account" asp-action="register">Register</a>
+            </div>
+        }
+
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <script src="~/assets/script/hamburger.js"></script>
+    <script src="~/assets/script/search.js"></script>
+    <script src="~/assets/script/userNav.js"></script>
+    <script src="~/assets/script/darkMode.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+﻿@model RegisterVM
+
+<div class="register-main">
+    <div class="register-box">
+        <h2>Forum register</h2>
+        <p>Enter your details for register on forum.</p>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+        <form method="post">
+            <label asp-for="Name">
+                <input asp-for="Name" placeholder="First name">
+                <span>First name</span>
+            </label>
+                <span asp-validation-for="Name" class="text-danger mb-2"></span>
+
+            <label asp-for="Surname">
+                <input asp-for="Surname" placeholder="Last name">
+                <span>Last name</span>
+            </label>
+                <span asp-validation-for="Surname" class="text-danger mb-2"></span>
+
+            <label asp-for="Username">
+                <input asp-for="Username" placeholder="Username">
+                <span>Username</span>
+            </label>
+                <span asp-validation-for="Username" class="text-danger mb-2"></span>
+
+            <label asp-for="Email">
+                <input asp-for="Email" placeholder="E-mail">
+                <span>E-mail</span>
+            </label>
+                <span asp-validation-for="Email" class="text-danger mb-2"></span>
+
+            <label asp-for="ConfirmEmail">
+                <input asp-for="ConfirmEmail" placeholder="Confirm e-mail">
+                <span>Confirm e-maill</span>
+            </label>
+                <span asp-validation-for="ConfirmEmail" class="text-danger mb-2"></span>
+
+            <label asp-for="Password">
+                <input asp-for="Password" placeholder="Password">
+                <span>Password</span>
+            </label>
+                <span asp-validation-for="Password" class="text-danger mb-2"></span>
+
+            <label asp-for="ConfirmPassword">
+                <input asp-for="ConfirmPassword" placeholder="Confirm password">
+                <span>Confirm password</span>
+            </label>
+                <span asp-validation-for="ConfirmPassword" class="text-danger mb-2"></span>
+
+
+            <button type="submit">Register</button>
+
+            <p class="register-text">Already have an account? <a asp-controller="account" asp-action="login" class="register-btn">Login</a></p>
+        </form>
+    </div>
+</div>
+

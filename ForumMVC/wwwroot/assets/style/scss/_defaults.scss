@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+input,
+textarea,
+button {
+    border: none;
+    outline: none;
+}
+
+html {
+    font-size: 16px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background-color: #f6f8fa;
+
+    &.dark-mode {
+        background-color: #010409;
+    }
+}
+
+.dark-layer {
+    position: fixed;
+    left: 0;
+    top: 4rem;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .75);
+    z-index: 0;
+    display: none;
+}
+
+.dark-layer-opened {
+    display: block;
+}
+
+
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 14px;
+    }
+}

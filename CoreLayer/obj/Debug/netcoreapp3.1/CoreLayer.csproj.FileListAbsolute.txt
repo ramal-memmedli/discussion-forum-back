@@ -1,0 +1,13 @@
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\bin\Debug\netcoreapp3.1\CoreLayer.deps.json
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\bin\Debug\netcoreapp3.1\CoreLayer.runtimeconfig.json
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\bin\Debug\netcoreapp3.1\CoreLayer.runtimeconfig.dev.json
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\bin\Debug\netcoreapp3.1\CoreLayer.dll
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\bin\Debug\netcoreapp3.1\CoreLayer.pdb
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.csproj.AssemblyReference.cache
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.AssemblyInfoInputs.cache
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.AssemblyInfo.cs
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.csproj.CoreCompileInputs.cache
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.dll
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.pdb
+C:\Users\Ramal\Desktop\ForumMVC\CoreLayer\obj\Debug\netcoreapp3.1\CoreLayer.genruntimeconfig.cache

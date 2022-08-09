@@ -1,0 +1,49 @@
+.login-register-btn-box {
+    a {
+        &.login-btn {
+            color: #6e7781;
+            transition: 150ms ease-in-out;
+            margin-right: 1rem;
+            font-weight: 500;
+
+            &:hover {
+                color: #24292f;
+            }
+        }
+
+        &.register-btn {
+            color: #FFFFFF;
+            background-color: #ff4500;
+            padding: .6rem 1.2rem;
+            border-radius: .375rem;
+        }
+    }
+}
+
+body.dark-mode {
+    .login-register-btn-box {
+        a {
+            &.login-btn {
+                color: #c9d1d9;
+    
+                &:hover {
+                    color: #FFF;
+                }
+            }
+    
+            &.register-btn {
+                color: #FFFFFF;
+                background-color: #ff4500;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .header-right {
+        .login-register-btn-box {
+            display: none;
+        }
+    }
+}
