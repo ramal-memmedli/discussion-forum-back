@@ -19,6 +19,77 @@ namespace DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DataAccessLayer.Models.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("AnswerComments");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerVote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsUpVote")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("AnswerVotes");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -96,6 +167,147 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Community", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Communities");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommunityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Target")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommunityId");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("CommunityImages");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityMember", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CommunityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("CommunityId");
+
+                    b.ToTable("CommunityMembers");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityTopic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CommunityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommunityId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("CommunityTopics");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -144,6 +356,94 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.TopicAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("TopicAnswers");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.TopicCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("TopicCategories");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserBookmark", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("UserBookmarks");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserFollower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FollowerAppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("FollowerAppUserId");
+
+                    b.ToTable("UserFollowers");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UserImage", b =>
@@ -302,11 +602,136 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerComment", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
+                        .WithMany("AnswerComments")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Comment", "Comment")
+                        .WithMany("AnswerComments")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerVote", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
+                        .WithMany("AnswerVotes")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany("AnswerVotes")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityImage", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Community", "Community")
+                        .WithMany()
+                        .HasForeignKey("CommunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityMember", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany("CommunityMembers")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("DataAccessLayer.Models.Community", "Community")
+                        .WithMany("CommunityMembers")
+                        .HasForeignKey("CommunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.CommunityTopic", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Community", "Community")
+                        .WithMany("CommunityTopics")
+                        .HasForeignKey("CommunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
+                        .WithMany("CommunityTopics")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Topic", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.TopicAnswer", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
+                        .WithMany("TopicAnswers")
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
+                        .WithMany("TopicAnswers")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.TopicCategory", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Category", "Category")
+                        .WithMany("TopicCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
+                        .WithMany("TopicCategories")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserBookmark", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany("UserBookmarks")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
+                        .WithMany("UserBookmarks")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserFollower", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("DataAccessLayer.Models.AppUser", "FollowerAppUser")
+                        .WithMany()
+                        .HasForeignKey("FollowerAppUserId");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UserImage", b =>

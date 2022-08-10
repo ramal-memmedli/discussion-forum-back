@@ -1,4 +1,5 @@
 ﻿using CoreLayer.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +17,9 @@ namespace DataAccessLayer.Models
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
+        public List<CommunityTopic> CommunityTopics { get; set; }
+        public List<TopicAnswer> TopicAnswers { get; set; }
+        public List<TopicCategory> TopicCategories { get; set; }
+        public DbSet<UserBookmark> UserBookmarks { get; set; }
     }
 }
