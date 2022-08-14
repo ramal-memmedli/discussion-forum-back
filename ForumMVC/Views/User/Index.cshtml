@@ -1,21 +1,24 @@
 ﻿@model UserProfileVM
 
 <div class="container">
-    <div class="user-header">
+    <div class="user-header" style="background-image: url('@Model.User.BannerImage');
+    background-position: center;
+    background-size: cover;
+    background-color: #161b22">
         <div class="user">
             <div class="user-name">
-                <img src="https://picsum.photos/800/800" alt="">
+                <img src="~/uploads/images/user/@Model.User.ProfileImage" alt="">
                 <a>@Model.User.Name @Model.User.Surname</a>
-                <span class="user-level">10</span>
+                <span class="user-level">@Model.User.Level</span>
             </div>
             <div class="user-statistics">
                 <div class="statistic">
                     <p class="statistic-title"><i class="fa-solid fa-book"></i> Topics</p>
-                    <p class="statistic-count">25</p>
+                    <p class="statistic-count">@Model.User.TopicCount</p>
                 </div>
                 <div class="statistic">
                     <p class="statistic-title"><i class="fa-solid fa-message"></i> Answers</p>
-                    <p class="statistic-count">267</p>
+                    <p class="statistic-count">@Model.User.AnswerCount</p>
                 </div>
             </div>
 
@@ -41,61 +44,65 @@
                     <div class="topic">
                         <div class="topic-header mb-0 ask-question-card">
                             <a asp-controller="user" asp-action="index" asp-route-id="@Model.User.Username" class="topic-author">
-                                <img class="author-image" src="./assets/images/logo.svg" alt="">
+                                <img class="author-image" src="~/uploads/images/user/@Model.User.ProfileImage" alt="">
                                 @Model.User.Name @Model.User.Surname
-                                <span class="author-level">10</span>
+                                <span class="author-level">@Model.User.Level</span>
                             </a>
-                            <a class="ask-a-question-main" href="#">Ask a question</a>
+                            <a class="ask-a-question-main" asp-controller="topic" asp-action="create">Ask a question</a>
                         </div>
                     </div>
                 }
 
-                @foreach (GetTopicVM topic in @Model.Topics)
+                @if (Model.User.TopicCount != 0)
                 {
-                    <div class="topic">
-                    <div class="topic-header">
-                        <a asp-controller="user" asp-action="index" asp-route-id="@topic.AuthorUsername" class="topic-author">
-                            <img class="author-image" src="./assets/images/logo.svg" alt="">
-                            @topic.AuthorFullName
-                            <span class="author-level">10</span>
-                        </a>
-                        <p class="topic-create-date">
-                            Asked: <span class="date">@topic.CreateDate</span>
-                        </p>
-                    </div>
-                    <div class="topic-body">
-                        <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
-                        <p>
-                            @topic.Content
-                        </p>
-                        <ul>
-                            <li><a href="#">Technology</a></li>
-                            <li><a href="#">GPU</a></li>
-                            <li><a href="#">Software</a></li>
-                            <li><a href="#">Technology</a></li>
-                            <li><a href="#">GPU</a></li>
-                            <li><a href="#">Software</a></li>
-                        </ul>
-                    </div>
-                    <div class="topic-footer">
-                        <div class="topic-footer-left">
-                            <div class="topic-view-count">
-                                <i class="fa-solid fa-eye"></i> <span class="view-count"> @topic.ViewCount Views</span>
+                    @foreach (GetTopicVM topic in @Model.Topics)
+                    {
+                        <div class="topic">
+                            <div class="topic-header">
+                                <a asp-controller="user" asp-action="index" asp-route-id="@topic.AuthorUsername" class="topic-author">
+                                    <img class="author-image" src="~/uploads/images/user/@topic.AuthorImage" alt="">
+                                    @topic.AuthorFullName
+                                    <span class="author-level">@topic.AuthorLevel</span>
+                                </a>
+                                <p class="topic-create-date">
+                                    Asked: <span class="date">@topic.CreateDate</span>
+                                </p>
                             </div>
+                            <div class="topic-body">
+                                <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
+                                <p>
+                                    @topic.Content
+                                </p>
+                                    <ul>
+                                            <li><a asp-controller="category" asp-action="index" asp-route-id="@topic.TopicCategory.Id">@topic.TopicCategory.Name</a></li>
+                                    </ul>
+                            </div>
+                            <div class="topic-footer">
+                                <div class="topic-footer-left">
+                                    <div class="topic-view-count">
+                                        <i class="fa-solid fa-eye"></i> <span class="view-count"> @topic.ViewCount Views</span>
+                                    </div>
 
-                            <div class="topic-answer-count">
-                                <i class="fa-solid fa-message"></i> <span class="answer-count"> 7 Answers</span>
+                                    <div class="topic-answer-count">
+                                        <i class="fa-solid fa-message"></i> <span class="answer-count"> @topic.AnswerCount Answers</span>
+                                    </div>
+                                </div>
+                                <div class="topic-footer-right">
+                                    <a href="#"><i class="fa-solid fa-bookmark"></i></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="topic-footer-right">
-                            <a href="#"><i class="fa-solid fa-bookmark"></i></a>
-                        </div>
+                    }
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <a class="load-more" href="#"><i class="fa-solid fa-arrow-rotate-right"></i> Load more</a>
                     </div>
-                </div>
                 }
-            </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <a class="load-more" href="#"><i class="fa-solid fa-arrow-rotate-right"></i> Load more</a>
+                else
+                {
+                    <h3>This user doesn't have any topic</h3>
+                }
+
             </div>
         </div>
 

@@ -1,10 +1,12 @@
-﻿using DataAccessLayer.Models;
+﻿using BusinessLayer.Services;
+using DataAccessLayer.Models;
+using ForumMVC.ViewModels.CommunityVMs;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 using ForumMVC.ViewModels.UserVMs;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ForumMVC.ViewComponents
 {
@@ -12,24 +14,51 @@ namespace ForumMVC.ViewComponents
     {
         private readonly UserManager<AppUser> _userManager;
 
-        public TopUsersViewComponent(UserManager<AppUser> userManager)
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            _userManager = userManager;
+            //List<GetUserCardVM> userVMs = new List<GetUserCardVM>();
+
+            //try
+            //{
+            //    List<AppUser> users = (List<AppUser>)await _userManager.GetUsersInRoleAsync("User");
+
+            //    foreach (Community community in communities)
+            //    {
+            //        string profileImage = "";
+            //        string bannerImage = "";
+
+            //        foreach (CommunityImage communityImage in community.CommunityImages)
+            //        {
+            //            Image image = await _imageService.Get(communityImage.ImageId);
+
+            //            if (communityImage.Target == "banner")
+            //            {
+            //                bannerImage = image.Name;
+            //            }
+            //            if (communityImage.Target == "profile")
+            //            {
+            //                profileImage = image.Name;
+            //            }
+            //        }
+
+            //        communityVM.Add(new GetCommunityCardVM
+            //        {
+            //            Id = community.Id,
+            //            Name = community.Name,
+            //            ProfileImage = profileImage,
+            //            BannerImage = bannerImage,
+            //            MemberCount = community.CommunityMembers.Count,
+            //        });
+            //    }
+
+            //    return View(model: communityVM);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return View("Error");
+            //}
+
+            return View();
         }
-
-        //public async Task<IActionResult> InvokeAsync()
-        //{
-        //    List<GetUserVM> userVMs = new List<GetUserVM>();
-
-        //    try
-        //    {
-        //        List<AppUser> users = await _userManager.Get
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw;
-        //    }
-        //}
     }
 }

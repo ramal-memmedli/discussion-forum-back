@@ -7,10 +7,10 @@
             <div class="topic-header">
               <div class="topic-author">
                 <a asp-controller="user" asp-action="index" asp-route-id="@Model.AuthorUsername">
-                  <img src="https://picsum.photos/200/200" alt="">
+                  <img src="~/uploads/images/user/@Model.AuthorImage" alt="">
                   @Model.AuthorFullName
                 </a>
-                <span class="author-level">10</span>
+                <span class="author-level">@Model.AuthorLevel</span>
               </div>
               <div class="topic-create-date">
                 Asked: <span class="date">@Model.CreateDate</span>
@@ -26,12 +26,7 @@
               </div>
               <div class="topic-categories">
                 <ul>
-                  <li><a href="#">Technology</a></li>
-                  <li><a href="#">GPU</a></li>
-                  <li><a href="#">Software</a></li>
-                  <li><a href="#">Technology</a></li>
-                  <li><a href="#">GPU</a></li>
-                  <li><a href="#">Software</a></li>
+                  <li><a asp-controller="category" asp-action="index" asp-route-id="@Model.TopicCategory.Id">@Model.TopicCategory.Name</a></li>
                 </ul>
               </div>
             </div>
@@ -39,7 +34,7 @@
             <div class="topic-statistics">
               <div class="statistics-left">
                 <p><i class="fa-solid fa-eye"></i> @Model.ViewCount Views</p>
-                <p><i class="fa-solid fa-message"></i> 7 Answers</p>
+                <p><i class="fa-solid fa-message"></i> @Model.AnswerCount Answers</p>
               </div>
               <div class="statistics-right">
                 <a href="#"><i class="fa-solid fa-bookmark"></i></a>
@@ -322,48 +317,14 @@
         </div>
 
         <div class="col-lg-4">
-          <div class="sidebar">
+          @*<div class="sidebar">
             <div class="sidebar-item">
               <div class="sidebar-item-header">
                 <a href="#"><i class="fa-solid fa-ranking-star"></i> Top communities</a>
               </div>
-              <div class="top-communities">
-                <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
-
-                  <a href="#">
-                    <div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div>
-                    <p>24 member</p>
-                  </a>
-                </div>
-                <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
-
-                  <a href="#">
-                    <div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div>
-                    <p>24 member</p>
-                  </a>
-                </div>
-                <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
-
-                  <a href="#">
-                    <div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div>
-                    <p>24 member</p>
-                  </a>
-                </div>
-                <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
-
-                  <a href="#">
-                    <div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div>
-                    <p>24 member</p>
-                  </a>
-                </div>
-                <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
-
-                  <a href="#">
-                    <div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div>
-                    <p>24 member</p>
-                  </a>
-                </div>
-              </div>
+              @{
+                        await Component.InvokeAsync("TopCommunities");
+              }
             </div>
             <div class="sidebar-item">
               <div class="sidebar-item-header">
@@ -401,7 +362,7 @@
               </div>
             </div>
 
-          </div>
+          </div>*@
           <footer>
             <div class="row">
               <div class="col-6">

@@ -26,6 +26,9 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
@@ -35,34 +38,19 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("TopicId");
+
                     b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.AnswerComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("CommentId");
-
-                    b.ToTable("AnswerComments");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.AnswerVote", b =>
@@ -112,6 +100,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -156,6 +147,8 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LevelId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -189,6 +182,12 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
@@ -199,6 +198,10 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Comments");
                 });
@@ -286,26 +289,22 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("CommunityMembers");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.CommunityTopic", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.DefaultValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CommunityId")
-                        .HasColumnType("int");
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommunityId");
-
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("CommunityTopics");
+                    b.ToTable("DefaultValues");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Image", b =>
@@ -323,6 +322,24 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Level", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RequiredPoint")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Levels");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Topic", b =>
                 {
                     b.Property<int>("Id")
@@ -332,6 +349,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("AuthorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -355,51 +375,9 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Topics");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.TopicAnswer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnswerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("TopicAnswers");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.TopicCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("TopicCategories");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.UserBookmark", b =>
@@ -602,17 +580,15 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.AnswerComment", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Answer", b =>
                 {
-                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
-                        .WithMany("AnswerComments")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
 
-                    b.HasOne("DataAccessLayer.Models.Comment", "Comment")
-                        .WithMany("AnswerComments")
-                        .HasForeignKey("CommentId")
+                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -630,10 +606,32 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("AppUserId");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.AppUser", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Level", "Level")
+                        .WithMany("AppUsers")
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.CommunityImage", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Community", "Community")
-                        .WithMany()
+                        .WithMany("CommunityImages")
                         .HasForeignKey("CommunityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -658,54 +656,15 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.CommunityTopic", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Community", "Community")
-                        .WithMany("CommunityTopics")
-                        .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
-                        .WithMany("CommunityTopics")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Topic", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.AppUser", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId");
-                });
 
-            modelBuilder.Entity("DataAccessLayer.Models.TopicAnswer", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Answer", "Answer")
-                        .WithMany("TopicAnswers")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
-                        .WithMany("TopicAnswers")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.TopicCategory", b =>
-                {
                     b.HasOne("DataAccessLayer.Models.Category", "Category")
-                        .WithMany("TopicCategories")
+                        .WithMany("Topics")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Topic", "Topic")
-                        .WithMany("TopicCategories")
-                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

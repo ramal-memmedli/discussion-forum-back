@@ -19,7 +19,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<Topic> Get(int id)
         {
-            Topic topic = await _topicData.GetAsync(n => n.Id == id && !n.IsDeleted, "Author");
+            Topic topic = await _topicData.GetAsync(n => n.Id == id && !n.IsDeleted, "Author", "Category");
 
             if(topic is null)
             {
@@ -43,7 +43,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Topic>> GetAllByAuthor(string id)
         {
-            List<Topic> topics = await _topicData.GetAllAsync(n => !n.IsDeleted && n.AuthorId == id, "Author");
+            List<Topic> topics = await _topicData.GetAllAsync(n => n.CreateDate, false, n => !n.IsDeleted && n.AuthorId == id, "Author", "Category");
 
             if (topics is null)
             {
@@ -55,7 +55,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Topic>> GetAllPaginated(int currentPage, int pageCapacity)
         {
-            List<Topic> topics = await _topicData.GetAllPaginatedAsync(currentPage, pageCapacity, n => !n.IsDeleted, "Author");
+            List<Topic> topics = await _topicData.GetAllPaginatedAsync(currentPage, pageCapacity, n => n.CreateDate, false, n => !n.IsDeleted, "Author", "Category");
 
             if (topics is null)
             {

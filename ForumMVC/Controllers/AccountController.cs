@@ -1,8 +1,10 @@
-﻿using Common.Helpers;
+﻿using BusinessLayer.Services;
+using Common.Helpers;
 using DataAccessLayer.Models;
 using ForumMVC.ViewModels.AccountVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
@@ -14,12 +16,14 @@ namespace ForumMVC.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserImageService _userImageService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IUserImageService userImageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _userImageService = userImageService;
         }
 
         [HttpGet]
@@ -48,6 +52,7 @@ namespace ForumMVC.Controllers
                 Surname = registerVM.Surname,
                 UserName = registerVM.Username,
                 Email = registerVM.Email,
+                LevelId = 1
             };
 
             IdentityResult result = await _userManager.CreateAsync(newUser, registerVM.Password);
@@ -59,6 +64,25 @@ namespace ForumMVC.Controllers
                     ModelState.AddModelError("", error.Description);
                     return View(registerVM);
                 }
+            }
+
+            UserImage userProfileImage = new UserImage();
+
+            userProfileImage.AppUserId = newUser.Id;
+            userProfileImage.ImageId = 1;
+            userProfileImage.Target = "profile";
+
+            try
+            {
+                await _userImageService.Create(userProfileImage);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 405,
+                    Message = ex.Message
+                });
             }
 
             if ((await _userManager.GetUsersInRoleAsync(Enums.Roles.Admin.ToString())).Count == 0)

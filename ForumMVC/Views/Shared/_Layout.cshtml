@@ -1,5 +1,17 @@
-﻿<!DOCTYPE html>
-<html lang="en" class="dark-mode">
+﻿@inject IDefaultValueService _defaultValueService;
+@inject UserManager<AppUser> _userService;
+@inject IImageService _imageService;
+@inject IUserImageService _userImageService;
+
+@{
+    Dictionary<string, string> values = (await _defaultValueService.GetAll()).ToDictionary(n => n.Key, n => n.Value);
+
+    string currentUserImage = "";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +30,7 @@
     <header class="position-sticky top-0">
         <div class="header-left">
             <a asp-controller="home" asp-action="index" class="header-logo">
-                <img src="~/assets/images/logo.svg" alt="">
+                <img src="~/uploads/default/@values["AppLogo"]" alt="">
             </a>
             <nav id="headerNavbar">
                 <ul>
@@ -48,14 +60,24 @@
 
             @if (User.Identity.IsAuthenticated)
             {
+                AppUser currentUser = await _userService.FindByNameAsync(User.Identity.Name);
+                List<UserImage> userImages = await _userImageService.GetAllByUserId(currentUser.Id);
+
+                foreach (UserImage image in userImages)
+                {
+                    if (image.Target == "profile")
+                    {
+                        currentUserImage = image.Image.Name;
+                    }
+                }
+
                 <div class="header-user-box">
                     <a class="header-user" id="headerUser">
-                        <img src="https://picsum.photos/300/600" alt="">
+                        <img src="~/uploads/images/user/@currentUserImage" alt="">
                         <span>@User.Identity.Name</span>
                         <i class="fa-solid fa-chevron-down"></i>
 
                     </a>
-
                 </div>
             }
             else
@@ -121,7 +143,7 @@
         {
             <div class="mobile-user-bar">
                 <a class="mobile-user header-user">
-                    <img src="https://picsum.photos/300/600" alt="">
+                    <img src="~/uploads/images/user/@currentUserImage" alt="">
                     <span>@User.Identity.Name</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </a>

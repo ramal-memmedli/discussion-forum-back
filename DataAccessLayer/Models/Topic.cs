@@ -17,9 +17,9 @@ namespace DataAccessLayer.Models
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
-        public List<CommunityTopic> CommunityTopics { get; set; }
-        public List<TopicAnswer> TopicAnswers { get; set; }
-        public List<TopicCategory> TopicCategories { get; set; }
-        public DbSet<UserBookmark> UserBookmarks { get; set; }
+        public List<UserBookmark> UserBookmarks { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+        public List<Answer> Answers { get; set; }
     }
 }

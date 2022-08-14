@@ -35,6 +35,30 @@ namespace ForumMVC
             services.AddScoped<ITopicService, TopicRepository>();
             services.AddScoped<ITopicData, TopicData>();
 
+            services.AddScoped<ICommunityService, CommunityRepository>();
+            services.AddScoped<ICommunityData, CommunityData>();
+
+            services.AddScoped<ICommunityMemberService, CommunityMemberRepository>();
+            services.AddScoped<ICommunityMemberData, CommunityMemberData>();
+
+            services.AddScoped<ICommunityImageService, CommunityImageRepository>();
+            services.AddScoped<ICommunityImageData, CommunityImageData>();
+
+            services.AddScoped<IImageService, ImageRepository>();
+            services.AddScoped<IImageData, ImageData>();
+
+            services.AddScoped<IDefaultValueService, DefaultValueRepository>();
+            services.AddScoped<IDefaultValueData, DefaultValueData>();
+
+            services.AddScoped<IUserImageService, UserImageRepository>();
+            services.AddScoped<IUserImageData, UserImageData>();
+
+            services.AddScoped<ILevelService, LevelRepository>();
+            services.AddScoped<ILevelData, LevelData>();
+
+            services.AddScoped<ICategoryService, CategoryRepository>();
+            services.AddScoped<ICategoryData, CategoryData>();
+
             services.AddIdentity<AppUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<IdentityOptions>(options =>

@@ -12,8 +12,11 @@ namespace DataAccessLayer.Models
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public bool IsDeleted { get; set; }
+        public int TopicId { get; set; }
+        public Topic Topic { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
         public List<AnswerVote> AnswerVotes { get; set; }
-        public List<AnswerComment> AnswerComments { get; set; }
-        public List<TopicAnswer> TopicAnswers { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

@@ -1,0 +1,130 @@
+﻿@model GetCommunityVM
+
+
+<div class="container">
+    <div class="community-header">
+        <div class="community-name">
+            <img src="@Model.ProfileImage" alt="">
+            <a>@Model.Name</a>
+        </div>
+        <div class="community-actions">
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-message"></i> Topics</a></li>
+                <li><a href="#"><i class="fa-solid fa-users"></i> Members</a></li>
+                <li><a href="#"><i class="fa-solid fa-at"></i> About</a></li>
+                <li><a href="#"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-lg-8">
+            <div class="main-flow">
+                <div class="topic">
+                    <div class="topic-header mb-0 ask-question-card">
+                        <a href="#" class="topic-author">
+                            <img class="author-image" src="./assets/images/logo.svg" alt="">
+                            Ramal Memmedli
+                            <span class="author-level">10</span>
+                        </a>
+                        <a class="ask-a-question-main" href="#">Ask a question</a>
+                    </div>
+                </div>
+                @if(Model.Topics is null) {
+                    <h4>This community doesn't has topic yet</h4>
+                }else {
+                    @foreach (GetTopicVM topic in Model.Topics)
+                    {
+                        <div class="topic">
+                            <div class="topic-header">
+                                <a asp-controller="user" asp-action="index" asp-route-id="@topic.AuthorUsername" class="topic-author">
+                                    <img class="author-image" src="./assets/images/logo.svg" alt="">
+                                    @topic.AuthorFullName
+                                    <span class="author-level">10</span>
+                                </a>
+                                <p class="topic-create-date">
+                                    @if (topic.UpdateDate != null)
+                                    {
+                                    Edited:
+                                        <span class="date">@topic.UpdateDate</span>
+                                    }
+                                    else
+                                    {
+                                    Asked:
+                                        <span class="date">@topic.CreateDate</span>
+                                    }
+
+                                </p>
+                            </div>
+                            <div class="topic-body">
+                                <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
+                                <p>
+                                    @topic.Content
+                                </p>
+                                <ul>
+                                    <li><a href="#">Technology</a></li>
+                                    <li><a href="#">GPU</a></li>
+                                    <li><a href="#">Software</a></li>
+                                    <li><a href="#">Technology</a></li>
+                                    <li><a href="#">GPU</a></li>
+                                    <li><a href="#">Software</a></li>
+                                </ul>
+                            </div>
+                            <div class="topic-footer">
+                                <div class="topic-footer-left">
+                                    <div class="topic-view-count">
+                                        <i class="fa-solid fa-eye"></i> <span class="view-count"> @topic.ViewCount Views</span>
+                                    </div>
+
+                                    <div class="topic-answer-count">
+                                        <i class="fa-solid fa-message"></i> <span class="answer-count"> 7 Answers</span>
+                                    </div>
+                                </div>
+                                <div class="topic-footer-right">
+                                    <a href="#"><i class="fa-solid fa-bookmark"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <a class="load-more" href="#"><i class="fa-solid fa-arrow-rotate-right"></i> Load more</a>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+    </div>
+
+</div>

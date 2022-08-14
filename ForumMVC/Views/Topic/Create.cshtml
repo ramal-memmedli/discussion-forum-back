@@ -1,0 +1,145 @@
+﻿@model CreateTopicVM
+
+@{
+    List<Category> categories = ViewData["Categories"] as List<Category> ?? new List<Category>();
+}
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-8">
+            <div class="post-topic-header">
+                <h4>New topic</h4>
+                <a href="#">Cancel</a>
+            </div>
+
+            <div class="post-topic-body">
+                <form method="post">
+                    <label asp-for="@Model.Title">
+                        <input asp-for="@Model.Title" placeholder="Topic title">
+                        <span>Topic title</span>
+                    </label>
+                    <span asp-validation-for="@Model.Title" class="mb-2"></span>
+                    <label asp-for="@Model.Content">
+                        <input asp-for="@Model.Content" placeholder="Content">
+                        <span>Content</span>
+                    </label>
+                    <span asp-validation-for="@Model.Content" class="mb-2"></span>
+
+                    <div class="input-group select-box">
+                        <label class="form-label select-label" asp-for="@Model.CategoryId">Select categories</label>
+
+                        <select class="select" asp-for="@Model.CategoryId">
+                            @foreach (Category category in categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="@Model.CategoryId" class="mb-2"></span>
+
+                    </div>
+
+                    <button type="submit">Post topic</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sidebar">
+                <div class="sidebar-item">
+                    <div class="sidebar-item-header">
+                        <a href="#"><i class="fa-solid fa-ranking-star"></i> Top communities</a>
+                    </div>
+                    <div class="top-communities">
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-item-header">
+                        <a href="#"><i class="fa-solid fa-users"></i> Top Members</a>
+                    </div>
+                    <div class="sidebar-item-body">
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ilkin Qurbanli</a>
+                            </div>
+                            <p class="member-level">23 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Adil Velizade</a>
+                            </div>
+                            <p class="member-level">12 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ceyhun Memizade</a>
+                            </div>
+                            <p class="member-level">18 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ali Amikishi</a>
+                            </div>
+                            <p class="member-level">3 level</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+    </div>
+
+</div>

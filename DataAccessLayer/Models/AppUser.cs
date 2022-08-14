@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataAccessLayer.Models
@@ -16,5 +17,7 @@ namespace DataAccessLayer.Models
         public DbSet<UserBookmark> UserBookmarks { get; set; }
         public string About { get; set; }
         public int Point { get; set; }
+        public int LevelId { get; set; }
+        public Level Level { get; set; }
     }
 }
