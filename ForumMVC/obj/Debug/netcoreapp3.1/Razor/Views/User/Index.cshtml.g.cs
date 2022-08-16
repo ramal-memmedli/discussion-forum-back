@@ -68,8 +68,22 @@ using ForumMVC.ViewModels.HomeVMs;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 12 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\_ViewImports.cshtml"
+using ForumMVC.ViewModels.AnswerVMs;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 13 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\_ViewImports.cshtml"
+using ForumMVC.ViewModels.CommentVMs;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"208402ebeeef36853a978a271aeee9333ab54dfc", @"/Views/User/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ddfe9cbab9f9d384b783316ec87c49242b8948c5", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3edc54152532c61df04d654944895cf128249e52", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_User_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<UserProfileVM>
     #nullable disable
@@ -130,7 +144,7 @@ WriteAttributeValue("", 108, Model.User.BannerImage, 108, 23, false);
             WriteAttributeValue(" ", 220, "#161b22", 221, 8, true);
             EndWriteAttribute();
             WriteLiteral(">\r\n        <div class=\"user\">\r\n            <div class=\"user-name\">\r\n                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc9064", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc9437", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -194,7 +208,7 @@ AddHtmlAttributeValue("", 345, Model.User.ProfileImage, 345, 24, false);
 #line hidden
 #nullable disable
             WriteLiteral("</p>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"user-actions\">\r\n            <ul>\r\n                <li>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc12562", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc12935", async() => {
                 WriteLiteral("<i class=\"fa-solid fa-message\"></i> Topics");
             }
             );
@@ -227,7 +241,7 @@ AddHtmlAttributeValue("", 345, Model.User.ProfileImage, 345, 24, false);
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("</li>\r\n                <li>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc15005", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc15378", async() => {
                 WriteLiteral("<i class=\"fa-solid fa-at\"></i> About");
             }
             );
@@ -269,7 +283,7 @@ AddHtmlAttributeValue("", 345, Model.User.ProfileImage, 345, 24, false);
 #line hidden
 #nullable disable
             WriteLiteral("                    <li>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc17711", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc18084", async() => {
                 WriteLiteral("<i class=\"fa-solid fa-pen-to-square\"></i> Edit");
             }
             );
@@ -319,9 +333,9 @@ AddHtmlAttributeValue("", 345, Model.User.ProfileImage, 345, 24, false);
 #line hidden
 #nullable disable
             WriteLiteral("                    <div class=\"topic\">\r\n                        <div class=\"topic-header mb-0 ask-question-card\">\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc20912", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc21285", async() => {
                 WriteLiteral("\r\n                                ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc21200", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc21573", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -402,7 +416,7 @@ AddHtmlAttributeValue("", 2259, Model.User.ProfileImage, 2259, 24, false);
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc26056", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc26429", async() => {
                 WriteLiteral("Ask a question");
             }
             );
@@ -447,9 +461,9 @@ AddHtmlAttributeValue("", 2259, Model.User.ProfileImage, 2259, 24, false);
 #line hidden
 #nullable disable
             WriteLiteral("                        <div class=\"topic\">\r\n                            <div class=\"topic-header\">\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc28417", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc28790", async() => {
                 WriteLiteral("\r\n                                    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc28709", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "208402ebeeef36853a978a271aeee9333ab54dfc29082", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -530,7 +544,7 @@ AddHtmlAttributeValue("", 3170, topic.AuthorImage, 3170, 18, false);
 #line hidden
 #nullable disable
             WriteLiteral("</span>\r\n                                </p>\r\n                            </div>\r\n                            <div class=\"topic-body\">\r\n                                ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc33878", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc34251", async() => {
 #nullable restore
 #line 72 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\User\Index.cshtml"
                                                                                                  Write(topic.Title);
@@ -577,7 +591,7 @@ AddHtmlAttributeValue("", 3170, topic.AuthorImage, 3170, 18, false);
 #line hidden
 #nullable disable
             WriteLiteral("\r\n                                </p>\r\n                                    <ul>\r\n                                            <li>");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc36925", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "208402ebeeef36853a978a271aeee9333ab54dfc37298", async() => {
 #nullable restore
 #line 77 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\User\Index.cshtml"
                                                                                                                                   Write(topic.TopicCategory.Name);

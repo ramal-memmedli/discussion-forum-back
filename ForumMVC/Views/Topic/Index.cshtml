@@ -1,405 +1,442 @@
 ﻿@model GetTopicVM
 
 <div class="container">
-      <div class="row my-4">
+    <div class="row my-4">
         <div class="col-lg-8">
-          <div class="topic-content">
-            <div class="topic-header">
-              <div class="topic-author">
-                <a asp-controller="user" asp-action="index" asp-route-id="@Model.AuthorUsername">
-                  <img src="~/uploads/images/user/@Model.AuthorImage" alt="">
-                  @Model.AuthorFullName
+            <div class="topic-content">
+                <div class="topic-header">
+                    <div class="topic-author">
+                        <a asp-controller="user" asp-action="index" asp-route-id="@Model.AuthorUsername">
+                            <img src="~/uploads/images/user/@Model.AuthorImage" alt="">
+                            @Model.AuthorFullName
+                        </a>
+                        <span class="author-level">@Model.AuthorLevel</span>
+                    </div>
+                    <div class="topic-create-date">
+                        Asked: <span class="date">@Model.CreateDate</span>
+                    </div>
+                </div>
+
+                <div class="topic-body">
+                    <div class="topic-title">
+                        <a>@Model.Title</a>
+                    </div>
+                    <div class="topic-context">
+                        <p>@Html.Raw(Model.Content)</p>
+                    </div>
+                    <div class="topic-categories">
+                        <ul>
+                            <li><a asp-controller="category" asp-action="index" asp-route-id="@Model.TopicCategory.Id">@Model.TopicCategory.Name</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="topic-statistics">
+                    <div class="statistics-left">
+                        <p><i class="fa-solid fa-eye"></i> @Model.ViewCount Views</p>
+                        <p><i class="fa-solid fa-message"></i> @Model.AnswerCount Answers</p>
+                    </div>
+                    <div class="statistics-right">
+                        <a href="#"><i class="fa-solid fa-bookmark"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="topic-answers">
+                <h4>@Model.AnswerCount Answers</h4>
+
+                @foreach (GetAnswerVM answer in Model.Answers)
+                {
+                    <div class="topic-answer">
+                        <div class="row">
+                            <div class="col-1">
+                                <div class="vote-actions">
+                                    @if(answer.IsVotedByYou) {
+                                        @if(answer.YourVote == "up") {
+                                            <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote text-success"><i class="fa-solid fa-caret-up"></i></button>
+                                        }else {
+                                            <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote"><i class="fa-solid fa-caret-up"></i></button>
+                                        }
+                                        <span class="votecount">@answer.VoteCount</span>
+
+                                        @if (answer.YourVote == "down")
+                                        {
+                                            <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote text-danger"><i class="fa-solid fa-caret-down"></i></button>
+                                        }
+                                        else
+                                        {
+                                            <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote"><i class="fa-solid fa-caret-down"></i></button>
+                                        }
+                                    }else {
+                                        <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote"><i class="fa-solid fa-caret-up"></i></button>
+                                        <span class="votecount">@answer.VoteCount</span>
+                                        <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote"><i class="fa-solid fa-caret-down"></i></button>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-11">
+                                <div class="answer-header">
+                                    <div class="answer-author">
+                                        <a asp-controller="user" asp-action="index" asp-route-id="@answer.AuthorUsername">
+                                            <img src="~/uploads/images/user/@answer.AuthorImage" alt="">
+                                            @answer.AuthorFullname
+                                        </a>
+                                        <span class="author-level">
+                                            @answer.AuthorLevel
+                                        </span>
+                                    </div>
+                                    <div class="answer-date">
+                                        Answered: <span>@answer.CreateDate</span>
+                                    </div>
+
+                                </div>
+                                <div class="answer-body">
+                                    <p class="answer-context">
+                                        @Html.Raw(answer.Content)
+                                    </p>
+                                </div>
+                                <div class="answer-actions">
+                                    <a><i class="fa-solid fa-check"></i> Select as best answer</a>
+                                    <a data-id="@answer.Id" class="add-comment-btn"><i class="fa-solid fa-comment"></i> Add comment</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-comments">
+                            <h6>Comments - <span>@answer.CommentCount</span></h6>
+                            @foreach (GetCommentVM comment in answer.Comments)
+                            {
+                                <div class="comment">
+                                    <a class="comment-author-image" asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername"><img src="~/uploads/images/user/@comment.AuthorImage" alt=""></a>
+                                    <div>
+                                        <div class="comment-header">
+                                            <div class="comment-author">
+                                                <a asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername">@comment.AuthorFullname</a>
+                                            </div>
+                                            <div class="comment-date">@comment.CreateDate</div>
+                                        </div>
+
+                                        <div class="comment-body">
+                                            <p>@comment.Content</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @* <div class="topic-answer">
+                <div class="row">
+                <div class="col-1">
+                <div class="vote-actions">
+                <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
+                <span class="votecount">18</span>
+                <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
+                </div>
+                </div>
+                <div class="col-11">
+                <div class="answer-header">
+                <div class="answer-author">
+                <a href="#">
+                <img src="./assets/images/logo.svg" alt="">
+                Ilkin Qurbanli
                 </a>
-                <span class="author-level">@Model.AuthorLevel</span>
-              </div>
-              <div class="topic-create-date">
-                Asked: <span class="date">@Model.CreateDate</span>
-              </div>
-            </div>
+                <span class="author-level">
+                24
+                </span>
+                </div>
+                <div class="answer-date">
+                Answered: <span>8/4/2022</span>
+                </div>
 
-            <div class="topic-body">
-              <div class="topic-title">
-                <a>@Model.Title</a>
-              </div>
-              <div class="topic-context">
-                <p>@Model.Content</p>
-              </div>
-              <div class="topic-categories">
-                <ul>
-                  <li><a asp-controller="category" asp-action="index" asp-route-id="@Model.TopicCategory.Id">@Model.TopicCategory.Name</a></li>
-                </ul>
-              </div>
-            </div>
+                </div>
+                <div class="answer-body">
+                <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
+                </div>
+                <div class="answer-actions">
+                <a><i class="fa-solid fa-check"></i> Select as best answer</a>
+                <a id="addComment"><i class="fa-solid fa-comment"></i> Add comment</a>
+                </div>
+                </div>
+                </div>
+                <div class="answer-comments">
+                <h6>Comments - <span>3</span></h6>
+                <div class="comment">
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
 
-            <div class="topic-statistics">
-              <div class="statistics-left">
-                <p><i class="fa-solid fa-eye"></i> @Model.ViewCount Views</p>
-                <p><i class="fa-solid fa-message"></i> @Model.AnswerCount Answers</p>
-              </div>
-              <div class="statistics-right">
-                <a href="#"><i class="fa-solid fa-bookmark"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="topic-answers">
-            <h4>3 Answers</h4>
-            <div class="topic-answer">
-              <div class="row">
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
+                </div>
+                <div class="comment">
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
+                </div>
+                <div class="comment">
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
+                </div>
+                </div>
+                </div>
+                <div class="topic-answer">
+                <div class="row">
                 <div class="col-1">
-                  <div class="vote-actions">
-                    <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
-                    <span class="votecount">18</span>
-                    <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
-                  </div>
+                <div class="vote-actions">
+                <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
+                <span class="votecount">18</span>
+                <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
+                </div>
+                <div class="selected-answer">
+                <i class="fa-solid fa-check"></i>
+                </div>
                 </div>
                 <div class="col-11">
-                  <div class="answer-header">
-                    <div class="answer-author">
-                      <a href="#">
-                        <img src="./assets/images/logo.svg" alt="">
-                        Ilkin Qurbanli
-                      </a>
-                      <span class="author-level">
-                        24
-                      </span>
-                    </div>
-                    <div class="answer-date">
-                      Answered: <span>8/4/2022</span>
-                    </div>
-                    
-                  </div>
-                  <div class="answer-body">
-                    <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
-                  </div>
-                  <div class="answer-actions">
-                    <a><i class="fa-solid fa-check"></i> Select as best answer</a>
-                    <a id="addComment"><i class="fa-solid fa-comment"></i> Add comment</a>
-                  </div>
+                <div class="answer-header">
+                <div class="answer-author">
+                <a href="#">
+                <img src="./assets/images/logo.svg" alt="">
+                Ilkin Qurbanli
+                </a>
+                <span class="author-level">
+                24
+                </span>
                 </div>
-              </div>
-              <div class="answer-comments">
+                <div class="answer-date">
+                Answered: <span>8/4/2022</span>
+                </div>
+
+                </div>
+                <div class="answer-body">
+                <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
+                </div>
+                <div class="answer-actions">
+                <a><i class="fa-solid fa-check"></i> Select as best answer</a>
+                <a id="addComment"><i class="fa-solid fa-comment"></i> Add comment</a>
+                </div>
+                </div>
+                </div>
+                <div class="answer-comments">
                 <h6>Comments - <span>3</span></h6>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
                 </div>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
                 </div>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
                 </div>
-              </div>
-            </div>
-            <div class="topic-answer">
-              <div class="row">
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
+                </div>
+                </div>
+                </div>
+                <div class="topic-answer">
+                <div class="row">
                 <div class="col-1">
-                  <div class="vote-actions">
-                    <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
-                    <span class="votecount">18</span>
-                    <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
-                  </div>
-                  <div class="selected-answer">
-                    <i class="fa-solid fa-check"></i>
-                  </div>
+                <div class="vote-actions">
+                <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
+                <span class="votecount">18</span>
+                <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
+                </div>
+                <div class="selected-answer">
+                <i class="fa-solid fa-check"></i>
+                </div>
                 </div>
                 <div class="col-11">
-                  <div class="answer-header">
-                    <div class="answer-author">
-                      <a href="#">
-                        <img src="./assets/images/logo.svg" alt="">
-                        Ilkin Qurbanli
-                      </a>
-                      <span class="author-level">
-                        24
-                      </span>
-                    </div>
-                    <div class="answer-date">
-                      Answered: <span>8/4/2022</span>
-                    </div>
-                    
-                  </div>
-                  <div class="answer-body">
-                    <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
-                  </div>
-                  <div class="answer-actions">
-                    <a><i class="fa-solid fa-check"></i> Select as best answer</a>
-                    <a id="addComment"><i class="fa-solid fa-comment"></i> Add comment</a>
-                  </div>
+                <div class="answer-header">
+                <div class="answer-author">
+                <a href="#">
+                <img src="./assets/images/logo.svg" alt="">
+                Ilkin Qurbanli
+                </a>
+                <span class="author-level">
+                24
+                </span>
                 </div>
-              </div>
-              <div class="answer-comments">
+                <div class="answer-date">
+                Answered: <span>8/4/2022</span>
+                </div>
+
+                </div>
+                <div class="answer-body">
+                <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
+                </div>
+                <div class="answer-actions">
+                <a href="#"><i class="fa-solid fa-check"></i> Select as best answer</a>
+                <a href="#"><i class="fa-solid fa-comment"></i> Add comment</a>
+                </div>
+                </div>
+                </div>
+                <div class="answer-comments">
                 <h6>Comments - <span>3</span></h6>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
                 </div>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
+                </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
                 </div>
                 <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
+                <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
+                <div>
+                <div class="comment-header">
+                <div class="comment-author">
+                <a href="#">Ramal Memmedli</a>
                 </div>
-              </div>
+                <div class="comment-date">8/4/2022</div>
+                </div>
+
+                <div class="comment-body">
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
+                </div>
+                </div>
+
+                </div>
+                </div>
+                </div>*@
             </div>
-            <div class="topic-answer">
-              <div class="row">
-                <div class="col-1">
-                  <div class="vote-actions">
-                    <a href="#" class="upvote"><i class="fa-solid fa-caret-up"></i></a>
-                    <span class="votecount">18</span>
-                    <a href="#" class="downvote"><i class="fa-solid fa-caret-down"></i></a>
-                  </div>
-                  <div class="selected-answer">
-                    <i class="fa-solid fa-check"></i>
-                  </div>
-                </div>
-                <div class="col-11">
-                  <div class="answer-header">
-                    <div class="answer-author">
-                      <a href="#">
-                        <img src="./assets/images/logo.svg" alt="">
-                        Ilkin Qurbanli
-                      </a>
-                      <span class="author-level">
-                        24
-                      </span>
-                    </div>
-                    <div class="answer-date">
-                      Answered: <span>8/4/2022</span>
-                    </div>
-                    
-                  </div>
-                  <div class="answer-body">
-                    <p class="answer-context">Lorem ipsum dolor sit amet <strong>consectetur adipisicing</strong> elit. Illo, molestias magni nostrum repudiandae saepe excepturi incidunt laborum ratione cupiditate, distinctio cumque ipsum voluptatibus explicabo fugiat!</p>
-                  </div>
-                  <div class="answer-actions">
-                    <a href="#"><i class="fa-solid fa-check"></i> Select as best answer</a>
-                    <a href="#"><i class="fa-solid fa-comment"></i> Add comment</a>
-                  </div>
-                </div>
-              </div>
-              <div class="answer-comments">
-                <h6>Comments - <span>3</span></h6>
-                <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div class="comment">
-                  <a class="comment-author-image" href="#"><img src="./assets/images/logo.svg" alt=""></a>
-                  <div>
-                    <div class="comment-header">
-                      <div class="comment-author">
-                        <a href="#">Ramal Memmedli</a>
-                      </div>
-                      <div class="comment-date">8/4/2022</div>
-                    </div>
-                    
-                    <div class="comment-body">
-                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, iure.</p>
-                    </div>
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="add-answer">
-            <form action="">
-              burda plugin olacaq 
-              <button type="submit">Submit</button>
-            </form>
-          </div>
         </div>
 
         <div class="col-lg-4">
-          @*<div class="sidebar">
-            <div class="sidebar-item">
-              <div class="sidebar-item-header">
-                <a href="#"><i class="fa-solid fa-ranking-star"></i> Top communities</a>
-              </div>
-              @{
-                        await Component.InvokeAsync("TopCommunities");
-              }
-            </div>
-            <div class="sidebar-item">
-              <div class="sidebar-item-header">
-                <a href="#"><i class="fa-solid fa-users"></i> Top Members</a>
-              </div>
-              <div class="sidebar-item-body">
-                <div class="popular-member">
-                  <div class="sidebar-member">
-                    <img src="https://picsum.photos/200/200" alt="">
-                    <a href="#">Ilkin Qurbanli</a>
-                  </div>
-                  <p class="member-level">23 level</p>
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="popular-member">
-                  <div class="sidebar-member">
-                    <img src="https://picsum.photos/200/200" alt="">
-                    <a href="#">Adil Velizade</a>
-                  </div>
-                  <p class="member-level">12 level</p>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
                 </div>
-                <div class="popular-member">
-                  <div class="sidebar-member">
-                    <img src="https://picsum.photos/200/200" alt="">
-                    <a href="#">Ceyhun Memizade</a>
-                  </div>
-                  <p class="member-level">18 level</p>
-                </div>
-                <div class="popular-member">
-                  <div class="sidebar-member">
-                    <img src="https://picsum.photos/200/200" alt="">
-                    <a href="#">Ali Amikishi</a>
-                  </div>
-                  <p class="member-level">3 level</p>
-                </div>
-              </div>
-            </div>
-
-          </div>*@
-          <footer>
-            <div class="row">
-              <div class="col-6">
-                <p>Useful links</p>
-                <ul>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
-                </ul>
-              </div>
-              <div class="col-6">
-                <p>Popular categories</p>
-                <ul>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p class="copyright">
-                  Forum Inc © 2022. All rights reserved
-                </p>
-              </div>
-            </div>
-          </footer>
+            </footer>
         </div>
 
 
-      </div>
-
     </div>
 
-    <div class="add-comment-box" id="addCommentBox">
-          <input type="text" placeholder="Comment input">
-          <a class="text-white">Post</a>
-          <a id="closeCommentBox"><i class="fa-solid fa-x"></i></a>       
-    </div>
+</div>
+
+@foreach (GetAnswerVM answer in Model.Answers)
+{
+    <form class="add-comment-box" data-target="@answer.Id" method="post">
+
+        <input type="text" name="comment" placeholder="Comment input">
+        <button asp-controller="topic" asp-action="postcomment" asp-route-id="@answer.Id" type="submit" class="text-white">Post</button>
+        <a class="close-comment-box"><i class="fa-solid fa-x"></i></a>
+    </form>
+
+}
+
+

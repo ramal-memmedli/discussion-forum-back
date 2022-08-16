@@ -94,6 +94,7 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BusinessLayer.d
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BusinessLayer.pdb
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\Index.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Community\Index.cshtml.g.cs
-C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\TopCommunities\Default.cshtml.g.cs
-C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\TopUsers\Default.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\Create.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\PostAnswer.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TopicPartial.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TopCommunitiesPartial.cshtml.g.cs

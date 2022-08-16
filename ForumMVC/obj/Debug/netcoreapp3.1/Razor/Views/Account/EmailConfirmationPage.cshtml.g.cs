@@ -68,8 +68,22 @@ using ForumMVC.ViewModels.HomeVMs;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 12 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\_ViewImports.cshtml"
+using ForumMVC.ViewModels.AnswerVMs;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 13 "C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\Views\_ViewImports.cshtml"
+using ForumMVC.ViewModels.CommentVMs;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f2487c3a730b1bd9c2ce5493fd3da57ce756a38a", @"/Views/Account/EmailConfirmationPage.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ddfe9cbab9f9d384b783316ec87c49242b8948c5", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3edc54152532c61df04d654944895cf128249e52", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Account_EmailConfirmationPage : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<string>
     #nullable disable

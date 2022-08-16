@@ -1,0 +1,137 @@
+﻿@model PostAnswerVM
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-8">
+            <div class="post-topic-header">
+                <h4>Post answer</h4>
+                <a href="#">Cancel</a>
+            </div>
+
+            <div class="post-topic-body">
+                <form method="post">
+
+                    <div class="input-group mt-4">
+                        <textarea asp-for="@Model.Content" id="editor" placeholder="Your answer"></textarea>
+                        <span asp-validation-for="@Model.Content" class="mb-2"></span>
+                    </div>
+                    <input asp-for="@Model.TopicId" type="hidden" value="@ViewData["TopicId"]" />
+                    <button type="submit">Post answer</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sidebar">
+                <div class="sidebar-item">
+                    <div class="sidebar-item-header">
+                        <a href="#"><i class="fa-solid fa-ranking-star"></i> Top communities</a>
+                    </div>
+                    <div class="top-communities">
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                        <div class="sidebar-community" style="background-image: url('https://picsum.photos/200/200');">
+
+                            <a href="#"><div><img src="https://picsum.photos/200/200" alt=""> 5 Inforumed</div><p>24 member</p></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-item-header">
+                        <a href="#"><i class="fa-solid fa-users"></i> Top Members</a>
+                    </div>
+                    <div class="sidebar-item-body">
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ilkin Qurbanli</a>
+                            </div>
+                            <p class="member-level">23 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Adil Velizade</a>
+                            </div>
+                            <p class="member-level">12 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ceyhun Memizade</a>
+                            </div>
+                            <p class="member-level">18 level</p>
+                        </div>
+                        <div class="popular-member">
+                            <div class="sidebar-member">
+                                <img src="https://picsum.photos/200/200" alt="">
+                                <a href="#">Ali Amikishi</a>
+                            </div>
+                            <p class="member-level">3 level</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+@section CkEditor {
+    <script src="~/assets/vendors/ckeditor5-build-classic/"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'));
+    </script>
+}

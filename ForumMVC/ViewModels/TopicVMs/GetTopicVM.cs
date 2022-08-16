@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ForumMVC.ViewModels.AnswerVMs;
+using System;
 using System.Collections.Generic;
 
 namespace ForumMVC.ViewModels.TopicVMs
@@ -17,5 +18,6 @@ namespace ForumMVC.ViewModels.TopicVMs
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public GetTopicCategoryVM TopicCategory { get; set; }
+        public List<GetAnswerVM> Answers { get; set; }
     }
 }

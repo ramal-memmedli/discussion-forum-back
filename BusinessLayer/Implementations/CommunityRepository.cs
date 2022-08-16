@@ -20,7 +20,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<Community> Get(int id)
         {
-            Community community = await _communityData.GetAsync(n => !n.IsDeleted && n.Id == id, "CommunityMembers", "CommunityTopics", "CommunityImages");
+            Community community = await _communityData.GetAsync(n => !n.IsDeleted && n.Id == id, "CommunityMembers", "CommunityImages");
 
             if(community is null)
             {
@@ -32,7 +32,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Community>> GetAll()
         {
-            List<Community> communities = await _communityData.GetAllAsync(null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityTopics", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
 
             if (communities is null)
             {
@@ -44,7 +44,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Community>> GetAllAscOrdered(Expression<Func<Community, object>> orderBy = null)
         {
-            List<Community> communities = await _communityData.GetAllAsync(orderBy, true, n => !n.IsDeleted, "CommunityMembers", "CommunityTopics", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(orderBy, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
 
             if (communities is null)
             {
@@ -56,7 +56,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Community>> GetAllDescOrdered(Expression<Func<Community, object>> orderBy = null)
         {
-            List<Community> communities = await _communityData.GetAllAsync(orderBy, false, n => !n.IsDeleted, "CommunityMembers", "CommunityTopics", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(orderBy, false, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
 
             if(communities is null)
             {
@@ -68,7 +68,7 @@ namespace BusinessLayer.Implementations
 
         public async Task<List<Community>> GetAllPaginated(int currentPage, int pageCapacity)
         {
-            List<Community> communities = await _communityData.GetAllPaginatedAsync(currentPage, pageCapacity, null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityTopics", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllPaginatedAsync(currentPage, pageCapacity, null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
 
             if(communities is null)
             {

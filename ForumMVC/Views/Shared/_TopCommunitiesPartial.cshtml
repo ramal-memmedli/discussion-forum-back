@@ -1,0 +1,19 @@
+﻿@model List<GetCommunityCardVM>
+
+<div class="top-communities">
+
+    @if (Model is null)
+    {
+        <h2>There are no community</h2>
+    }
+    else
+    {
+        @foreach (GetCommunityCardVM communityCard in Model)
+        {
+            <div class="sidebar-community" style="background-image: url('@communityCard.BannerImage');">
+
+                <a asp-controller="community" asp-action="index" asp-route-id="@communityCard.Id"><div><img src="@communityCard.ProfileImage" alt=""> @communityCard.Name</div><p>@communityCard.MemberCount member</p></a>
+            </div>
+        }
+    }
+</div>

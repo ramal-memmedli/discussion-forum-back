@@ -19,11 +19,11 @@
                         <span>Topic title</span>
                     </label>
                     <span asp-validation-for="@Model.Title" class="mb-2"></span>
-                    <label asp-for="@Model.Content">
-                        <input asp-for="@Model.Content" placeholder="Content">
-                        <span>Content</span>
-                    </label>
-                    <span asp-validation-for="@Model.Content" class="mb-2"></span>
+
+                    <div class="input-group mt-4">
+                        <textarea asp-for="@Model.Content" id="editor" placeholder="Content"></textarea>
+                        <span asp-validation-for="@Model.Content" class="mb-2"></span>
+                    </div>
 
                     <div class="input-group select-box">
                         <label class="form-label select-label" asp-for="@Model.CategoryId">Select categories</label>
@@ -143,3 +143,17 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
+@section CkEditor {
+    <script src="~/assets/vendors/ckeditor5-build-classic/"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'));
+    </script>
+}

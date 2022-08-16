@@ -222,9 +222,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -587,7 +584,7 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("DataAccessLayer.Models.Topic", "Topic")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -618,7 +615,7 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Answer", "Answer")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

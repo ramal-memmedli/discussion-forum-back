@@ -12,9 +12,7 @@ namespace ForumMVC.ViewModels.CommunityVMs
         public string Name { get; set; }
         public string About { get; set; }
         public int Point { get; set; }
-        public bool IsPrivate { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime? UpdateDate { get; set; }
+        public bool AreYouAdmin { get; set; }
         public string ProfileImage { get; set; }
         public string BannerImage { get; set; }
         public List<GetTopicVM> Topics { get; set; }

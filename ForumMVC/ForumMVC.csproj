@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\Shared\Components\" />
     <Folder Include="wwwroot\uploads\images\community\" />
     <Folder Include="wwwroot\uploads\images\mixed\" />
     <Folder Include="wwwroot\uploads\images\user\" />

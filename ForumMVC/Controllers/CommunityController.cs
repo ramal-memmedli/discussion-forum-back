@@ -37,13 +37,25 @@ namespace ForumMVC.Controllers
                 communityVM.Name = community.Name;
                 communityVM.About = community.About;
                 communityVM.Point = community.Point;
-                communityVM.IsPrivate = community.IsPrivate;
-                communityVM.CreateDate = community.CreateDate;
-                communityVM.UpdateDate = community.UpdateDate;
+                communityVM.AreYouAdmin = false;
 
-                foreach(CommunityMember communityMember in community.CommunityMembers)
+                AppUser you = new AppUser();
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                }
+
+
+                foreach (CommunityMember communityMember in community.CommunityMembers)
                 {
                     AppUser user = await _userManager.FindByIdAsync(communityMember.AppUserId);
+
+                    if(communityMember.AppUserId == you.Id && communityMember.position == "admin")
+                    {
+                        communityVM.AreYouAdmin = true;
+                    }
 
                     communityVM.Members.Add(new GetUserVM
                     {
@@ -52,23 +64,6 @@ namespace ForumMVC.Controllers
                         Username = user.UserName
                     });
                 }
-
-                //foreach(CommunityTopic communityTopic in community.CommunityTopics)
-                //{
-                //    Topic topic = await _topicService.Get(communityTopic.TopicId);
-
-                //    communityVM.Topics.Add(new GetTopicVM
-                //    {
-                //        Id = topic.Id,
-                //        AuthorFullName = topic.Author.Name + " " + topic.Author.Surname,
-                //        AuthorUsername = topic.Author.UserName,
-                //        Title = topic.Title,
-                //        Content = topic.Content,
-                //        ViewCount = topic.ViewCount,
-                //        CreateDate = topic.CreateDate,
-                //        UpdateDate = topic.UpdateDate
-                //    });
-                //}
 
                 foreach(CommunityImage communityImage in community.CommunityImages)
                 {
@@ -83,6 +78,8 @@ namespace ForumMVC.Controllers
                         communityVM.ProfileImage = image.Name;
                     }
                 }
+
+
             }
             catch (Exception ex)
             {

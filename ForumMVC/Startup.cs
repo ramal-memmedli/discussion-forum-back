@@ -59,6 +59,15 @@ namespace ForumMVC
             services.AddScoped<ICategoryService, CategoryRepository>();
             services.AddScoped<ICategoryData, CategoryData>();
 
+            services.AddScoped<IAnswerService, AnswerRepository>();
+            services.AddScoped<IAnswerData, AnswerData>();
+
+            services.AddScoped<ICommentService, CommentRepository>();
+            services.AddScoped<ICommentData, CommentData>();
+
+            services.AddScoped<IAnswerVoteService, AnswerVoteRepository>();
+            services.AddScoped<IAnswerVoteData, AnswerVoteData>();
+
             services.AddIdentity<AppUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -69,6 +78,11 @@ namespace ForumMVC
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(_configuration.GetConnectionString("default"));
+            });
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/account/login";
             });
 
             services.AddControllersWithViews();
