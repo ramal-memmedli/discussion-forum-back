@@ -52,24 +52,24 @@
                                 <div class="vote-actions">
                                     @if(answer.IsVotedByYou) {
                                         @if(answer.YourVote == "up") {
-                                            <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote text-success"><i class="fa-solid fa-caret-up"></i></button>
+                                            <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote text-success"><i class="fa-solid fa-caret-up"></i></a>
                                         }else {
-                                            <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote"><i class="fa-solid fa-caret-up"></i></button>
+                                            <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote"><i class="fa-solid fa-caret-up"></i></a>
                                         }
                                         <span class="votecount">@answer.VoteCount</span>
 
                                         @if (answer.YourVote == "down")
                                         {
-                                            <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote text-danger"><i class="fa-solid fa-caret-down"></i></button>
+                                            <a asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downVoteBtn downvote text-danger"><i class="fa-solid fa-caret-down"></i></a>
                                         }
                                         else
                                         {
-                                            <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote"><i class="fa-solid fa-caret-down"></i></button>
+                                            <a asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downVoteBtn downvote"><i class="fa-solid fa-caret-down"></i></a>
                                         }
                                     }else {
-                                        <button asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upvote"><i class="fa-solid fa-caret-up"></i></button>
+                                        <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote"><i class="fa-solid fa-caret-up"></i></a>
                                         <span class="votecount">@answer.VoteCount</span>
-                                        <button asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downvote"><i class="fa-solid fa-caret-down"></i></button>
+                                        <a asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downVoteBtn downvote"><i class="fa-solid fa-caret-down"></i></a>
                                     }
                                 </div>
                             </div>
@@ -438,5 +438,3 @@
     </form>
 
 }
-
-

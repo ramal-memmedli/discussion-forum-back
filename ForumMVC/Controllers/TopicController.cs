@@ -255,16 +255,10 @@ namespace ForumMVC.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpVote(int id)
         {
-            return Json(new
-            {
-                Status = 200
-            });
-
             try
             {
                 Answer answer = await _answerService.Get(id);
@@ -280,8 +274,10 @@ namespace ForumMVC.Controllers
                         return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
                     }else if(vote.AppUserId == you.Id && !vote.IsUpVote)
                     {
-                        vote.IsUpVote = false;
+                        vote.IsUpVote = true;
                         await _answerVoteService.Update(vote);
+
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
                     }
                 }
 
@@ -304,15 +300,10 @@ namespace ForumMVC.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DownVote(int id)
         {
-            return Json(new
-            {
-                Status = 200
-            });
             try
             {
                 Answer answer = await _answerService.Get(id);
@@ -329,8 +320,10 @@ namespace ForumMVC.Controllers
                     }
                     else if (vote.AppUserId == you.Id && vote.IsUpVote)
                     {
-                        vote.IsUpVote = true;
+                        vote.IsUpVote = false;
                         await _answerVoteService.Update(vote);
+
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
                     }
                 }
 
