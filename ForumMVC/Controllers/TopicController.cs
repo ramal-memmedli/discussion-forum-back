@@ -24,8 +24,9 @@ namespace ForumMVC.Controllers
         private readonly IAnswerService _answerService;
         private readonly ICommentService _commentService;
         private readonly IAnswerVoteService _answerVoteService;
+        private readonly IBookmarkService _bookmarkService;
 
-        public TopicController(ITopicService topicService, UserManager<AppUser> userManager, IUserImageService userImageService, ICategoryService categoryService, ILevelService levelService, IAnswerService answerService, ICommentService commentService, IAnswerVoteService answerVoteService)
+        public TopicController(ITopicService topicService, UserManager<AppUser> userManager, IUserImageService userImageService, ICategoryService categoryService, ILevelService levelService, IAnswerService answerService, ICommentService commentService, IAnswerVoteService answerVoteService, IBookmarkService bookmarkService)
         {
             _topicService = topicService;
             _userManager = userManager;
@@ -35,6 +36,7 @@ namespace ForumMVC.Controllers
             _answerService = answerService;
             _commentService = commentService;
             _answerVoteService = answerVoteService;
+            _bookmarkService = bookmarkService;
         }
 
         [HttpGet]
@@ -74,6 +76,7 @@ namespace ForumMVC.Controllers
                 topicVM.Content = topic.Content;
                 topicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
                 topicVM.AuthorUsername = topic.Author.UserName;
+                topicVM.IsInBookmarks = await IsInBookmarks(topic.Id);
 
                 List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
 
@@ -135,7 +138,7 @@ namespace ForumMVC.Controllers
                     {
                         AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
 
-                        if (topic.AuthorId == you.Id)
+                        if (answer.AppUserId == you.Id)
                         {
                             answerVM.AreYouAuthor = true;
                         }
@@ -677,20 +680,32 @@ namespace ForumMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostComment(int id, string comment)
         {
-            Answer answer = await _answerService.Get(id);
-
-            Comment newComment = new Comment();
-            newComment.AnswerId = id;
-            newComment.Content = comment;
-
-            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            if (User.Identity.IsAuthenticated && answer.AppUserId == user.Id)
+            try
             {
-                newComment.AppUserId = user.Id;
-                await _commentService.Create(newComment);
+                Answer answer = await _answerService.Get(id);
+
+                Comment newComment = new Comment();
+                newComment.AnswerId = id;
+                newComment.Content = comment;
+
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    newComment.AppUserId = user.Id;
+                    await _commentService.Create(newComment);
+                }
+                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
             }
-            return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+
 
         }
 
@@ -733,6 +748,118 @@ namespace ForumMVC.Controllers
                     Status = 404,
                     Message = ex.Message
                 });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> AddToBookmarks(int id)
+        {
+            try
+            {
+                Topic topic = await _topicService.Get(id);
+
+                bool isInBookmarks = await IsInBookmarks(topic.Id);
+
+                if (!isInBookmarks)
+                {
+                    UserBookmark newBookmark = new UserBookmark();
+                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    newBookmark.AppUserId = user.Id;
+                    newBookmark.TopicId = topic.Id;
+
+                    await _bookmarkService.Create(newBookmark);
+
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new {id = topic.Id});
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Message = "This topic is already in bookmarks"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> RemoveFromBookmarks(int id)
+        {
+            try
+            {
+                Topic topic = await _topicService.Get(id);
+
+                bool isInBookmarks = await IsInBookmarks(topic.Id);
+
+                if (isInBookmarks)
+                {
+                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    UserBookmark bookmark = await _bookmarkService.GetByTopicId(topic.Id);
+
+                    await _bookmarkService.Delete(bookmark.Id);
+
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = topic.Id });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Message = "This topic is already in bookmarks"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        private async Task<bool> IsInBookmarks(int id)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    List<UserBookmark> bookmarks = await _bookmarkService.GetAllByUserId(user.Id);
+
+                    bool isIn = false;
+
+                    foreach (UserBookmark bookmark in bookmarks)
+                    {
+                        if (bookmark.TopicId == id)
+                        {
+                            isIn = true;
+                            break;
+                        }
+                    }
+
+                    return isIn;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 

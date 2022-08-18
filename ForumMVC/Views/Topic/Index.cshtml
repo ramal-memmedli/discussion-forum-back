@@ -41,7 +41,19 @@
                             <a asp-controller="topic" asp-action="edit" asp-route-id="@Model.Id" class="me-3"><i class="fa-solid fa-pen me-1"></i></a>
                             <a asp-controller="topic" asp-action="delete" asp-route-id="@Model.Id" class="me-3"><i class="fa-solid fa-trash"></i></a>
                         }
-                        <a href="#"><i class="fa-solid fa-bookmark"></i></a>
+                        @if(User.Identity.IsAuthenticated){
+                            @if (Model.IsInBookmarks)
+                            {
+                                <a class="text-danger" asp-controller="topic" asp-action="removefrombookmarks" asp-route-id="@Model.Id"><i class="fa-solid fa-bookmark"></i></a>
+
+                            }
+                            else
+                            {
+                                <a asp-controller="topic" asp-action="addtobookmarks" asp-route-id="@Model.Id"><i class="fa-solid fa-bookmark"></i></a>
+
+                            }
+                        }
+                        
                     </div>
                 </div>
             </div>
@@ -101,7 +113,9 @@
                                         <a asp-controller="topic" asp-action="editanswer" asp-route-id="@answer.Id"><i class="fa-solid fa-pen me-1"></i> Edit</a>
                                         <a asp-controller="topic" asp-action="deleteanswer" asp-route-id="@answer.Id"><i class="fa-solid fa-trash"></i> Delete</a>
                                     }
-                                    <a data-id="@answer.Id" class="add-comment-btn"><i class="fa-solid fa-comment"></i> Add comment</a>
+                                    @if(User.Identity.IsAuthenticated) {
+                                        <a data-id="@answer.Id" class="add-comment-btn"><i class="fa-solid fa-comment"></i> Add comment</a>
+                                    }
                                 </div>
                             </div>
                         </div>

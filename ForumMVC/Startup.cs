@@ -68,6 +68,9 @@ namespace ForumMVC
             services.AddScoped<IAnswerVoteService, AnswerVoteRepository>();
             services.AddScoped<IAnswerVoteData, AnswerVoteData>();
 
+            services.AddScoped<IBookmarkService, BookmarkRepository>();
+            services.AddScoped<IBookmarkData, BookmarkData>();
+
             services.AddIdentity<AppUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<IdentityOptions>(options =>

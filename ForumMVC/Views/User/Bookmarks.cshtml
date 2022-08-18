@@ -1,0 +1,114 @@
+﻿@model UserProfileVM
+
+<div class="container">
+    <div class="user-header" style="background-image: url('@Model.User.BannerImage');
+    background-position: center;
+    background-size: cover;
+    background-color: #161b22">
+        <div class="user">
+            <div class="user-name">
+                <img src="~/uploads/images/user/@Model.User.ProfileImage" alt="">
+                <a>@Model.User.Name @Model.User.Surname</a>
+                <span class="user-level">@Model.User.Level</span>
+            </div>
+
+        </div>
+
+        <div class="user-actions">
+            <ul>
+                <li><a asp-controller="user" asp-action="index" asp-route-id="@Model.User.Username"><i class="fa-solid fa-message"></i> Topics</a></li>
+                <li><a asp-controller="user" asp-action="about" asp-route-id="@Model.User.Username"><i class="fa-solid fa-at"></i> About</a></li>
+
+                @if (Model.User.Username == User.Identity.Name)
+                {
+                    <li><a asp-controller="user" asp-action="edit" asp-route-id="@Model.User.Username"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-lg-8">
+            <div class="main-flow">
+                @if (Model.Topics.Count != 0)
+                {
+                    @foreach (GetTopicVM topic in @Model.Topics)
+                    {
+                        <div class="topic">
+                            <div class="topic-header">
+                                <a asp-controller="user" asp-action="index" asp-route-id="@topic.AuthorUsername" class="topic-author">
+                                    <img class="author-image" src="~/uploads/images/user/@topic.AuthorImage" alt="">
+                                    @topic.AuthorFullName
+                                    <span class="author-level">@topic.AuthorLevel</span>
+                                </a>
+                                <p class="topic-create-date">
+                                    Asked: <span class="date">@topic.CreateDate</span>
+                                </p>
+                            </div>
+                            <div class="topic-body">
+                                <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
+                                <p>
+                                    @Html.Raw(topic.Content)
+                                </p>
+                                <ul>
+                                    <li><a asp-controller="category" asp-action="index" asp-route-id="@topic.TopicCategory.Id">@topic.TopicCategory.Name</a></li>
+                                </ul>
+                            </div>
+                            <div class="topic-footer">
+                                <div class="topic-footer-left">
+                                    <div class="topic-view-count">
+                                        <i class="fa-solid fa-eye"></i> <span class="view-count"> @topic.ViewCount Views</span>
+                                    </div>
+
+                                    <div class="topic-answer-count">
+                                        <i class="fa-solid fa-message"></i> <span class="answer-count"> @topic.AnswerCount Answers</span>
+                                    </div>
+                                </div>
+                                <div class="topic-footer-right">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h3>There are no saved bookmark.</h3>
+                }
+
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+    </div>
+
+</div>
