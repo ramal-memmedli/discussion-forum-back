@@ -7,7 +7,6 @@
     Dictionary<string, string> values = (await _defaultValueService.GetAll()).ToDictionary(n => n.Key, n => n.Value);
 
     string currentUserImage = "";
-
 }
 
 <!DOCTYPE html>
@@ -35,7 +34,6 @@
             <nav id="headerNavbar">
                 <ul>
                     <li><a asp-controller="home" asp-action="index">Home</a></li>
-                    <li><a asp-controller="home" asp-action="index">Users</a></li>
                     <li><a asp-controller="home" asp-action="index">Communities</a></li>
                     <li><a asp-controller="home" asp-action="index">Rules</a></li>
                 </ul>
@@ -99,15 +97,10 @@
 
     </header>
     <div class="search-area" id="searchArea">
-        <form action="">
-            <select>
-                <option value="topic">Topic</option>
-                <option value="member">Member</option>
-                <option value="community">Community</option>
-            </select>
+        <form method="get">
             <div class="search-box">
-                <input type="text" placeholder="Search">
-                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" name="content" placeholder="Search">
+                <button asp-controller="home" asp-action="search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </form>
     </div>
@@ -134,7 +127,6 @@
         <div class="mobile-links">
             <ul>
                 <li><a asp-controller="home" asp-action="index">Home</a></li>
-                <li><a asp-controller="home" asp-action="index">Users</a></li>
                 <li><a asp-controller="home" asp-action="index">Communities</a></li>
                 <li><a asp-controller="home" asp-action="index">Rules</a></li>
             </ul>

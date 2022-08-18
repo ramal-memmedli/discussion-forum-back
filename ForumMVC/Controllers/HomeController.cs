@@ -39,7 +39,7 @@ namespace ForumMVC.Controllers
 
             try
             {
-                if(User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
                 {
                     AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
@@ -52,7 +52,7 @@ namespace ForumMVC.Controllers
 
                     foreach (UserImage userImage in userImages)
                     {
-                        if(userImage.Target == "profile")
+                        if (userImage.Target == "profile")
                         {
                             userVM.ProfileImage = userImage.Image.Name;
                         }
@@ -277,6 +277,64 @@ namespace ForumMVC.Controllers
                 });
             }
             return PartialView("_TopCommunitiesPartial", communityVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string content)
+        {
+            try
+            {
+                List<Topic> topics = await _topicService.GetAllBySearch(content);
+
+                List<GetTopicVM> getTopicVMs = new List<GetTopicVM>();
+
+                foreach (Topic topic in topics)
+                {
+                    GetTopicVM topicVM = new GetTopicVM();
+
+                    topicVM.Id = topic.Id;
+                    topicVM.Title = topic.Title;
+                    topicVM.Content = topic.Content;
+                    topicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
+                    topicVM.AuthorUsername = topic.Author.UserName;
+
+                    Level level = await _levelService.Get(topic.Author.LevelId);
+
+                    topicVM.AuthorLevel = level.Name;
+
+                    List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
+
+                    foreach (UserImage userImage in userImages)
+                    {
+                        if (userImage.Target == "profile")
+                        {
+                            topicVM.AuthorImage = userImage.Image.Name;
+                        }
+                    }
+
+                    topicVM.ViewCount = topic.ViewCount;
+                    topicVM.CreateDate = topic.CreateDate;
+                    topicVM.UpdateDate = topic.UpdateDate;
+
+                    topicVM.TopicCategory = new GetTopicCategoryVM
+                    {
+                        Id = topic.CategoryId,
+                        Name = topic.Category.Name
+                    };
+
+                    getTopicVMs.Add(topicVM);
+                }
+
+                return View(getTopicVMs);
+            }
+            catch (Exception ex)
+            {
+                return View(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
         }
     }
 }

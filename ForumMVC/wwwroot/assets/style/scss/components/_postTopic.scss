@@ -79,7 +79,6 @@
                 outline: none;
                 width: 100%;
                 border-radius: .375rem;
-                height: 10rem;
                 overflow: hidden;
                 option {
                     border-radius: .375rem;
@@ -144,6 +143,17 @@ body.dark-mode {
         }
 
         form {
+
+            .ck {
+                background-color: #0d1117;
+                width: 100%;
+                border: none;
+
+                .ck-button__label {
+                    border: none;
+                    outline: none;
+                }
+            }       
 
             label:focus-within>span,
             input:not(:placeholder-shown)+span {

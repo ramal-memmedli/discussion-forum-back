@@ -53,6 +53,23 @@ namespace BusinessLayer.Implementations
             return topics;
         }
 
+        public async Task<List<Topic>> GetAllBySearch(string content)
+        {
+            if(string.IsNullOrEmpty(content) || string.IsNullOrWhiteSpace(content))
+            {
+                throw new ArgumentNullException();
+            }
+
+            List<Topic> topics = await _topicData.GetAllAsync(n => n.Title, true, n => n.Title.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Content.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Category.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Surname.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.UserName.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")), "Author", "Category");
+            
+            if(topics is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return topics;
+        }
+
         public async Task<List<Topic>> GetAllPaginated(int currentPage, int pageCapacity)
         {
             List<Topic> topics = await _topicData.GetAllPaginatedAsync(currentPage, pageCapacity, n => n.CreateDate, false, n => !n.IsDeleted, "Author", "Category");

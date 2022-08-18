@@ -15,6 +15,7 @@ namespace ForumMVC.ViewModels.TopicVMs
         public string Content { get; set; }
         public int ViewCount { get; set; }
         public int AnswerCount { get; set; }
+        public bool AreYouAuthor { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public GetTopicCategoryVM TopicCategory { get; set; }

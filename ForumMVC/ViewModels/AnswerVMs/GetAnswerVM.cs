@@ -14,6 +14,7 @@ namespace ForumMVC.ViewModels.AnswerVMs
         public string AuthorImage { get; set; }
         public string AuthorLevel { get; set; }
         public string AuthorFullname { get; set; }
+        public bool AreYouAuthor { get; set; }
         public bool IsVotedByYou { get; set; }
         public string YourVote { get; set; }
         public int VoteCount { get; set; }

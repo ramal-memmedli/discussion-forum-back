@@ -37,6 +37,10 @@
                         <p><i class="fa-solid fa-message"></i> @Model.AnswerCount Answers</p>
                     </div>
                     <div class="statistics-right">
+                        @if(Model.AreYouAuthor) {
+                            <a asp-controller="topic" asp-action="edit" asp-route-id="@Model.Id" class="me-3"><i class="fa-solid fa-pen me-1"></i></a>
+                            <a asp-controller="topic" asp-action="delete" asp-route-id="@Model.Id" class="me-3"><i class="fa-solid fa-trash"></i></a>
+                        }
                         <a href="#"><i class="fa-solid fa-bookmark"></i></a>
                     </div>
                 </div>
@@ -52,7 +56,7 @@
                                 <div class="vote-actions">
                                     @if(answer.IsVotedByYou) {
                                         @if(answer.YourVote == "up") {
-                                            <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote text-success"><i class="fa-solid fa-caret-up"></i></a>
+                                            <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote focused"><i class="fa-solid fa-caret-up"></i></a>
                                         }else {
                                             <a asp-controller="topic" asp-action="UpVote" asp-route-id="@answer.Id" class="upVoteBtn upvote"><i class="fa-solid fa-caret-up"></i></a>
                                         }
@@ -60,7 +64,7 @@
 
                                         @if (answer.YourVote == "down")
                                         {
-                                            <a asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downVoteBtn downvote text-danger"><i class="fa-solid fa-caret-down"></i></a>
+                                            <a asp-controller="topic" asp-action="DownVote" asp-route-id="@answer.Id" class="downVoteBtn downvote focused"><i class="fa-solid fa-caret-down"></i></a>
                                         }
                                         else
                                         {
@@ -90,38 +94,46 @@
 
                                 </div>
                                 <div class="answer-body">
-                                    <p class="answer-context">
-                                        @Html.Raw(answer.Content)
-                                    </p>
+                                    <p class="answer-context">@Html.Raw(answer.Content)</p>
                                 </div>
                                 <div class="answer-actions">
-                                    <a><i class="fa-solid fa-check"></i> Select as best answer</a>
+                                    @if(answer.AreYouAuthor) {
+                                        <a asp-controller="topic" asp-action="editanswer" asp-route-id="@answer.Id"><i class="fa-solid fa-pen me-1"></i> Edit</a>
+                                        <a asp-controller="topic" asp-action="deleteanswer" asp-route-id="@answer.Id"><i class="fa-solid fa-trash"></i> Delete</a>
+                                    }
                                     <a data-id="@answer.Id" class="add-comment-btn"><i class="fa-solid fa-comment"></i> Add comment</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="answer-comments">
-                            <h6>Comments - <span>@answer.CommentCount</span></h6>
-                            @foreach (GetCommentVM comment in answer.Comments)
-                            {
-                                <div class="comment">
-                                    <a class="comment-author-image" asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername"><img src="~/uploads/images/user/@comment.AuthorImage" alt=""></a>
-                                    <div>
-                                        <div class="comment-header">
-                                            <div class="comment-author">
-                                                <a asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername">@comment.AuthorFullname</a>
+
+                        @if(answer.CommentCount != 0) {
+                            <div class="answer-comments">
+                                <h6>Comments - <span>@answer.CommentCount</span></h6>
+                                @foreach (GetCommentVM comment in answer.Comments)
+                                {
+                                    <div class="comment">
+                                        <a class="comment-author-image" asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername"><img src="~/uploads/images/user/@comment.AuthorImage" alt=""></a>
+                                        <div>
+                                            <div class="comment-header">
+                                                <div class="comment-author">
+                                                    <a asp-controller="user" asp-action="index" asp-route-id="@comment.AuthorUsername">@comment.AuthorFullname</a>
+                                                </div>
+                                                <div class="comment-date">@comment.CreateDate</div>
+                                                @if(comment.AreYouAuthor) {
+                                                    <a asp-controller="topic" asp-action="deletecomment" asp-route-id="@comment.Id" class="ms-3 delete-comment"><i class="fa-solid fa-trash"></i> Delete</a>
+                                                }
                                             </div>
-                                            <div class="comment-date">@comment.CreateDate</div>
+
+                                            <div class="comment-body">
+                                                <p>@comment.Content</p>
+                                            </div>
                                         </div>
 
-                                        <div class="comment-body">
-                                            <p>@comment.Content</p>
-                                        </div>
                                     </div>
-
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
+                        }
+                        
                     </div>
                 }
 
@@ -433,7 +445,7 @@
     <form class="add-comment-box" data-target="@answer.Id" method="post">
 
         <input type="text" name="comment" placeholder="Comment input">
-        <button asp-controller="topic" asp-action="postcomment" asp-route-id="@answer.Id" type="submit" class="text-white">Post</button>
+        <button asp-controller="topic" asp-action="postcomment" asp-route-id="@answer.Id" type="submit" class="text-white post-btn">Post</button>
         <a class="close-comment-box"><i class="fa-solid fa-x"></i></a>
     </form>
 

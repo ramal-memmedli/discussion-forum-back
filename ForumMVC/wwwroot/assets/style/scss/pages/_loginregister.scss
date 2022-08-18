@@ -1,5 +1,5 @@
-main.login-main,
-main.register-main {
+.login-main,
+.register-main {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,8 +115,8 @@ main.register-main {
 }
 
 body.dark-mode {
-    main.login-main,
-    main.register-main {
+    .login-main,
+    .register-main {
         .login-box,
         .register-box {
             background-color: #161b22;

@@ -131,13 +131,14 @@
         padding: 2rem;
         background-color: #FFF;
         border-radius: .375rem;
-margin-bottom: 2rem;
+        margin-bottom: 2rem;
         box-shadow: 0 3px 6px rgba(140, 149, 159, 0.15);
 
         .vote-actions {
             display: flex;
             flex-direction: column;
             align-items: center;
+
             a {
                 font-size: 2.5rem;
                 color: #6e7781;
@@ -159,6 +160,7 @@ margin-bottom: 2rem;
             display: flex;
             justify-content: center;
             margin-top: 1rem;
+
             i {
                 font-size: 2rem;
                 color: #2da44e;
@@ -172,6 +174,7 @@ margin-bottom: 2rem;
             align-items: center;
             margin-top: .5rem;
             margin-bottom: 1rem;
+
             .answer-author {
                 a {
                     font-size: 1.25rem;
@@ -207,10 +210,8 @@ margin-bottom: 2rem;
         .answer-body {
             margin-left: 3.8rem;
             margin-bottom: 1rem;
+            color: #6e7781;
 
-            .answer-context {
-                color: #6e7781;
-            }
         }
 
         .answer-actions {
@@ -250,6 +251,7 @@ margin-bottom: 2rem;
                 border-top: 1px solid #e8ebee;
                 padding-top: 1rem;
                 margin-bottom: 1rem;
+
                 .comment-author-image {
                     img {
                         width: 2.5rem;
@@ -261,6 +263,7 @@ margin-bottom: 2rem;
 
                 .comment-header {
                     display: flex;
+
                     .comment-author {
                         a {
                             color: #24292f;
@@ -269,15 +272,21 @@ margin-bottom: 2rem;
                             cursor: pointer;
                         }
                     }
+
                     .comment-date {
                         color: #6e7781;
+                    }
+
+                    .delete-comment {
+                        color: #cf222e;
+                        cursor: pointer;
                     }
                 }
 
                 .comment-body {
                     color: #6e7781;
                 }
-                
+
             }
         }
     }
@@ -322,29 +331,29 @@ margin-bottom: 2rem;
     }
 
     input {
-       font-size: 1.25rem;
-       width: 100%;
+        font-size: 1.25rem;
+        width: 100%;
     }
 
     a {
-        padding: 1rem 2rem;
-        font-size: 1.25rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #ff4500;
-        border-radius: .375rem;
-        color: #FFF;
-        height: 100%;
-        margin-left: 1rem;
-        cursor: pointer;
-
-        &#closeCommentBox {
-            background-color: transparent;
             color: #cf222e;
-            padding: 0;
             margin-left: 2rem;
-        }
+            cursor: pointer;
+            font-size: 2rem;
+    }
+
+    button {
+            padding: 1rem 2rem;
+            font-size: 1.25rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ff4500;
+            border-radius: .375rem;
+            color: #FFF;
+            height: 100%;
+            margin-left: 1rem;
+            cursor: pointer;
     }
 }
 
@@ -362,15 +371,17 @@ margin-bottom: 2rem;
             .answer-body {
                 margin-left: 1rem;
             }
+
             .answer-actions {
                 margin-left: 1rem;
+
                 a {
                     margin-bottom: 1rem;
                 }
             }
         }
     }
-    
+
 }
 
 
@@ -379,12 +390,10 @@ margin-bottom: 2rem;
         left: 2rem;
         right: 2rem;
         width: calc(100vw - 4rem);
-    
-        input {
-        }
-    
-        a {
-        }
+
+        input {}
+
+        a {}
     }
 }
 
@@ -393,28 +402,28 @@ body.dark-mode {
     .topic-content {
         background-color: #161b22;
         box-shadow: none;
-    
+
         .topic-header {
             .topic-author {
                 a {
                     color: #c9d1d9;
-    
+
                     &:hover {
                         color: #FFF;
                     }
                 }
-    
+
                 .author-level {
                     background-color: #ff4500;
                     color: #FFF;
                 }
             }
-    
+
             .topic-create-date {
                 color: #c9d1d9;
             }
         }
-    
+
         .topic-body {
             .topic-title {
                 a {
@@ -427,7 +436,7 @@ body.dark-mode {
                     color: #c9d1d9;
                 }
             }
-    
+
             .topic-categories {
                 ul {
                     li {
@@ -439,18 +448,18 @@ body.dark-mode {
                 }
             }
         }
-    
+
         .topic-statistics {
             .statistics-left {
                 p {
                     color: #c9d1d9;
                 }
             }
-    
+
             .statistics-right {
                 a {
                     color: #c9d1d9;
-    
+
                     &:hover {
                         color: #FFF;
                     }
@@ -458,84 +467,86 @@ body.dark-mode {
             }
         }
     }
-    
+
     .topic-answers {
         h4 {
             color: #c9d1d9;
         }
-    
+
         .topic-answer {
             background-color: #161b22;
             box-shadow: none;
-    
+
             .vote-actions {
                 a {
                     color: #c9d1d9;
-    
+
                     &:hover {
                         color: #FFF;
                     }
+
+                    &.focused {
+                        color: #ff4500;
+                    }
                 }
-    
+
                 .votecount {
                     color: #c9d1d9;
                 }
             }
-    
+
             .selected-answer {
                 i {
                     color: #2da44e;
                 }
             }
-    
+
             .answer-header {
                 .answer-author {
                     a {
                         color: #c9d1d9;
-    
+
                         &:hover {
                             color: #FFF;
                         }
                     }
-    
+
                     .author-level {
                         color: #FFF;
                         background-color: #ff4500;
                     }
                 }
-    
+
                 .answer-date {
                     color: #c9d1d9;
                 }
             }
-    
+
             .answer-body {
-                .answer-context {
-                    color: #c9d1d9;
-                }
+                color: #c9d1d9;
             }
-    
+
             .answer-actions {
                 a {
                     color: #c9d1d9;
-    
+
                     &:hover {
                         color: #FFF;
                     }
                 }
             }
-    
-    
+
+
             .answer-comments {
                 background-color: #0d1117;
-    
+
                 h6 {
                     color: #c9d1d9;
                 }
-    
+
                 .comment {
                     border-top: 1px solid #21262d;
-    
+
                     .comment-header {
                         .comment-author {
                             a {
@@ -546,24 +557,25 @@ body.dark-mode {
                                 }
                             }
                         }
+
                         .comment-date {
                             color: #c9d1d9;
                         }
                     }
-    
+
                     .comment-body {
                         color: #c9d1d9;
                     }
-                    
+
                 }
             }
         }
     }
-    
+
     .add-answer {
         background-color: #161b22;
         box-shadow: none;
-    
+
         form {
             button {
                 background-color: #ff4500;
@@ -571,7 +583,7 @@ body.dark-mode {
             }
         }
     }
-    
+
     .add-comment-box {
         background-color: #0d1117;
         box-shadow: none;
@@ -582,16 +594,6 @@ body.dark-mode {
 
             &::placeholder {
                 color: #c9d1d9;
-            }
-        }
-    
-        a {
-            background-color: #ff4500;
-            color: #FFF;
-    
-            &#closeCommentBox {
-                background-color: transparent;
-                color: #cf222e;
             }
         }
     }

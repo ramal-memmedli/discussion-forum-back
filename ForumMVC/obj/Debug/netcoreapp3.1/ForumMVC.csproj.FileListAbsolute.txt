@@ -98,3 +98,6 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Top
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\PostAnswer.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TopicPartial.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TopCommunitiesPartial.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Home\Search.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\Edit.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\EditAnswer.cshtml.g.cs

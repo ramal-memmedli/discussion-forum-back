@@ -46,6 +46,26 @@ namespace ForumMVC.Controllers
             {
                 Topic topic = await _topicService.Get(id);
 
+                if (User.Identity.IsAuthenticated)
+                {
+                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    if (topic.AuthorId == you.Id)
+                    {
+                        topicVM.AreYouAuthor = true;
+                    }
+                    else
+                    {
+                        topicVM.AreYouAuthor = false;
+                    }
+                }
+                else
+                {
+                    topicVM.AreYouAuthor = false;
+                }
+
+
+
                 topic.ViewCount = topic.ViewCount + 1;
                 await _topicService.Update(topic);
 
@@ -59,7 +79,7 @@ namespace ForumMVC.Controllers
 
                 foreach (UserImage userImage in userImages)
                 {
-                    if(userImage.Target == "profile")
+                    if (userImage.Target == "profile")
                     {
                         topicVM.AuthorImage = userImage.Image.Name;
                     }
@@ -110,7 +130,25 @@ namespace ForumMVC.Controllers
                         }
                     }
 
-                    
+
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                        if (topic.AuthorId == you.Id)
+                        {
+                            answerVM.AreYouAuthor = true;
+                        }
+                        else
+                        {
+                            answerVM.AreYouAuthor = false;
+                        }
+                    }
+                    else
+                    {
+                        answerVM.AreYouAuthor = false;
+                    }
+
 
                     bool isVotedByYou = false;
                     string isUpVote = "";
@@ -119,7 +157,7 @@ namespace ForumMVC.Controllers
 
                     foreach (AnswerVote vote in answer.AnswerVotes)
                     {
-                        if(User.Identity.IsAuthenticated)
+                        if (User.Identity.IsAuthenticated)
                         {
                             AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
 
@@ -137,9 +175,9 @@ namespace ForumMVC.Controllers
                                 }
                             }
                         }
-                        
 
-                        if(vote.IsUpVote)
+
+                        if (vote.IsUpVote)
                         {
                             upVotes = upVotes + 1;
                         }
@@ -149,7 +187,7 @@ namespace ForumMVC.Controllers
                         }
                     }
 
-                    if(downVotes > upVotes)
+                    if (downVotes > upVotes)
                     {
                         answerVM.VoteCount = 0;
                     }
@@ -175,6 +213,20 @@ namespace ForumMVC.Controllers
                         getCommentVM.UpdateDate = comment.UpdateDate;
                         getCommentVM.AuthorUsername = comment.AppUser.UserName;
                         getCommentVM.AuthorFullname = comment.AppUser.Name + " " + comment.AppUser.Surname;
+
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                            if (comment.AppUserId == you.Id)
+                            {
+                                getCommentVM.AreYouAuthor = true;
+                            }
+                            else
+                            {
+                                getCommentVM.AreYouAuthor = false;
+                            }
+                        }
 
                         List<UserImage> commentUserImages = await _userImageService.GetAllByUserId(comment.AppUser.Id);
 
@@ -257,6 +309,112 @@ namespace ForumMVC.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewData["Categories"] = await GetCategories();
+
+            try
+            {
+                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                Topic topic = await _topicService.Get(id);
+
+                EditTopicVM topicVM = new EditTopicVM();
+
+                if (topic.AuthorId == you.Id)
+                {
+                    topicVM.Id = topic.Id;
+                    topicVM.Title = topic.Title;
+                    topicVM.Content = topic.Content;
+                    topicVM.CategoryId = topic.CategoryId;
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Message = "You are not author of this topic"
+                    });
+                }
+
+                return View(topicVM);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Edit(int id, EditTopicVM topicVM)
+        {
+            ViewData["Categories"] = await GetCategories();
+
+            if (!ModelState.IsValid)
+            {
+                return View(topicVM);
+            }
+
+            try
+            {
+                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                Topic topic = await _topicService.Get(id);
+
+                if (topic.AuthorId == you.Id)
+                {
+                    topic.Title = topicVM.Title;
+                    topic.Content = topicVM.Content;
+                    topic.CategoryId = topicVM.CategoryId;
+
+                    await _topicService.Update(topic);
+
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Message = "You are not author of this topic"
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _topicService.Delete(id);
+                return RedirectToAction(controllerName: "home", actionName: "index");
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> UpVote(int id)
         {
             try
@@ -272,7 +430,8 @@ namespace ForumMVC.Controllers
                     if (vote.AppUserId == you.Id && vote.IsUpVote)
                     {
                         return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-                    }else if(vote.AppUserId == you.Id && !vote.IsUpVote)
+                    }
+                    else if (vote.AppUserId == you.Id && !vote.IsUpVote)
                     {
                         vote.IsUpVote = true;
                         await _answerVoteService.Update(vote);
@@ -387,26 +546,194 @@ namespace ForumMVC.Controllers
 
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> EditAnswer(int id)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    Answer answer = await _answerService.Get(id);
+
+                    EditAnswerVM answerVM = new EditAnswerVM();
+
+                    if (answer.AppUserId == you.Id)
+                    {
+                        answerVM.Id = answer.Id;
+                        answerVM.Content = answer.Content;
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            Message = "You are not author of this answer"
+                        });
+                    }
+
+                    return View(answerVM);
+                }
+                else
+                {
+                    return RedirectToAction(actionName: "index", controllerName: "home");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> EditAnswer(int id, EditAnswerVM answerVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(answerVM);
+            }
+
+            try
+            {
+                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                Answer answer = await _answerService.Get(id);
+
+                if (answer.AppUserId == you.Id)
+                {
+                    answer.Content = answerVM.Content;
+
+                    await _answerService.Update(answer);
+
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Message = "You are not author of this answer"
+                    });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> DeleteAnswer(int id)
+        {
+            try
+            {
+                Answer answer = await _answerService.Get(id);
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    if (you.Id == answer.AppUserId)
+                    {
+                        await _answerService.Delete(answer.Id);
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                    }
+                    else
+                    {
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
+        }
+
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostComment(int id, string comment) 
+        public async Task<IActionResult> PostComment(int id, string comment)
         {
-                Answer answer = await _answerService.Get(id);
+            Answer answer = await _answerService.Get(id);
 
-                Comment newComment = new Comment();
-                newComment.AnswerId = id;
-                newComment.Content = comment;
+            Comment newComment = new Comment();
+            newComment.AnswerId = id;
+            newComment.Content = comment;
 
-                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-                if(User.Identity.IsAuthenticated && answer.AppUserId == user.Id)
+            if (User.Identity.IsAuthenticated && answer.AppUserId == user.Id)
+            {
+                newComment.AppUserId = user.Id;
+                await _commentService.Create(newComment);
+            }
+            return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            try
+            {
+                Comment comment = await _commentService.Get(id);
+
+                Answer answer = await _answerService.Get(comment.AnswerId);
+
+                if (User.Identity.IsAuthenticated)
                 {
-                    newComment.AppUserId = user.Id;
-                    await _commentService.Create(newComment);
-                }
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
 
+                    if (you.Id == comment.AppUserId)
+                    {
+                        await _commentService.Delete(comment.Id);
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+                    }
+                    else
+                    {
+                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+
+                    }
+                }
+                else
+                {
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Status = 404,
+                    Message = ex.Message
+                });
+            }
         }
 
         private async Task<List<Category>> GetCategories()

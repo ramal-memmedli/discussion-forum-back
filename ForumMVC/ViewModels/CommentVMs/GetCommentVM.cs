@@ -12,5 +12,6 @@ namespace ForumMVC.ViewModels.CommentVMs
         public string AuthorUsername { get; set; }
         public string AuthorFullname { get; set; }
         public string AuthorImage { get; set; }
+        public bool AreYouAuthor { get; set; }
     }
 }

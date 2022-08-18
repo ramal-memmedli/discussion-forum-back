@@ -41,9 +41,14 @@ namespace BusinessLayer.Implementations
             return answers;
         }
 
+        public async Task<int> GetTotalCountByTopicId(int id)
+        {
+            return await _answerData.GetTotalCountAsync(n => n.TopicId == id && !n.IsDeleted);
+        }
+
         public async Task Create(Answer entity)
         {
-            if(entity is null)
+            if (entity is null)
             {
                 throw new ArgumentNullException();
             }
@@ -54,17 +59,26 @@ namespace BusinessLayer.Implementations
             await _answerData.AddAsync(entity);
         }
 
-        public async Task<int> GetTotalCountByTopicId(int id)
+        public async Task Update(Answer entity)
         {
-            return await _answerData.GetTotalCountAsync(n => n.TopicId == id && !n.IsDeleted);
+            if (entity is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            entity.UpdateDate = DateTime.Now;
+
+            await _answerData.UpdateAsync(entity);
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
-        }
+            Answer answer = await Get(id);
 
-        
+            answer.IsDeleted = true;
+
+            await Update(answer);
+        }
 
         public Task<List<Answer>> GetAll()
         {
@@ -80,14 +94,5 @@ namespace BusinessLayer.Implementations
         {
             throw new NotImplementedException();
         }
-
-        
-
-        public Task Update(Answer entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        
     }
 }

@@ -41,14 +41,23 @@ namespace BusinessLayer.Implementations
             await _commentData.AddAsync(entity);
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            Comment comment = await Get(id);
+
+            await _commentData.DeleteAsync(comment);
         }
 
-        public Task<Comment> Get(int id)
+        public async Task<Comment> Get(int id)
         {
-            throw new NotImplementedException();
+            Comment comment = await _commentData.GetAsync(n => n.Id == id);
+
+            if(comment is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return comment;
         }
 
         public Task<List<Comment>> GetAll()

@@ -1,0 +1,101 @@
+﻿@model EditTopicVM
+
+@{
+    List<Category> categories = ViewData["Categories"] as List<Category> ?? new List<Category>();
+}
+
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-8">
+            <div class="post-topic-header">
+                <h4>Edit topic</h4>
+                <a href="#">Cancel</a>
+            </div>
+
+            <div class="post-topic-body">
+                <form method="post">
+                    <label asp-for="@Model.Title">
+                        <input asp-for="@Model.Title" placeholder="Topic title">
+                        <span>Topic title</span>
+                    </label>
+                    <span asp-validation-for="@Model.Title" class="mb-2 text-danger"></span>
+
+                    <div class="input-group mt-4">
+                        <textarea asp-for="@Model.Content" id="editor" placeholder="Content"></textarea>
+                        <span asp-validation-for="@Model.Content" class="mb-2 text-danger"></span>
+                    </div>
+
+                    <div class="input-group select-box">
+                        <label class="form-label select-label" asp-for="@Model.CategoryId">Select categories</label>
+
+                        <select class="select" asp-for="@Model.CategoryId">
+                            @foreach (Category category in categories)
+                            {
+                                if (category.Id == Model.CategoryId)
+                                {
+                                    <option selected value="@category.Id">@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="@Model.CategoryId" class="mb-2 text-danger"></span>
+
+                    </div>
+
+                    <button type="submit">Confirm topic</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        <p>Useful links</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <p>Popular categories</p>
+                        <ul>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
+                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+@section CkEditor {
+    <script src="~/assets/vendors/ckeditor5-build-classic/"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#editor'));
+    </script>
+}
