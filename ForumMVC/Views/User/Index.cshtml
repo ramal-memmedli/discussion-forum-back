@@ -16,10 +16,6 @@
                     <p class="statistic-title"><i class="fa-solid fa-book"></i> Topics</p>
                     <p class="statistic-count">@Model.User.TopicCount</p>
                 </div>
-                <div class="statistic">
-                    <p class="statistic-title"><i class="fa-solid fa-message"></i> Answers</p>
-                    <p class="statistic-count">@Model.User.AnswerCount</p>
-                </div>
             </div>
 
         </div>
@@ -31,7 +27,7 @@
 
                 @if (Model.User.Username == User.Identity.Name)
                 {
-                    <li><a asp-controller="user" asp-action="edit" asp-route-id="@Model.User.Username"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
+                    <li><a asp-controller="account" asp-action="editaccount"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
                 }
             </ul>
         </div>
@@ -71,7 +67,7 @@
                             <div class="topic-body">
                                 <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
                                 <p>
-                                    @topic.Content
+                                    @Html.Raw(topic.Content)
                                 </p>
                                     <ul>
                                             <li><a asp-controller="category" asp-action="index" asp-route-id="@topic.TopicCategory.Id">@topic.TopicCategory.Name</a></li>
@@ -88,7 +84,6 @@
                                     </div>
                                 </div>
                                 <div class="topic-footer-right">
-                                    <a href="#"><i class="fa-solid fa-bookmark"></i></a>
                                 </div>
                             </div>
                         </div>

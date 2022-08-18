@@ -2,11 +2,13 @@
 using Common.Helpers;
 using DataAccessLayer.Models;
 using ForumMVC.ViewModels.AccountVMs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
+using static Common.Helpers.Enums;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace ForumMVC.Controllers
@@ -29,7 +31,7 @@ namespace ForumMVC.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction(controllerName: "Home", actionName: "Index");
             }
@@ -88,7 +90,8 @@ namespace ForumMVC.Controllers
             if ((await _userManager.GetUsersInRoleAsync(Enums.Roles.Admin.ToString())).Count == 0)
             {
                 await _userManager.AddToRoleAsync(newUser, Enums.Roles.Admin.ToString());
-            }else
+            }
+            else
             {
                 await _userManager.AddToRoleAsync(newUser, Enums.Roles.User.ToString());
             }
@@ -167,6 +170,81 @@ namespace ForumMVC.Controllers
             }
 
             return RedirectToAction(controllerName: "home", actionName: "index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> EditAccount()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            EditVM editVM = new EditVM();
+            editVM.Name = user.Name;
+            editVM.Surname = user.Surname;
+            editVM.About = user.About;
+
+            return View(editVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> EditAccount(EditVM editVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editVM);
+            }
+
+            AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            you.Name = editVM.Name;
+            you.Surname = editVM.Surname;
+            you.About = editVM.About;
+            IdentityResult result = await _userManager.UpdateAsync(you);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction(actionName: "index", controllerName: "user", new { id = you.UserName });
+            }
+
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+                return View(editVM);
+            }
+
+            return View(editVM);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM passwordVM)
+        {
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, passwordVM.CurrentPassword, passwordVM.NewPassword);
+
+            if (result.Succeeded)
+            {
+                await Logout();
+                return RedirectToAction(actionName: "login", controllerName: "account");
+            }
+
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+                return View();
+            }
+
+            return View();
         }
 
         [HttpGet]

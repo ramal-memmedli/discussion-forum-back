@@ -102,3 +102,5 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Hom
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\Edit.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Topic\EditAnswer.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\User\Bookmarks.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\EditAccount.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
