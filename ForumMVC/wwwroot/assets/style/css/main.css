@@ -2033,7 +2033,21 @@ body.dark-mode .communities-header h3 {
   margin-bottom: 2rem;
 }
 
+.about-user-header {
+  color: #6e7781;
+}
+
+.about-user-body * {
+  color: #6e7781;
+}
+
 body.dark-mode .users-header h3 {
+  color: #c9d1d9;
+}
+body.dark-mode .about-user-header {
+  color: #c9d1d9;
+}
+body.dark-mode .about-user-body * {
   color: #c9d1d9;
 }
 

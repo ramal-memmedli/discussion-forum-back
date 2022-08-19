@@ -12,7 +12,7 @@
             </div>
 
             <div class="post-topic-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
 
                     <label asp-for="@Model.Name">
                         <input asp-for="@Model.Name" placeholder="Name">
@@ -29,6 +29,18 @@
                     <div class="input-group mt-4">
                         <textarea asp-for="@Model.About" id="editor" placeholder="About"></textarea>
                         <span asp-validation-for="@Model.About" class="mb-2 text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ProfileImage"></label>
+                        <input accept="image/*" asp-for="ProfileImage" class="form-control">
+                        <span class="text-danger" asp-validation-for="ProfileImage"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BannerImage"></label>
+                        <input accept="image/*" asp-for="BannerImage" class="form-control">
+                        <span class="text-danger" asp-validation-for="BannerImage"></span>
                     </div>
 
                     <button type="submit" class="mb-2">Confirm changes</button>

@@ -247,5 +247,62 @@ namespace ForumMVC.Controllers
 
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> About(string id)
+        {
+
+            try
+            {
+                AppUser user = await _userManager.FindByNameAsync(id);
+
+
+                GetUserVM userVM = new GetUserVM()
+                {
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Username = user.UserName
+                };
+
+
+                try
+                {
+                    List<UserImage> userImages = await _userImageService.GetAllByUserId(user.Id);
+
+                    foreach (UserImage userImage in userImages)
+                    {
+                        if (userImage.Target == "profile")
+                        {
+                            userVM.ProfileImage = userImage.Image.Name;
+                        }
+                        if (userImage.Target == "banner")
+                        {
+                            userVM.BannerImage = userImage.Image.Name;
+                        }
+                    }
+
+                    Level level = await _levelService.Get(user.LevelId);
+
+                    userVM.Level = level.Name;
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
+                }
+
+                AboutUserVM aboutUserVM = new AboutUserVM();
+
+                aboutUserVM.User = userVM;
+                aboutUserVM.About = user.About;
+
+                return View(aboutUserVM);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
+            }
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model UserProfileVM
 
 <div class="container">
-    <div class="user-header" style="background-image: url('@Model.User.BannerImage');
+    <div class="user-header" style="background-image: url('/uploads/images/user/@Model.User.BannerImage');
     background-position: center;
     background-size: cover;
     background-color: #161b22">
@@ -21,7 +21,7 @@
 
                 @if (Model.User.Username == User.Identity.Name)
                 {
-                    <li><a asp-controller="user" asp-action="edit" asp-route-id="@Model.User.Username"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
+                    <li><a asp-controller="account" asp-action="editaccount"><i class="fa-solid fa-pen-to-square"></i> Edit</a></li>
                 }
             </ul>
         </div>

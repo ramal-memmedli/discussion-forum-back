@@ -13,6 +13,8 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
 
 namespace ForumMVC.Controllers
 {
@@ -22,13 +24,17 @@ namespace ForumMVC.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserImageService _userImageService;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IImageService _imageService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IUserImageService userImageService)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager, IUserImageService userImageService, IWebHostEnvironment environment, IImageService imageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _userImageService = userImageService;
+            _environment = environment;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -210,6 +216,134 @@ namespace ForumMVC.Controllers
             }
 
             AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+
+
+            if (editVM.ProfileImage != null)
+            {
+                if (!editVM.ProfileImage.ContentType.Contains("image/"))
+                {
+                    ModelState.AddModelError("ProfileImage", "File must be an image");
+                    return View(editVM);
+                }
+
+                float fileSize = ((float)editVM.ProfileImage.Length) / 1024 / 1024;
+
+                float allowedFileSize = 3;
+
+                if (fileSize > allowedFileSize)
+                {
+                    ModelState.AddModelError("ProfileImage", $"File must be under {allowedFileSize}MB");
+                    return View(editVM);
+                }
+
+                string fileName = await Common.Helpers.Extensions.CreateImage(editVM.ProfileImage, _environment.WebRootPath, "UserImage");
+
+                Image image = new Image();
+                image.Name = fileName;
+
+                try
+                {
+                    await _imageService.Create(image);
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+                }
+
+                List<UserImage> userImages = await _userImageService.GetAllByUserId(you.Id);
+
+                foreach (UserImage userImage in userImages)
+                {
+                    if(userImage.Target == "profile")
+                    {
+                        userImage.ImageId = image.Id;
+
+                        try
+                        {
+                            await _userImageService.Update(userImage);
+                        }
+                        catch (Exception)
+                        {
+                            return RedirectToAction(actionName: "notfound", controllerName: "home");
+                        }
+                    }
+                }
+            }
+
+            if (editVM.BannerImage != null)
+            {
+                if (!editVM.BannerImage.ContentType.Contains("image/"))
+                {
+                    ModelState.AddModelError("BannerImage", "File must be an image");
+                    return View(editVM);
+                }
+
+                float fileSize = ((float)editVM.BannerImage.Length) / 1024 / 1024;
+
+                float allowedFileSize = 3;
+
+                if (fileSize > allowedFileSize)
+                {
+                    ModelState.AddModelError("BannerImage", $"File must be under {allowedFileSize}MB");
+                    return View(editVM);
+                }
+
+                string fileName = await Common.Helpers.Extensions.CreateImage(editVM.BannerImage, _environment.WebRootPath, "UserImage");
+
+                Image image = new Image();
+                image.Name = fileName;
+
+                try
+                {
+                    await _imageService.Create(image);
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+                }
+
+                List<UserImage> userImages = await _userImageService.GetAllByUserId(you.Id);
+
+                if(userImages.Count == 2)
+                {
+                    foreach (UserImage userImage in userImages)
+                    {
+                        if (userImage.Target == "banner")
+                        {
+                            userImage.ImageId = image.Id;
+
+                            try
+                            {
+                                await _userImageService.Update(userImage);
+                            }
+                            catch (Exception)
+                            {
+                                return RedirectToAction(actionName: "notfound", controllerName: "home");
+                            }
+                        }
+                    }
+                }else
+                {
+                    UserImage userBannerImage = new UserImage();
+
+                    userBannerImage.AppUserId = you.Id;
+                    userBannerImage.ImageId=image.Id;
+                    userBannerImage.Target = "banner";
+
+                    try
+                    {
+                        await _userImageService.Create(userBannerImage);
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction(actionName: "notfound", controllerName: "home");
+
+                    }
+                }
+
+                
+            }
+
 
             you.Name = editVM.Name;
             you.Surname = editVM.Surname;

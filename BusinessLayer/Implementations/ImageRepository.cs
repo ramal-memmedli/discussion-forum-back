@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Services;
 using DataAccessLayer.Abstracts;
+using DataAccessLayer.Implementations;
 using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -51,9 +52,14 @@ namespace BusinessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Task Create(Image entity)
+        public async Task Create(Image entity)
         {
-            throw new NotImplementedException();
+            if (entity is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            await _imageData.AddAsync(entity);
         }
 
         public Task Update(Image entity)

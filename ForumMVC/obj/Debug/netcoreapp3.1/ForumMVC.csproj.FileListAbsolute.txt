@@ -107,3 +107,4 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Hom
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\MailKit.dll
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\MimeKit.dll
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\User\About.cshtml.g.cs
