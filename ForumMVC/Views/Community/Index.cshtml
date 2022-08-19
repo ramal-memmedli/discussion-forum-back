@@ -31,19 +31,7 @@
                                     @topic.AuthorFullName
                                     <span class="author-level">10</span>
                                 </a>
-                                <p class="topic-create-date">
-                                    @if (topic.UpdateDate != null)
-                                    {
-                                    Edited:
-                                        <span class="date">@topic.UpdateDate</span>
-                                    }
-                                    else
-                                    {
-                                    Asked:
-                                        <span class="date">@topic.CreateDate</span>
-                                    }
-
-                                </p>
+                                <p class="topic-create-date"><span class="date">@topic.CreateDate</span></p>
                             </div>
                             <div class="topic-body">
                                 <a asp-controller="topic" asp-action="index" asp-route-id="@topic.Id">@topic.Title</a>
@@ -78,32 +66,10 @@
                 }
                 
             </div>
-            <div class="d-flex justify-content-center align-items-center">
-                <a class="load-more" href="#"><i class="fa-solid fa-arrow-rotate-right"></i> Load more</a>
-            </div>
         </div>
 
         <div class="col-lg-4">
             <footer>
-                <div class="row">
-                    <div class="col-6">
-                        <p>Useful links</p>
-                        <ul>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <p>Popular categories</p>
-                        <ul>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12">
                         <p class="copyright">

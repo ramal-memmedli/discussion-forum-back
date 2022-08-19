@@ -2,7 +2,7 @@
 
 @foreach (GetTopicVM topicVM in Model)
 {
-    <div class="topic">
+    <div class="topic for-loadmore-calc">
         <div class="topic-header">
             <a asp-controller="user" asp-action="index" asp-route-id="@topicVM.AuthorUsername" class="topic-author">
                 <img class="author-image" src="~/uploads/images/user/@topicVM.AuthorImage" alt="">

@@ -295,6 +295,23 @@ namespace ForumMVC.Controllers
             try
             {
                 await _topicService.Create(topic);
+
+                user.Point = user.Point + 100;
+
+                await _userManager.UpdateAsync(user);
+
+                List<Level> levels = await _levelService.GetAll();
+
+                foreach (Level level in levels)
+                {
+                    if (user.Point >= level.RequiredPoint)
+                    {
+                        user.LevelId = level.Id;
+
+                        await _userManager.UpdateAsync(user);
+                    }
+                }
+
                 return RedirectToAction(actionName: "index", controllerName: "home");
             }
             catch (Exception ex)
@@ -510,6 +527,22 @@ namespace ForumMVC.Controllers
 
                 await _answerService.Create(answer);
 
+                user.Point = user.Point + 100;
+
+                await _userManager.UpdateAsync(user);
+
+                List<Level> levels = await _levelService.GetAll();
+
+                foreach (Level level in levels)
+                {
+                    if (user.Point >= level.RequiredPoint)
+                    {
+                        user.LevelId = level.Id;
+
+                        await _userManager.UpdateAsync(user);
+                    }
+                }
+
                 return RedirectToAction(actionName: "index", controllerName: "topic", new { id = topic.Id });
 
             }
@@ -539,6 +572,7 @@ namespace ForumMVC.Controllers
                     {
                         answerVM.Id = answer.Id;
                         answerVM.Content = answer.Content;
+                        answerVM.TopicId = answer.TopicId;
                     }
                     else
                     {
@@ -655,6 +689,22 @@ namespace ForumMVC.Controllers
                 {
                     newComment.AppUserId = user.Id;
                     await _commentService.Create(newComment);
+
+                    user.Point = user.Point + 50;
+
+                    await _userManager.UpdateAsync(user);
+
+                    List<Level> levels = await _levelService.GetAll();
+
+                    foreach (Level level in levels)
+                    {
+                        if (user.Point >= level.RequiredPoint)
+                        {
+                            user.LevelId = level.Id;
+
+                            await _userManager.UpdateAsync(user);
+                        }
+                    }
                 }
                 return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
             }

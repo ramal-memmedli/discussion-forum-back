@@ -10,5 +10,6 @@ namespace ForumMVC.ViewModels.AnswerVMs
         public int Id { get; set; }
         [Required]
         public string Content { get; set; }
+        public int TopicId { get; set; }
     }
 }

@@ -41,9 +41,16 @@ namespace BusinessLayer.Implementations
 
         
 
-        public Task<List<Level>> GetAll()
+        public async Task<List<Level>> GetAll()
         {
-            throw new NotImplementedException();
+            List<Level> levels = await _levelData.GetAllAsync(n => n.RequiredPoint, true);
+
+            if(levels is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return levels;
         }
 
         public Task<List<Level>> GetAllPaginated(int currentPage, int pageCapacity)

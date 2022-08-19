@@ -3,22 +3,10 @@
 <div class="container">
       <div class="row my-4">
         <div class="col-lg-8">
-          <div class="main-flow">
-              @if(User.Identity.IsAuthenticated){
-                    <div class="topic">
-                        <div class="topic-header mb-0 ask-question-card">
-                            <a asp-controller="user" asp-action="index" asp-route-id="@Model.UserCard.Username" class="topic-author">
-                                <img class="author-image" src="~/uploads/images/user/@Model.UserCard.ProfileImage" alt="">
-                                @Model.UserCard.FullName
-                                <span class="author-level">@Model.UserCard.Level</span>
-                            </a>
-                            <a class="ask-a-question-main" asp-controller="topic" asp-action="create">Ask a question</a>
-                        </div>
-                    </div>
-              }
+          <div class="main-flow" id="topicsFlow">
                 @foreach (GetTopicVM topicVM in Model.Topics)
                 {
-                    <div class="topic">
+                    <div class="topic for-loadmore-calc">
                         <div class="topic-header">
                             <a asp-controller="user" asp-action="index" asp-route-id="@topicVM.AuthorUsername" class="topic-author">
                                 <img class="author-image" src="~/uploads/images/user/@topicVM.AuthorImage" alt="">
@@ -49,48 +37,16 @@
                                 </div>
                             </div>
                             <div class="topic-footer-right">
-                                <a href="#"><i class="fa-solid fa-bookmark"></i></a>
                             </div>
                         </div>
                     </div>
                 }
             
           </div>
-          <div class="d-flex justify-content-center align-items-center">
-            <a class="load-more" href="#"><i class="fa-solid fa-arrow-rotate-right"></i> Load more</a>
-          </div>
         </div>
 
         <div class="col-lg-4">
-          <div class="sidebar">
-            <div class="sidebar-item" id="topCommunitiesSection">
-              <div class="sidebar-item-header">
-                <a href="#"><i class="fa-solid fa-ranking-star"></i> Top communities</a>
-              </div>
-            </div>
-            
-
-          </div>
           <footer>
-            <div class="row">
-              <div class="col-6">
-                <p>Useful links</p>
-                <ul>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
-                </ul>
-              </div>
-              <div class="col-6">
-                <p>Popular categories</p>
-                <ul>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
-                  <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
-                </ul>
-              </div>
-            </div>
             <div class="row">
               <div class="col-12">
                 <p class="copyright">
@@ -106,5 +62,3 @@
 
     </div>
 
-
-<script src="~/assets/script/getScripts.js"></script>

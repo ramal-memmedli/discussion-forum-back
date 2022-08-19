@@ -50,7 +50,7 @@
                                     @Html.Raw(topic.Content)
                                 </p>
                                 <ul>
-                                    <li><a asp-controller="category" asp-action="index" asp-route-id="@topic.TopicCategory.Id">@topic.TopicCategory.Name</a></li>
+                                    <li><a>@topic.TopicCategory.Name</a></li>
                                 </ul>
                             </div>
                             <div class="topic-footer">
@@ -79,25 +79,6 @@
 
         <div class="col-lg-4">
             <footer>
-                <div class="row">
-                    <div class="col-6">
-                        <p>Useful links</p>
-                        <ul>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Communities</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Members</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Rules</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <p>Popular categories</p>
-                        <ul>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Technology</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Internet</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cars</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angle-right"></i> Operation systems</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-12">
                         <p class="copyright">
