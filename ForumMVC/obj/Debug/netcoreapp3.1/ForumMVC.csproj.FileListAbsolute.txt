@@ -88,7 +88,6 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\CoreLayer.pdb
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\Common.dll
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\Common.pdb
-C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\EmailConfirmationPage.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\User\Index.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BusinessLayer.dll
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BusinessLayer.pdb
@@ -104,3 +103,7 @@ C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Top
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\User\Bookmarks.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\EditAccount.cshtml.g.cs
 C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Home\NotFound.cshtml.g.cs
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\MailKit.dll
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\MimeKit.dll
+C:\Users\Ramal\Desktop\ForumMVC\ForumMVC\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll

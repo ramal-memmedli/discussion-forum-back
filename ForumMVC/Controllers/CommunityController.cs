@@ -83,11 +83,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message,
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
 
             return View(communityVM);

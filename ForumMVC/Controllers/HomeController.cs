@@ -164,8 +164,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
 
-                throw;
             }
 
             return View(homeVM);
@@ -221,11 +221,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message,
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -270,11 +267,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 405,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
             return PartialView("_TopCommunitiesPartial", communityVM);
         }
@@ -329,12 +323,15 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return View(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
+        }
+
+        [HttpGet]
+        public IActionResult NotFound()
+        {
+            return View();
         }
     }
 }

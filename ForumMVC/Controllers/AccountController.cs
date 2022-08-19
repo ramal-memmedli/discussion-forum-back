@@ -10,6 +10,9 @@ using System;
 using System.Threading.Tasks;
 using static Common.Helpers.Enums;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using MimeKit;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Routing;
 
 namespace ForumMVC.Controllers
 {
@@ -80,11 +83,7 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 405,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
             }
 
             if ((await _userManager.GetUsersInRoleAsync(Enums.Roles.Admin.ToString())).Count == 0)
@@ -100,26 +99,40 @@ namespace ForumMVC.Controllers
 
             string route = Url.Action("ConfirmEmail", "Account", new { userId = newUser.Id, token }, HttpContext.Request.Scheme);
 
-            return RedirectToAction(actionName: "emailconfirmationpage", new { route });
-        }
 
-        public IActionResult EmailConfirmationPage(string route)
-        {
-            return View(model: route);
+            MimeMessage message = new MimeMessage();
+
+            message.From.Add(new MailboxAddress("Discussion Forum", "discussion.forum.app.code.2022@gmail.com"));
+            message.To.Add(new MailboxAddress(newUser.Name, newUser.Email));
+            message.Subject = "Confirm email";
+            message.Body = new TextPart("plain")
+            {
+                Text = route
+            };
+
+            using(SmtpClient client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("discussion.forum.app.code.2022@gmail.com", "yzhqccxoubcbgubf");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+
+            return RedirectToAction(actionName: "login", controllerName: "account");
         }
 
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (userId == null || token == null)
             {
-                return NotFound();
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
             }
 
             AppUser user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
-                return NotFound();
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
             }
 
             await _userManager.ConfirmEmailAsync(user, token);
@@ -235,6 +248,25 @@ namespace ForumMVC.Controllers
             if (result.Succeeded)
             {
                 await Logout();
+
+                MimeMessage message = new MimeMessage();
+
+                message.From.Add(new MailboxAddress("Discussion Forum", "discussion.forum.app.code.2022@gmail.com"));
+                message.To.Add(new MailboxAddress(user.Name, user.Email));
+                message.Subject = "Security alert";
+                message.Body = new TextPart("plain")
+                {
+                    Text = "Your forum password was changed"
+                };
+
+                using (SmtpClient client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate("discussion.forum.app.code.2022@gmail.com", "yzhqccxoubcbgubf");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+
                 return RedirectToAction(actionName: "login", controllerName: "account");
             }
 

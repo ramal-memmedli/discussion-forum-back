@@ -36,107 +36,108 @@ namespace ForumMVC.Controllers
 
         public async Task<IActionResult> Index(string id)
         {
-            AppUser user = await _userManager.FindByNameAsync(id);
-
-            GetUserVM userVM = new GetUserVM()
-            {
-                Name = user.Name,
-                Surname = user.Surname,
-                Username = user.UserName
-            };
-
-
-            try
-            {
-                List<UserImage> userImages = await _userImageService.GetAllByUserId(user.Id);
-
-                foreach (UserImage userImage in userImages)
-                {
-                    if (userImage.Target == "profile")
-                    {
-                        userVM.ProfileImage = userImage.Image.Name;
-                    }
-                    if (userImage.Target == "banner")
-                    {
-                        userVM.BannerImage = userImage.Image.Name;
-                    }
-                }
-
-                Level level = await _levelService.Get(user.LevelId);
-
-                userVM.Level = level.Name;
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
-            }
-
             List<GetTopicVM> topicVMs = new List<GetTopicVM>();
 
             List<Topic> topics = new List<Topic>();
 
             UserProfileVM userProfile = new UserProfileVM();
 
-            userProfile.User = userVM;
-            userProfile.Topics = topicVMs;
-
             try
             {
-                topics = await _topicService.GetAllByAuthor(user.Id);
-                Level level = await _levelService.Get(user.LevelId);
+                AppUser user = await _userManager.FindByNameAsync(id);
 
-                foreach (Topic topic in topics)
+                GetUserVM userVM = new GetUserVM()
                 {
-                    GetTopicVM getTopicVM = new GetTopicVM();
-
-                    getTopicVM.Id = topic.Id;
-                    getTopicVM.Title = topic.Title;
-                    getTopicVM.Content = topic.Content;
-                    getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
-                    getTopicVM.AuthorUsername = topic.Author.UserName;
-                    getTopicVM.AuthorLevel = level.Name;
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Username = user.UserName
+                };
 
 
-                    List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
+                try
+                {
+                    List<UserImage> userImages = await _userImageService.GetAllByUserId(user.Id);
 
                     foreach (UserImage userImage in userImages)
                     {
                         if (userImage.Target == "profile")
                         {
-                            getTopicVM.AuthorImage = userImage.Image.Name;
+                            userVM.ProfileImage = userImage.Image.Name;
+                        }
+                        if (userImage.Target == "banner")
+                        {
+                            userVM.BannerImage = userImage.Image.Name;
                         }
                     }
 
-                    getTopicVM.ViewCount = topic.ViewCount;
-                    getTopicVM.CreateDate = topic.CreateDate;
-                    getTopicVM.UpdateDate = topic.UpdateDate;
+                    Level level = await _levelService.Get(user.LevelId);
 
-                    getTopicVM.TopicCategory = new GetTopicCategoryVM
-                    {
-                        Id = topic.CategoryId,
-                        Name = topic.Category.Name
-                    };
+                    userVM.Level = level.Name;
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
 
-                    topicVMs.Add(getTopicVM);
                 }
 
-                userProfile.User.TopicCount = topics.Count;
-            }
-            catch (Exception ex)
-            {
-                return Json(new
+
+
+                userProfile.User = userVM;
+                userProfile.Topics = topicVMs;
+
+                try
                 {
-                    Status = 404,
-                    Message = ex.Message,
-                });
+                    topics = await _topicService.GetAllByAuthor(user.Id);
+                    Level level = await _levelService.Get(user.LevelId);
+
+                    foreach (Topic topic in topics)
+                    {
+                        GetTopicVM getTopicVM = new GetTopicVM();
+
+                        getTopicVM.Id = topic.Id;
+                        getTopicVM.Title = topic.Title;
+                        getTopicVM.Content = topic.Content;
+                        getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
+                        getTopicVM.AuthorUsername = topic.Author.UserName;
+                        getTopicVM.AuthorLevel = level.Name;
+
+
+                        List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
+
+                        foreach (UserImage userImage in userImages)
+                        {
+                            if (userImage.Target == "profile")
+                            {
+                                getTopicVM.AuthorImage = userImage.Image.Name;
+                            }
+                        }
+
+                        getTopicVM.ViewCount = topic.ViewCount;
+                        getTopicVM.CreateDate = topic.CreateDate;
+                        getTopicVM.UpdateDate = topic.UpdateDate;
+
+                        getTopicVM.TopicCategory = new GetTopicCategoryVM
+                        {
+                            Id = topic.CategoryId,
+                            Name = topic.Category.Name
+                        };
+
+                        topicVMs.Add(getTopicVM);
+                    }
+
+                    userProfile.User.TopicCount = topics.Count;
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
+                }
             }
+            catch (Exception)
+            {
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
 
-
-
+            }
 
             return View(userProfile);
         }
@@ -179,11 +180,8 @@ namespace ForumMVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new
-                    {
-                        Status = 404,
-                        Message = ex.Message
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
 
 
@@ -238,21 +236,15 @@ namespace ForumMVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new
-                    {
-                        Status = 404,
-                        Message = ex.Message,
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
                 return View(userProfile);
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
     }

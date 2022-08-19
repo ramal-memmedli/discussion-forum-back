@@ -1,0 +1,25 @@
+.page-not-found {
+    height: 100vh;
+    h1 {
+        color: #24292f;
+        font-weight: 600;
+        font-size: 6rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    a {
+        color: #FFF;
+        background-color: #ff4500;
+        padding: .6rem 1.2rem;
+        border-radius: .375rem;
+    }
+}
+
+body.dark-mode {
+    .page-not-found {
+        h1 {
+            color: #c9d1d9;
+        }
+    }
+}

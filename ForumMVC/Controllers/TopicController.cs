@@ -254,11 +254,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 405,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
 
             return View(topicVM);
@@ -302,11 +299,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 405,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -333,21 +327,16 @@ namespace ForumMVC.Controllers
                 }
                 else
                 {
-                    return Json(new
-                    {
-                        Message = "You are not author of this topic"
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
 
                 return View(topicVM);
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -381,19 +370,14 @@ namespace ForumMVC.Controllers
                 }
                 else
                 {
-                    return Json(new
-                    {
-                        Message = "You are not author of this topic"
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -408,11 +392,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -454,11 +435,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message,
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -500,11 +478,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message,
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -540,11 +515,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
 
         }
@@ -587,11 +559,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -621,20 +590,15 @@ namespace ForumMVC.Controllers
                 }
                 else
                 {
-                    return Json(new
-                    {
-                        Message = "You are not author of this answer"
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
 
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -667,11 +631,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -699,11 +660,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
 
 
@@ -743,11 +701,8 @@ namespace ForumMVC.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -775,19 +730,14 @@ namespace ForumMVC.Controllers
                 }
                 else
                 {
-                    return Json(new
-                    {
-                        Message = "This topic is already in bookmarks"
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
@@ -813,19 +763,14 @@ namespace ForumMVC.Controllers
                 }
                 else
                 {
-                    return Json(new
-                    {
-                        Message = "This topic is already in bookmarks"
-                    });
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 }
             }
             catch (Exception ex)
             {
-                return Json(new
-                {
-                    Status = 404,
-                    Message = ex.Message
-                });
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+
             }
         }
 
