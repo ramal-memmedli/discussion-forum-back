@@ -118,7 +118,7 @@ namespace ForumMVC.Controllers
                 Text = route
             };
 
-            using(SmtpClient client = new SmtpClient())
+            using (SmtpClient client = new SmtpClient())
             {
                 client.Connect("smtp.gmail.com", 587, false);
                 client.Authenticate("discussion.forum.app.code.2022@gmail.com", "yzhqccxoubcbgubf");
@@ -260,7 +260,7 @@ namespace ForumMVC.Controllers
 
                 foreach (UserImage userImage in userImages)
                 {
-                    if(userImage.Target == "profile")
+                    if (userImage.Target == "profile")
                     {
                         userImage.ImageId = image.Id;
 
@@ -310,7 +310,7 @@ namespace ForumMVC.Controllers
 
                 List<UserImage> userImages = await _userImageService.GetAllByUserId(you.Id);
 
-                if(userImages.Count == 2)
+                if (userImages.Count == 2)
                 {
                     foreach (UserImage userImage in userImages)
                     {
@@ -328,12 +328,12 @@ namespace ForumMVC.Controllers
                             }
                         }
                     }
-                }else
+                } else
                 {
                     UserImage userBannerImage = new UserImage();
 
                     userBannerImage.AppUserId = you.Id;
-                    userBannerImage.ImageId=image.Id;
+                    userBannerImage.ImageId = image.Id;
                     userBannerImage.Target = "banner";
 
                     try
@@ -347,7 +347,7 @@ namespace ForumMVC.Controllers
                     }
                 }
 
-                
+
             }
 
 
@@ -419,6 +419,99 @@ namespace ForumMVC.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(forgotPasswordVM);
+            }
+
+            AppUser user = await _userManager.FindByEmailAsync(forgotPasswordVM.Email);
+
+            if (user != null)
+            {
+                string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                string route = Url.Action("resetpassword", "Account", new { userId = user.Id, token }, HttpContext.Request.Scheme);
+
+                MimeMessage message = new MimeMessage();
+
+                message.From.Add(new MailboxAddress("Discussion Forum", "discussion.forum.app.code.2022@gmail.com"));
+                message.To.Add(new MailboxAddress(user.Name, user.Email));
+                message.Subject = "Reset password";
+                message.Body = new TextPart("plain")
+                {
+                    Text = route
+                };
+
+                using (SmtpClient client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+                    client.Authenticate("discussion.forum.app.code.2022@gmail.com", "yzhqccxoubcbgubf");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+
+                return RedirectToAction(actionName: "login", controllerName: "account");
+            }
+            return View(forgotPasswordVM);
+
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction(actionName: "notfound", controllerName: "home");
+            }
+
+            ResetPasswordVM resetPasswordVM = new ResetPasswordVM();
+
+            resetPasswordVM.UserId = userId;
+            resetPasswordVM.Token = token;
+
+            return View(resetPasswordVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(resetPasswordVM);
+            }
+
+            AppUser user = await _userManager.FindByIdAsync(resetPasswordVM.UserId);
+
+            if(user != null)
+            {
+                IdentityResult result = await _userManager.ResetPasswordAsync(user, resetPasswordVM.Token, resetPasswordVM.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    foreach(IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View();
+                }
+
+                return RedirectToAction(controllerName: "account", actionName: "login");
+            }
+
+            return RedirectToAction(actionName: "login", controllerName: "account");
         }
 
         [HttpGet]

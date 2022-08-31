@@ -221,3 +221,5 @@ C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\ForumMVC.
 C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Categories\Index.cshtml.g.cs
 C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Categories\Edit.cshtml.g.cs
 C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Categories\Add.cshtml.g.cs
+C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+C:\Users\Ramal\Desktop\final\ForumMVC\ForumMVC\obj\Debug\netcoreapp3.1\Razor\Views\Account\ResetPassword.cshtml.g.cs
