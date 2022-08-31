@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XesaRIbyXHXNYzwuykeJDLdKzdhGRvyzRZxmUuME8GZ6X0Z2pJHMKaXpn7YUUktolIxDYswUDwRCB7E01LAPJw==",
+  "dgSpecHash": "4TEwOJXKEHtFo7dXNZeZdup4B4XK3jrrvMY/yF3v2I1hpMRdvUSCYFw2CYScaeaDcGsrUkKvy7WJAPsxIoV+MQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ramal\\Desktop\\ForumMVC\\ForumMVC\\ForumMVC.csproj",
+  "projectFilePath": "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\ForumMVC\\ForumMVC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ramal\\.nuget\\packages\\mailkit\\3.3.0\\mailkit.3.3.0.nupkg.sha512",
     "C:\\Users\\Ramal\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.27\\microsoft.aspnetcore.cryptography.internal.3.1.27.nupkg.sha512",

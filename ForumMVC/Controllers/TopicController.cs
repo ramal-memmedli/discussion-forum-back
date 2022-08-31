@@ -48,6 +48,8 @@ namespace ForumMVC.Controllers
             {
                 Topic topic = await _topicService.Get(id);
 
+                ViewBag.Title = "Topic - " + topic.Title;
+
                 if (User.Identity.IsAuthenticated)
                 {
                     AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -265,6 +267,8 @@ namespace ForumMVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Create()
         {
+            ViewBag.Title = "New topic";
+
             ViewData["Categories"] = await GetCategories();
             return View();
         }
@@ -326,6 +330,7 @@ namespace ForumMVC.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             ViewData["Categories"] = await GetCategories();
+            ViewBag.Title = "Edit topic";
 
             try
             {
@@ -504,6 +509,8 @@ namespace ForumMVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult PostAnswer(int id)
         {
+            ViewBag.Title = "Post answer";
+
             ViewData["TopicId"] = id;
             return View();
         }
@@ -558,6 +565,8 @@ namespace ForumMVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> EditAnswer(int id)
         {
+            ViewBag.Title = "Edit answer";
+
             try
             {
                 if (User.Identity.IsAuthenticated)

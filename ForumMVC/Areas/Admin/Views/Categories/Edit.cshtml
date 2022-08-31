@@ -1,0 +1,16 @@
+﻿@model Category
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Edit category</h4>
+        <form class="forms-sample" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <a asp-area="admin" asp-controller="categories" asp-action="index" class="btn btn-light">Cancel</a>
+        </form>
+    </div>
+</div>

@@ -37,6 +37,8 @@ namespace ForumMVC.Controllers
         {
             HomeVM homeVM = new HomeVM();
 
+            ViewBag.Title = "Forum - Home";
+
             try
             {
 
@@ -146,6 +148,8 @@ namespace ForumMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Search(string content)
         {
+            ViewBag.Title = "Search results";
+
             try
             {
                 List<Topic> topics = await _topicService.GetAllBySearch(content);
@@ -201,6 +205,8 @@ namespace ForumMVC.Controllers
         [HttpGet]
         public IActionResult NotFound()
         {
+            ViewBag.Title = "Page not found";
+
             return View();
         }
     }

@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ramal\\Desktop\\ForumMVC\\Common\\Common.csproj": {}
+    "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\Common\\Common.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ramal\\Desktop\\ForumMVC\\Common\\Common.csproj": {
+    "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ramal\\Desktop\\ForumMVC\\Common\\Common.csproj",
+        "projectUniqueName": "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "C:\\Users\\Ramal\\Desktop\\ForumMVC\\Common\\Common.csproj",
+        "projectPath": "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\Common\\Common.csproj",
         "packagesPath": "C:\\Users\\Ramal\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ramal\\Desktop\\ForumMVC\\Common\\obj\\",
+        "outputPath": "C:\\Users\\Ramal\\Desktop\\final\\ForumMVC\\Common\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\Ramal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

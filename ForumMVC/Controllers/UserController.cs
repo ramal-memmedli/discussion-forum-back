@@ -53,6 +53,7 @@ namespace ForumMVC.Controllers
                     Username = user.UserName
                 };
 
+                ViewBag.Title = user.Name + " " + user.Surname;
 
                 try
                 {
@@ -147,6 +148,8 @@ namespace ForumMVC.Controllers
         public async Task<IActionResult> Bookmarks()
         {
             AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            ViewBag.Title = user.Name + " " + user.Surname + " - Bookmarks";
 
             try
             {
@@ -256,6 +259,7 @@ namespace ForumMVC.Controllers
             {
                 AppUser user = await _userManager.FindByNameAsync(id);
 
+                ViewBag.Title = user.Name + " " + user.Surname + " - About";
 
                 GetUserVM userVM = new GetUserVM()
                 {

@@ -40,6 +40,8 @@ namespace ForumMVC.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.Title = "Register";
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction(controllerName: "Home", actionName: "Index");
@@ -149,6 +151,8 @@ namespace ForumMVC.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewBag.Title = "Login";
+
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction(controllerName: "Home", actionName: "Index");
@@ -195,6 +199,8 @@ namespace ForumMVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> EditAccount()
         {
+            ViewBag.Title = "Edit account";
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             EditVM editVM = new EditVM();
@@ -368,6 +374,8 @@ namespace ForumMVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult ChangePassword()
         {
+            ViewBag.Title = "Change password";
+
             return View();
         }
 

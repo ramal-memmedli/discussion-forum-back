@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Services;
 using DataAccessLayer.Abstracts;
+using DataAccessLayer.Implementations;
 using DataAccessLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,14 @@ namespace BusinessLayer.Implementations
             return categories;
         }
 
-        public Task Create(Category entity)
+        public async Task Create(Category entity)
         {
-            throw new NotImplementedException();
+            if (entity is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            await _categoryData.AddAsync(entity);
         }
 
         public Task Delete(int id)
@@ -39,9 +45,16 @@ namespace BusinessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<Category> Get(int id)
+        public async Task<Category> Get(int id)
         {
-            throw new NotImplementedException();
+            Category category = await _categoryData.GetAsync(n => n.Id == id);
+
+            if (category is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return category;
         }
 
         
@@ -56,9 +69,14 @@ namespace BusinessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Task Update(Category entity)
+        public async Task Update(Category entity)
         {
-            throw new NotImplementedException();
+            if (entity is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            await _categoryData.UpdateAsync(entity);
         }
     }
 }
