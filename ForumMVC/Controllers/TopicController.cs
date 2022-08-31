@@ -125,7 +125,7 @@ namespace ForumMVC.Controllers
 
                     answerVM.AuthorLevel = level.Name;
 
-                    List<UserImage> answerUserImages = await _userImageService.GetAllByUserId(topic.AuthorId);
+                    List<UserImage> answerUserImages = await _userImageService.GetAllByUserId(answer.AppUserId);
 
                     foreach (UserImage answerUserImage in answerUserImages)
                     {

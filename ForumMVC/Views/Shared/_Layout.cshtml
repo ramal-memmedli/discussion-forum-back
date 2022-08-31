@@ -114,8 +114,9 @@
                 <li><a asp-controller="user" asp-action="index" asp-route-id="@User.Identity.Name"><i class="fa-solid fa-user"></i> Your profile</a></li>
                 <li><a asp-controller="user" asp-action="bookmarks"><i class="fa-solid fa-bookmark"></i> Your bookmarks</a></li>
                 <li><a asp-controller="user" asp-action="index" asp-route-id="@User.Identity.Name"><i class="fa-solid fa-message"></i> Your topics</a></li>
-                <hr>
+                
                 @if(await _userService.IsInRoleAsync(await _userService.FindByNameAsync(User.Identity.Name), "Admin")) {
+                    <hr>
                     <li><a asp-area="admin" asp-controller="dashboard" asp-action="index"><i class="fa-solid fa-screwdriver-wrench"></i> Admin panel</a></li>
                 }
                 <hr>

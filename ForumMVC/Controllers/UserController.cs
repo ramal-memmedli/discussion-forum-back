@@ -235,6 +235,7 @@ namespace ForumMVC.Controllers
                         };
 
                         topicVMs.Add(getTopicVM);
+
                     }
                 }
                 catch (Exception ex)
