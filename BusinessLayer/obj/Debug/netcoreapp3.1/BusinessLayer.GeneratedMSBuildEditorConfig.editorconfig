@@ -1,3 +1,5 @@
 is_global = true
 build_property.RootNamespace = BusinessLayer
-build_property.ProjectDir = C:\Users\Ramal\Desktop\final\ForumMVC\BusinessLayer\
+build_property.ProjectDir = C:\Users\Ramal\Documents\Projects\discussion-forum-back\BusinessLayer\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

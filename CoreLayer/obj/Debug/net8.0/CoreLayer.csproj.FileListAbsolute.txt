@@ -1,0 +1,13 @@
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\bin\Debug\net8.0\CoreLayer.deps.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\bin\Debug\net8.0\CoreLayer.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\bin\Debug\net8.0\CoreLayer.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.csproj.AssemblyReference.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.AssemblyInfoInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.AssemblyInfo.cs
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.csproj.CoreCompileInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.sourcelink.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\refint\CoreLayer.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\CoreLayer.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CoreLayer\obj\Debug\net8.0\ref\CoreLayer.dll
