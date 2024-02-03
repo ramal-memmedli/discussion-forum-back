@@ -50,25 +50,6 @@ namespace ForumMVC.Controllers
 
                 ViewBag.Title = "Topic - " + topic.Title;
 
-                if (User.Identity.IsAuthenticated)
-                {
-                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    if (topic.AuthorId == you.Id)
-                    {
-                        topicVM.AreYouAuthor = true;
-                    }
-                    else
-                    {
-                        topicVM.AreYouAuthor = false;
-                    }
-                }
-                else
-                {
-                    topicVM.AreYouAuthor = false;
-                }
-
-
 
                 topic.ViewCount = topic.ViewCount + 1;
                 await _topicService.Update(topic);
@@ -79,6 +60,7 @@ namespace ForumMVC.Controllers
                 topicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
                 topicVM.AuthorUsername = topic.Author.UserName;
                 topicVM.IsInBookmarks = await IsInBookmarks(topic.Id);
+                topicVM.AreYouAuthor = await IsSignedUserAuthor(topic.AuthorId);
 
                 List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
 
@@ -421,82 +403,34 @@ namespace ForumMVC.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> UpVote(int id)
+        public async Task<IActionResult> UseVote(int id, bool usedVote)
         {
             try
             {
                 Answer answer = await _answerService.Get(id);
 
-                Topic topic = await _topicService.Get(answer.TopicId);
-
                 AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 foreach (AnswerVote vote in answer.AnswerVotes)
                 {
-                    if (vote.AppUserId == you.Id && vote.IsUpVote)
+                    if (vote.AppUserId == you.Id)
                     {
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
+                        vote.IsUpVote = usedVote;
                     }
-                    else if (vote.AppUserId == you.Id && !vote.IsUpVote)
-                    {
-                        vote.IsUpVote = true;
-                        await _answerVoteService.Update(vote);
 
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-                    }
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { answer.TopicId });
                 }
 
-                AnswerVote answerVote = new AnswerVote();
-                answerVote.AnswerId = answer.Id;
-                answerVote.AppUserId = you.Id;
-                answerVote.IsUpVote = true;
-
-                await _answerVoteService.Create(answerVote);
-
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> DownVote(int id)
-        {
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                Topic topic = await _topicService.Get(answer.TopicId);
-
-                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                foreach (AnswerVote vote in answer.AnswerVotes)
+                AnswerVote answerVote = new()
                 {
-                    if (vote.AppUserId == you.Id && !vote.IsUpVote)
-                    {
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-                    }
-                    else if (vote.AppUserId == you.Id && vote.IsUpVote)
-                    {
-                        vote.IsUpVote = false;
-                        await _answerVoteService.Update(vote);
-
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-                    }
-                }
-
-                AnswerVote answerVote = new AnswerVote();
-                answerVote.AnswerId = answer.Id;
-                answerVote.AppUserId = you.Id;
-                answerVote.IsUpVote = false;
+                    AnswerId = answer.Id,
+                    AppUserId = you.Id,
+                    IsUpVote = true
+                };
 
                 await _answerVoteService.Create(answerVote);
 
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
+                return RedirectToAction(actionName: "index", controllerName: "topic", new {answer.TopicId });
             }
             catch (Exception ex)
             {
@@ -569,33 +503,22 @@ namespace ForumMVC.Controllers
 
             try
             {
-                if (User.Identity.IsAuthenticated)
+                Answer answer = await _answerService.Get(id);
+
+                if (await IsSignedUserAuthor(answer.AppUserId))
                 {
-                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    Answer answer = await _answerService.Get(id);
-
-                    EditAnswerVM answerVM = new EditAnswerVM();
-
-                    if (answer.AppUserId == you.Id)
+                    EditAnswerVM answerVM = new()
                     {
-                        answerVM.Id = answer.Id;
-                        answerVM.Content = answer.Content;
-                        answerVM.TopicId = answer.TopicId;
-                    }
-                    else
-                    {
-                        return Json(new
-                        {
-                            Message = "You are not author of this answer"
-                        });
-                    }
+                        Id = answer.Id,
+                        Content = answer.Content,
+                        TopicId = answer.TopicId
+                    };
 
                     return View(answerVM);
                 }
                 else
                 {
-                    return RedirectToAction(actionName: "index", controllerName: "home");
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
 
                 }
 
@@ -619,11 +542,9 @@ namespace ForumMVC.Controllers
 
             try
             {
-                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
                 Answer answer = await _answerService.Get(id);
 
-                if (answer.AppUserId == you.Id)
+                if(await IsSignedUserAuthor(answer.AppUserId))
                 {
                     answer.Content = answerVM.Content;
 
@@ -653,24 +574,12 @@ namespace ForumMVC.Controllers
             {
                 Answer answer = await _answerService.Get(id);
 
-                if (User.Identity.IsAuthenticated)
+                if(await IsSignedUserAuthor(answer.AppUserId))
                 {
-                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+                    await _answerService.Delete(answer.Id);
+                }
 
-                    if (you.Id == answer.AppUserId)
-                    {
-                        await _answerService.Delete(answer.Id);
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                    }
-                    else
-                    {
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                    }
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                }
+                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
             }
             catch (Exception ex)
             {
@@ -736,27 +645,15 @@ namespace ForumMVC.Controllers
 
                 Answer answer = await _answerService.Get(comment.AnswerId);
 
-                if (User.Identity.IsAuthenticated)
+                if (await IsSignedUserAuthor(comment.AppUserId))
                 {
-                    AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    if (you.Id == comment.AppUserId)
-                    {
-                        await _commentService.Delete(comment.Id);
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                    }
-                    else
-                    {
-                        return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-
-                    }
+                    await _commentService.Delete(comment.Id);
+                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
                 }
                 else
                 {
                     return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-
                 }
-
             }
             catch (Exception ex)
             {
@@ -871,6 +768,27 @@ namespace ForumMVC.Controllers
         {
             List<Category> categories = await _categoryService.GetAll();
             return categories;
+        }
+
+        private async Task<bool> IsSignedUserAuthor(string authorId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser signedUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                if (authorId == signedUser.Id)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
