@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumMVC", "ForumMVC\ForumMVC.csproj", "{161F6543-3EBF-4D9F-BDEF-0E97F53DA583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumMVC", "ForumMVC\ForumMVC.csproj", "{161F6543-3EBF-4D9F-BDEF-0E97F53DA583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{4F11E1F7-A5F1-4369-B96A-2FC8644C02F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{4F11E1F7-A5F1-4369-B96A-2FC8644C02F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLayer", "CoreLayer\CoreLayer.csproj", "{BD5D7FF3-1294-44DD-BB20-D7B39F842B39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLayer", "CoreLayer\CoreLayer.csproj", "{BD5D7FF3-1294-44DD-BB20-D7B39F842B39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{46F62F4F-27CC-44F1-AFE5-306E055B0E38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{46F62F4F-27CC-44F1-AFE5-306E055B0E38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{18195641-D8A9-4BB2-86CF-FB5FD302E622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{18195641-D8A9-4BB2-86CF-FB5FD302E622}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C0F119E7-FE18-4C7E-9A8D-3B3701AA9BBA}"
+	ProjectSection(SolutionItems) = preProject
+		README.MD = README.MD
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
