@@ -1,0 +1,91 @@
+.hamburgerMenuBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+    box-shadow: $default-shadow;
+    backdrop-filter: blur(20px);
+    border: $border;
+
+    background-color: $bg-emphasis-85; 
+    border-radius: .5rem;
+
+    .hamburgerSpan {
+        width: .75rem;
+        height: 0.125rem;
+        border-radius: 1px;
+        background-color: $fg-default;
+        transition: 150ms all ease-in-out;
+
+        &.hamburgerSpanAnimated:first-child {
+            transform: translateY(250%) rotateZ(-45deg);
+        }
+
+        &.hamburgerSpanAnimated:last-child {
+            transform: translateY(-250%) rotateZ(45deg);
+        }
+
+        &.hamburgerSpanAnimated:nth-child(2) {
+            transform: translateX(50%);
+            opacity: 0;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: .1875rem;
+
+        }
+
+        &:nth-child(odd) {
+            width: 1.25rem;
+        }
+
+        &:nth-child(even) {
+            margin-right: .5rem;
+        }
+    }
+
+    &:hover {
+        background-color: $bg-default;
+
+        .hamburgerSpan {
+            background-color: #24292f;
+
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .hamburgerMenuBtn {
+        display: none;
+    }
+}
+
+body.dark-mode {
+    .hamburgerMenuBtn {
+        background-color: $dark-bg-default-65;
+        border: $dark-border;
+        box-shadow: none;
+        
+        .hamburgerSpan {
+            background-color: $dark-fg-default;
+        }
+
+        &:hover {
+            background-color: $dark-bg-default-45;
+            border-color: rgba(255, 255, 255, .08);
+            .hamburgerSpan {
+                background-color: #FFF;
+
+            }
+        }
+
+        &:active {
+            background-color: $dark-bg-default-25;
+        }
+    }
+}

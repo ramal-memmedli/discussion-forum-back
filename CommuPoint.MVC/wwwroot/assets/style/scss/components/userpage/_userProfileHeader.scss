@@ -1,0 +1,116 @@
+main {    
+    .user-profile {
+        .user-profile-header, .profile-card{
+            .profile-details{
+                display: flex;
+                align-items: center;
+                transition: $t-normal;
+        
+                .profile-image{
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .profile-name-section{
+                    display: flex;
+                    align-items: center;
+
+                    .profile-fullname {
+                        color: $fg-default;
+                    }
+                }
+        
+                .follow-user-button{
+                    background-color: $brand;
+                    
+                    color: $fg-default;
+                    transition: $t-normal;
+        
+                    &:hover{
+                        background-color: $brand;
+                    }
+        
+                    i{
+                        margin-right: .5rem;
+                    }
+                }
+            }
+        }
+
+        .user-profile-header {
+            margin-top: 5rem;
+            .profile-details{
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 5rem;
+        
+                .profile-image{
+                    width: 8rem;
+                    height: 8rem;
+                }
+        
+                .profile-name-section{
+                    margin-top: 1rem;
+
+                    .profile-fullname {
+                        font-size: 2rem;
+                    }
+            
+                    .verified-profile{
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
+        
+                .follow-user-button{
+                    margin-top: 1rem;
+                    border-radius: .5rem;
+                    padding: .6rem 1.2rem;
+                }
+            }
+        } 
+    }
+}
+
+@media screen and (max-width: 992px) {
+    main {
+        .user-profile {
+            left: .25rem;
+
+            .resposive-user-profile-header{
+                left: .25rem;
+                top: 5.5rem;
+            }
+        }
+    }
+}
+
+body.dark-mode {
+    main {
+        .user-profile {
+            .profile-card, .user-profile-header{
+                
+
+
+                .profile-details {    
+                    .profile-name-section {
+                        .profile-fullname {
+                            color: $dark-fg-default;
+                        }
+
+                        .verified-profile{
+    
+                            i{
+                                color: $dark-fg-default;
+                            }
+                        }
+                    }
+    
+                    .follow-user-button {
+                        color: $dark-fg-default;
+                    }
+                }
+            }
+        }
+    }
+}

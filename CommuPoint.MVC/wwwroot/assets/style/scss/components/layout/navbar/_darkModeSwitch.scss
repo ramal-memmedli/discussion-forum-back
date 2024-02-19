@@ -1,0 +1,102 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 5.5rem;
+    height: 3rem;
+    margin-right: 1rem;
+
+    i {
+        color: #FFF;
+        cursor: pointer;
+        
+        &.fa-moon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1rem;
+            color: #010409;
+        }
+
+        &.fa-sun {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 1rem;
+            color: #FFF;
+        }
+    }
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }    
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $dark-bg-default-45;
+        // background-color: $bg-emphasis-85;
+        // border: $border;
+        backdrop-filter: blur(8px);
+
+
+        transition: $t-normal;
+
+        &.round {
+            border-radius: .5rem;
+
+            &:before {
+                border-radius: .375rem;
+                background-color: #010409;
+            }
+        }
+
+        &::before {
+            position: absolute;
+            content: "";
+            height: 2rem;
+            width: 2rem;
+            left: .45rem;
+            bottom: .45rem;
+            background-color: #FFF;
+            transition: 150ms;
+        }
+    }
+    
+    input:checked+.slider:before {
+        transform: translateX(2.5rem);
+    }
+}
+
+body.dark-mode {
+    .fa-sun {
+        color: $dark-fg-default;
+    }
+
+    .fa-moon {
+        color: $dark-fg-default;
+    }
+
+    .switch {
+        .slider {
+            // background-color: $dark-bg-default-65;
+            // box-shadow: none;
+            // border: $dark-border;
+            &::before {
+                background-color: rgba(255, 255, 255, .03);
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .switch {
+        display: none;
+    }
+}

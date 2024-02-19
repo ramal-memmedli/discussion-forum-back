@@ -1,0 +1,230 @@
+.topic {
+    // background-color: $bg-emphasis;
+
+    border-radius: .5rem;
+    transition: $t-normal;
+    margin-bottom: .5rem;
+    backdrop-filter: blur(8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    // border: $border;
+    background-color: $dark-bg-default-45;
+
+
+    &:hover {
+        // box-shadow: $default-shadow;
+        background-color: $dark-bg-default-25;
+    }
+
+    padding: 1rem;
+    flex: 1;
+
+    .topic-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: .5rem;
+
+        .topic-header-left {
+            display: flex;
+            align-items: center;
+            .topic-author {
+                color: #6e7781;
+                transition: 150ms ease-in-out;
+    
+                .author-image {
+                    width: 2rem;
+                    height: 2rem;
+                    margin-right: .5rem;
+                    border-radius: 50%;
+                }   
+    
+                &:hover {
+                    color: #24292f;
+                }
+            }
+
+            .circle-separator {
+                margin: 0 .5rem;
+                font-size: .25rem;
+                color: $dark-fg-default;
+            }
+    
+            .topic-create-date {
+                color: $dark-fg-default;
+                font-size: .875rem;
+            }
+        }
+        .topic-header-right {
+            .topic-actions {
+                color: $dark-fg-default;
+                width: 1.5rem;
+                height: 1.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .topic-body {
+        margin-bottom: .5rem;
+
+        a {
+            font-size: 1rem;
+            display: flex;
+            margin-bottom: .5rem;
+            color: $fg-special;
+        }
+
+        ul {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .25rem;
+
+            li {
+                a {
+                    color: #FFF;
+                    background-color: $brand;
+                    border-radius: .3rem;
+                    font-size: .875rem;
+                    padding: .25rem .6rem;
+                }
+            }
+        }
+    }
+
+    .topic-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .topic-footer-left {
+            display: flex;
+            align-items: center;
+
+            .topic-view-count {
+                margin-right: 1rem;
+                color: $fg-muted;
+                font-size: .875rem;
+                display: flex;
+                align-items: center;
+
+                i {
+                    margin-right: .3rem;
+                }
+            }
+
+            .topic-answer-count {
+                margin-right: 1rem;
+                color: $fg-muted;
+                font-size: .875rem;
+                display: flex;
+                align-items: center;
+
+                i {
+                    margin-right: .3rem;
+                }
+            }
+        }
+
+        .topic-footer-right {
+            display: flex;
+            align-items: center;
+            a {
+                font-size: .875rem;
+                width: 1rem;
+                height: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:not(:last-child) {
+                    margin-right: .5rem;
+                }
+            }
+        }
+    }
+}
+
+body.dark-mode {
+    .topic {
+        // background-color: $dark-bg-default-65;
+        // border: $dark-border;
+        // box-shadow: none;
+
+        .topic-header {
+            .topic-author {
+                color: #c9d1d9;
+
+                .author-level {
+                    color: #ffffff;
+                    background-color: $brand;
+                }
+
+                &:hover {
+                    color: #FFF;
+                }
+            }
+
+            .topic-create-date {
+                color: #c9d1d9;
+            }
+        }
+
+        .topic-body {
+
+            a {
+                color: #FFF;
+            }
+
+            p {
+                color: #c9d1d9;
+            }
+
+
+            ul {
+                li {
+                    a {
+                        color: #FFF;
+                        background-color: $brand;
+                    }
+                }
+            }
+        }
+
+        .topic-footer {
+            .topic-footer-left {
+                .topic-view-count {
+                    color: #c9d1d9;
+                }
+
+                .topic-answer-count {
+                    color: #c9d1d9;
+                }
+            }
+
+            .topic-footer-right {
+                a {
+                    color: #c9d1d9;
+
+                    &:hover {
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .topic-header {
+        flex-direction: column;
+
+        .topic-author {
+            margin-bottom: 1rem;
+        }
+    }
+}

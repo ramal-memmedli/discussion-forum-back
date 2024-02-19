@@ -1,0 +1,13 @@
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\bin\Debug\net8.0\CommuPoint.Common.deps.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\bin\Debug\net8.0\CommuPoint.Common.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\bin\Debug\net8.0\CommuPoint.Common.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.csproj.AssemblyReference.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.AssemblyInfoInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.AssemblyInfo.cs
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.csproj.CoreCompileInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.sourcelink.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\refint\CommuPoint.Common.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\CommuPoint.Common.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Common\obj\Debug\net8.0\ref\CommuPoint.Common.dll

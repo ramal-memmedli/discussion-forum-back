@@ -1,0 +1,27 @@
+footer {
+    // background-color: $bg-emphasis;
+    padding: 0 1rem;
+    border-radius: .5rem;
+    // backdrop-filter: blur(20px);
+    // border: $border;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+
+    .copyright {
+        font-size: .875rem;
+        color: $fg-default;
+    }
+}
+
+body.dark-mode {
+    footer {
+        // background-color: $dark-bg-default-65;
+        // border: $dark-border;
+        // box-shadow: none;
+    }
+
+    .copyright {
+        color: $dark-fg-default;
+    }
+}

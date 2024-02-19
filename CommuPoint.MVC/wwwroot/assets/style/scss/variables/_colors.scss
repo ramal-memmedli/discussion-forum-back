@@ -1,0 +1,56 @@
+/*Brand color*/
+
+$brand: rgba(215, 46, 39, 1);
+$brand-75: rgba(215, 46, 39, .75);
+
+
+/*Transition*/
+
+$t-slow: 500ms;
+$t-normal: 300ms;
+$t-fast: 150ms;
+
+/*light theme*/
+
+/*Foregrounds*/
+$fg-default: rgba(31 , 31, 31, 1);
+$fg-special: rgba(61, 61, 61, 1);
+$fg-secondary: rgba(91, 91, 91, 1);
+$fg-muted: rgba(194 , 194, 194, 1);
+
+/*Backgrounds*/
+$bg-emphasis: rgba(253, 247, 246, 1);
+$bg-emphasis-85: rgba(253, 247, 246, .85);
+
+$bg-default: rgba(251, 234, 233, 1);
+$bg-default-45: rgba(251, 234, 233, .25);
+$bg-default-65: rgba(251, 234, 233, .45);
+
+/*Shadows*/
+$default-shadow: rgba(149, 157, 165, 0.2) 0px 0px 24px;
+
+/*dark theme*/
+
+/*Border*/
+
+$dark-border: 1px solid rgba(255,255,255,.11);
+$border: rgba(0, 0, 0, .1) 1px solid;
+
+/*Foregrounds*/
+$dark-fg-default: rgba(251, 234, 233, 1);
+$dark-fg-muted: rgba(20,20,20, .5);
+
+/*Backgrounds*/
+$dark-bg-emphasis: rgba(0,0,0,1);
+$dark-bg-emphasis-45: rgba(0,0,0,.45);
+$dark-bg-emphasis-65: rgba(0,0,0,.65);
+
+
+$dark-bg-default: rgba(18,18,18,1);
+$dark-bg-default-25: rgba(18,18,18,.25);
+$dark-bg-default-45: rgba(18,18,18,.45);
+$dark-bg-default-65: rgba(18,18,18,.65);
+
+
+
+$special-font: 'Exo', sans-serif;

@@ -1,0 +1,172 @@
+nav#navbar {
+    overflow: hidden;
+
+    // background-color: $bg-emphasis-85;
+    // backdrop-filter: blur(20px);
+    // border: $border;
+    // border-radius: .5rem;
+    width: 100%;
+    height: calc(100vh - 1rem);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+
+    transition: $t-normal;
+    z-index: 1;
+
+    
+
+    ul {
+        display: flex;
+        flex-direction: column;
+
+        li {
+            a {
+                display: flex;
+                align-items: center;
+                color: $fg-default;
+                transition: 150ms ease-in-out;
+                width: 100%;
+                height: 3rem;
+                padding: 0 1rem;
+                overflow: hidden;
+                border-radius: .5rem;
+                margin-bottom: .5rem;
+
+                &.navbar-logo {
+                    display: flex;
+                    align-items: center;
+                    background-color: $dark-bg-default-45;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    font-family: $special-font;
+                    img {
+                        width: 2rem;
+                        height: 2rem;
+                        margin-right: .5rem;
+                    }
+                }
+
+                i {
+                    width: 2rem;
+                    height: 2rem;
+                    font-size: 1.25rem;
+                    margin-right: .5rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                &:hover {
+
+                    color: #24292f;
+                    background-color: rgba(255, 69, 0, .08);
+                }
+
+                &.mobile-user {
+                    user-select: none;
+                    display: none;
+
+                    img {
+                        width: 2rem;
+                        height: auto;
+                        aspect-ratio: 1 / 1;
+                        border-radius: 50%;
+                        margin-right: .5rem;
+                    }
+
+                    span {
+                        color: $fg-default;
+                    }
+
+                    i {
+                        color: $fg-default;
+                        margin-left: .5rem;
+                    }
+
+                    &:hover {
+                        span {
+                            color: #24292f;
+                        }
+
+                        i {
+                            color: #24292f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.mobile-navbar-open {
+        width: calc(100% - 1rem);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    nav#navbar {
+        left: .25rem;
+        right: .25rem;
+        width: auto;
+        height: 5rem;
+        padding: 0 1rem;
+        top: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        ul {
+            width: 100%;
+
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+
+            li {
+                a {
+                    margin-bottom: 0;
+
+                    &.mobile-user {
+                        display: flex;
+                    }
+                }
+            }
+        }
+
+        
+    }
+}
+
+body.dark-mode {
+    nav#navbar {
+        // background-color: $dark-bg-default-65;
+        // border: $dark-border;
+
+        ul {
+            li {
+                a {
+                    color: $dark-fg-default;
+
+                    &:hover {
+
+                        color: #FFF;
+                        background-color: rgba(255, 255, 255, .03);
+                    }
+                }
+            }
+        }
+
+        .mobile-user {
+            span {
+                color: $dark-fg-default;
+            }
+
+            i {
+                color: $dark-fg-default;
+            }
+        }
+    }
+}

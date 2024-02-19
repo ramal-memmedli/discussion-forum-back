@@ -1,0 +1,190 @@
+.header-user-box {
+    position: relative;
+    .header-user {
+        background-color: $bg-emphasis-85;
+        padding: .75rem 1rem;
+        border-radius: .5rem;
+        // border: $border;
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        transition: 150ms ease-in-out;
+        backdrop-filter: blur(8px);
+        height: 3rem;
+        margin-bottom: .5rem;
+
+        img {
+            width: 1.5rem;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        span {
+            color: $fg-default;
+            font-size: .875rem;
+        transition: 150ms ease-in-out;
+
+        }
+
+        .flex-separator {
+            flex: 1;
+        }
+
+        i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1rem;
+            height: 1rem;
+            color: $fg-default;
+            margin-left: 1rem;
+            font-weight: 600;
+        transition: 150ms ease-in-out;
+
+        }
+
+        &:hover {
+            background-color: $bg-emphasis;
+            span {
+                color: #24292f;
+            }
+
+            i {
+                color: #24292f;
+            }
+        }
+
+
+    }
+
+    .user-nav {
+    
+        border: $border;
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        background-color: #FFF;
+        position: absolute;
+        top: 3.5rem;
+        width: 100%;
+        display: none;
+        z-index: 1;
+        border-radius: .5rem;
+    
+        ul {
+            li {
+                a.sign-out-btn{
+                    &:hover {
+                        background-color: rgba(212, 28, 28, .25);
+                    }
+                }
+    
+                a {
+                    color: $fg-default;
+                    padding: .8rem;
+                    display: flex;
+                    align-items: center;
+                    transition: 150ms ease-in-out;
+                    font-size: .875rem;
+    
+                    i {
+                        margin-right: 1rem;
+                        width: 1rem;
+                        height: 1rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+    
+                    &:hover {
+                        color: #24292f;
+                        background-color: rgba(255, 69, 0, .08);
+                    }
+                }
+            }
+        }
+    
+        .user-nav-separator{
+            height: 1px;
+            margin: 0;
+            color: rgba(255, 255, 255, .45);
+        }
+    }
+}
+
+
+
+
+@media screen and (max-width: 992px) {
+    #headerUser {
+        display: none;
+    }
+
+    #userNav {
+        left: .5rem;
+        top: auto;
+        right: .5rem;
+        bottom: 6rem;
+        width: calc(100vw - 2rem);
+    }
+}
+
+body.dark-mode {
+    .header-user-box {
+        .header-user {
+            background-color: $dark-bg-default-45;
+            // border: $dark-border;
+            span {
+                color: $dark-fg-default;
+            }
+
+            i {
+                color: $dark-fg-default;
+            }
+
+            &:hover {
+
+                // border-color: rgba(255, 255, 255, .11);
+                background-color: $dark-bg-default-25;
+
+                span {
+                    color: #FFF;
+                }
+
+                i {
+                    color: #FFF;
+                }
+            }
+
+            &:active {
+                background-color: $dark-bg-default-25;
+            }
+        }
+    }
+
+    .user-nav {
+        background-color: $dark-bg-default-65;
+        border: $dark-border;
+        box-shadow: none;
+
+        ul {
+            li {
+                a.sign-out-btn{
+                    &:hover {
+                        background-color: rgba(212, 28, 28, .25);
+                    }
+                }
+                a {
+                    color: #c9d1d9;
+
+                    &:hover {
+                        color: #FFF;
+                        background-color: rgba(255, 255, 255, .03);
+                    }
+                }
+            }
+        }
+    }
+}

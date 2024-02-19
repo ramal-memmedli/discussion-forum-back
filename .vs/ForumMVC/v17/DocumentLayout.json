@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Ramal\\Documents\\Projects\\discussion-forum-back\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{C0F119E7-FE18-4C7E-9A8D-3B3701AA9BBA}|Solution Items{C0F119E7-FE18-4C7E-9A8D-3B3701AA9BBA}|C:\\Users\\Ramal\\Documents\\Projects\\discussion-forum-back\\README.MD||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{C0F119E7-FE18-4C7E-9A8D-3B3701AA9BBA}|Solution Items{C0F119E7-FE18-4C7E-9A8D-3B3701AA9BBA}|solutionrelative:README.MD||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -23,19 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "README.MD",
-              "DocumentMoniker": "C:\\Users\\Ramal\\Documents\\Projects\\discussion-forum-back\\README.MD",
-              "RelativeDocumentMoniker": "README.MD",
-              "ToolTip": "C:\\Users\\Ramal\\Documents\\Projects\\discussion-forum-back\\README.MD",
-              "RelativeToolTip": "README.MD",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2024-02-14T10:50:01.869Z",
-              "EditorCaption": ""
             }
           ]
         }

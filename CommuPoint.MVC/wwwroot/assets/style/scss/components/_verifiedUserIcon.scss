@@ -1,0 +1,41 @@
+.verified-profile, .verified-profile-small, .verified-profile-large {
+    background-color: $brand;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: .5rem;
+    width: 1.25rem;
+    height: 1.25rem;
+
+    i{
+        font-size: .75rem;
+        color: $fg-default;
+    }
+}
+
+.verified-profile-small {
+    width: 1rem;
+    height: 1rem;
+    
+    i {
+        font-size: .5rem;
+    }
+}
+
+.verified-profile-large {
+    width: 1.5rem;
+    height: 1.5rem;
+    
+    i {
+        font-size: 1rem;
+    }
+}
+
+body.dark-mode {
+    .verified-profile, .verified-profile-small, .verified-profile-large {    
+        i{
+            color: $dark-fg-default;
+        }
+    }
+}

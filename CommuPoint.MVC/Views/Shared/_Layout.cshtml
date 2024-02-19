@@ -1,0 +1,261 @@
+﻿@inject IDefaultValueService _defaultValueService;
+@inject UserManager<AppUser> _userService;
+@inject IImageService _imageService;
+@inject IUserImageService _userImageService;
+@inject RoleManager<IdentityRole> _roleService;
+
+@{
+    Dictionary<string, string> values = (await _defaultValueService.GetAll()).ToDictionary(n => n.Key, n => n.Value);
+
+    string currentUserImage = "";
+
+    if(User.Identity.IsAuthenticated)
+    {
+        AppUser currentUser = await _userService.FindByNameAsync(User.Identity.Name);
+        List<UserImage> userImages = await _userImageService.GetAllByUserId(currentUser.Id);
+
+        foreach (UserImage image in userImages)
+        {
+            if (image.Target == "profile")
+            {
+                currentUserImage = image.Image.Name;
+            }
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/assets/style/css/main.css">
+    <script src="https://kit.fontawesome.com/fed86a3182.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 nopadding">
+                <div class="main-left">
+                    <nav id="navbar">
+                        <ul>
+                            <li>
+                                <a asp-controller="home" asp-action="index" class="navbar-logo">
+                                    <img src="~/uploads/default/@values["AppLogo"]" alt="">
+                                </a>
+                            </li>
+                            <li><a asp-controller="home" asp-action="index"><i class="fa-solid fa-hashtag"></i> Flow</a></li>
+                            <li><a asp-controller="home" asp-action="index"><i class="fa-solid fa-users"></i> Communities</a></li>
+                            <li><a asp-controller="home" asp-action="index"><i class="fa-solid fa-rss"></i> Blog</a></li>
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a class="mobile-user header-user">
+                                        <img src="~/uploads/images/user/@currentUserImage" alt="">
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                        <div class="dark-mode-switch">
+                            <label class="switch" id="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                                <i class="fa-solid fa-sun"></i>
+                                <i class="fa-solid fa-moon"></i>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-6 nopadding">
+                <div class="main-center">
+                    <header class="">
+                        <form class="search-form" action="/search">
+                            <input type="text" placeholder="Search now" class="search-bar" id="searchBar">
+                            <i class="search-bar-icon fa-solid fa-magnifying-glass"></i>
+                        </form>
+                        <div class="search-area" id="searchResult">
+                            <div class="topic">
+                                <div class="topic-header">
+                                    <div class="topic-header-left">
+                                        <a href="#" class="topic-author">
+                                            <img class="author-image" src="./assets/images/logo.svg" alt="">
+                                            Ramal Memmedli
+                                            <a href="#" class="verified-profile-small"><i class="fa-solid fa-check"></i></a>
+                                        </a>
+                                        <i class="circle-separator fa-solid fa-circle"></i>
+                                        <p class="topic-create-date">2 min ago</p>
+                                    </div>
+                                    <div class="topic-header-right">
+                                        <a class="topic-actions" href=""><i class="fa-solid fa-ellipsis"></i></a>
+                                    </div>
+                                </div>
+                                <div class="topic-body">
+                                    <a href="./topic.html">Ekran Kartıma göre en iyi DirectX sürümü hangisidir ?</a>
+                                    <ul>
+                                        <li><a href="#">Technology</a></li>
+                                        <li><a href="#">GPU</a></li>
+                                        <li><a href="#">Software</a></li>
+                                        <li><a href="#">Technology</a></li>
+                                        <li><a href="#">GPU</a></li>
+                                        <li><a href="#">Software</a></li>
+                                    </ul>
+                                </div>
+                                <div class="topic-footer">
+                                    <div class="topic-footer-left">
+                                        <div class="topic-view-count">
+                                            <i class="fa-solid fa-eye"></i> <span class="view-count"> 43 Views</span>
+                                        </div>
+
+                                        <div class="topic-answer-count">
+                                            <i class="fa-solid fa-message"></i> <span class="answer-count"> 7 Answers</span>
+                                        </div>
+                                    </div>
+                                    <div class="topic-footer-right">
+                                        <a href="#"><i class="fa-solid fa-bookmark"></i></a>
+                                        <a href="#"><i class="fa-solid fa-share"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main>
+
+                        @RenderBody()
+
+                    </main>
+                </div>
+            </div>
+            <div class="col-lg-3 nopadding">
+                <div class="main-right">
+                    <div class="header-user-box">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="header-user" id="headerUser">
+                                <img src="~/uploads/images/user/@currentUserImage" alt="@User.Identity.Name">
+                                <span>@User.Identity.Name</span>
+                                <div class="flex-separator"> </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </a>
+                            <div class="user-nav" id="userNav">
+                                <ul>
+                                    <li><a asp-controller="user" asp-action="index" asp-route-id="@User.Identity.Name"><i class="fa-solid fa-user"></i> Your profile</a></li>
+                                    <li><a asp-controller="user" asp-action="bookmarks"><i class="fa-solid fa-bookmark"></i> Your bookmarks</a></li>
+                                    <li><a asp-controller="user" asp-action="index" asp-route-id="@User.Identity.Name"><i class="fa-solid fa-message"></i> Your topics</a></li>
+
+                                    @if (await _userService.IsInRoleAsync(await _userService.FindByNameAsync(User.Identity.Name), "Admin"))
+                                    {
+                                        <hr class="user-nav-separator">
+                                        <li><a asp-area="admin" asp-controller="dashboard" asp-action="index"><i class="fa-solid fa-screwdriver-wrench"></i> Admin panel</a></li>
+                                    }
+                                    <hr class="user-nav-separator">
+                                    <li><a class="sign-out-btn" asp-controller="account" asp-action="logout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a></li>
+                                </ul>
+                            </div>
+                        }else
+                        {
+                            <div class="login-register-btn-box">
+                                <a class="login-btn" asp-controller="account" asp-action="login">Login</a>
+                                <a class="register-btn" asp-controller="account" asp-action="register">Register</a>
+                            </div>
+                        }
+                    </div>
+                    <div class="sidebar-container">
+                        <div class="sidebar">
+
+                            <div class="categories">
+                                <div class="categories-header">
+                                    <a href="">Categories</a>
+                                </div>
+
+                                <ul>
+                                    <li><a href="">Technology</a></li>
+                                    <li><a href="">Coding</a></li>
+                                    <li><a href="">C#</a></li>
+                                    <li><a href="">.NET</a></li>
+                                    <li><a href="">Front end development</a></li>
+                                    <li><a href="">Oracle</a></li>
+                                    <li><a href="">CSS3</a></li>
+                                    <li><a href="">SQL</a></li>
+                                    <li><a href="">MVC</a></li>
+                                    <li><a href="">Java</a></li>
+                                    <li><a href="">HTML5</a></li>
+                                    <li><a href="">Spring</a></li>
+                                    <li><a href="">Back end development</a></li>
+                                    <li><a href="">Monolith</a></li>
+
+                                </ul>
+                            </div>
+
+                            <div class="categories">
+                                <div class="categories-header">
+                                    <a href="">Communities</a>
+                                </div>
+
+                                <ul>
+                                    <li><a href="">Technology</a></li>
+                                    <li><a href="">Coding</a></li>
+                                    <li><a href="">C#</a></li>
+                                    <li><a href="">.NET</a></li>
+                                    <li><a href="">Front end development</a></li>
+                                    <li><a href="">Oracle</a></li>
+                                    <li><a href="">CSS3</a></li>
+                                    <li><a href="">SQL</a></li>
+                                    <li><a href="">MVC</a></li>
+                                    <li><a href="">Java</a></li>
+                                    <li><a href="">HTML5</a></li>
+                                    <li><a href="">Spring</a></li>
+                                    <li><a href="">Back end development</a></li>
+                                    <li><a href="">Monolith</a></li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <footer>
+                        <p class="copyright">
+                            Forum Inc © 2022. All rights reserved
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/script/hamburger.js"></script>
+    <script src="~/assets/script/search.js"></script>
+    <script src="~/assets/script/userNav.js"></script>
+    <script src="~/assets/script/comment.js"></script>
+    <script src="~/assets/script/darkMode.js"></script>
+    <script src="~/assets/script/userProfilePage.js"></script>
+    @RenderSection("CkEditor", required: false)
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

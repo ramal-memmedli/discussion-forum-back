@@ -1,0 +1,16 @@
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\bin\Debug\net8.0\CommuPoint.Persistence.deps.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\bin\Debug\net8.0\CommuPoint.Persistence.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\bin\Debug\net8.0\CommuPoint.Persistence.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\bin\Debug\net8.0\CommuPoint.Core.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\bin\Debug\net8.0\CommuPoint.Core.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.csproj.AssemblyReference.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.AssemblyInfoInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.AssemblyInfo.cs
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.sourcelink.json
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoi.7BE8E492.Up2Date
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\refint\CommuPoint.Persistence.dll
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\CommuPoint.Persistence.pdb
+C:\Users\Ramal\Documents\Projects\discussion-forum-back\CommuPoint.Persistence\obj\Debug\net8.0\ref\CommuPoint.Persistence.dll

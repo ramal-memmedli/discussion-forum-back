@@ -1,0 +1,49 @@
+//Vendors
+
+@import "../../vendors/bootstrap-5.0.2-dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+//Variables
+
+@import "./variables/colors";
+
+//Components
+
+@import "./components/layout/layout";
+
+//layout-header
+@import "./components/layout/header/header";
+@import "./components/layout/header/headerUser";
+@import "./components/layout/header/searchBar";
+@import "./components/layout/header/hamburgerBtn";
+
+//layout-navbar
+@import "./components/layout/navbar/navbar";
+@import "./components/layout/navbar/darkModeSwitch";
+
+//layout-footer
+@import "./components/layout/footer/footer";
+
+//other-components
+@import "./components/sidebar";
+@import "./components/topic";
+@import "./components/flowNavbar";
+@import "./components/categories";
+@import "./components/verifiedUserIcon";
+
+//userpage
+@import "./components/userpage/userProfileBanner";
+@import "./components/userpage/userProfileHeader";
+@import "./components/userpage/profileCard";
+
+//Pages
+
+@import "./pages/index";
+@import "./pages/topic";
+@import "./pages/loginregister";
+@import "./pages/userProfile";
+
+
+//Defaults
+
+@import "./defaults";

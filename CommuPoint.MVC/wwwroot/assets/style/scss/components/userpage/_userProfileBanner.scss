@@ -1,0 +1,50 @@
+body {
+    position: relative;
+    .user-profile-banner {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: calc(80vh - 4rem);
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    
+        .profile-banner-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    
+        .profile-banner-image-color-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: $bg-default;
+            background: linear-gradient(0deg, $bg-default 0%, $bg-default-65 35%, $bg-default-45 100%);
+            backdrop-filter: blur(2px);
+        }
+    }
+}
+
+body.dark-mode {
+    main {
+        .user-profile-banner {
+            .profile-banner-image-color-layer {
+                background: $dark-bg-emphasis;
+                background: linear-gradient(0deg, $dark-bg-emphasis 0%, $dark-bg-emphasis-65 35%, $dark-bg-emphasis-45 100%);
+            }
+        }
+    }
+}

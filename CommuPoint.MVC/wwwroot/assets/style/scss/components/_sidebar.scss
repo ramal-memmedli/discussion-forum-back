@@ -1,0 +1,17 @@
+.sidebar {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    height: calc(100vh - 8rem);
+}
+
+.sidebar-container {
+    border-radius: .5rem;
+    overflow: hidden;
+    margin-bottom: .5rem;
+}
+
+body.dark-mode {
+    .sidebar {
+        
+    }
+}

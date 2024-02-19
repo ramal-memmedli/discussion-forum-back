@@ -1,0 +1,27 @@
+    main {
+        .index-page {
+            // position: absolute;
+            // left: 5rem;
+            // top: 5rem;
+            // bottom: 1rem;
+            // right: 1rem;
+            // z-index: 0;
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        main {
+            .index-page {
+                left: .25rem;
+                bottom: 3.5rem;
+            }
+        }
+    }
+
+    body.dark-mode {
+        main {
+            .main-flow {
+                //
+            }
+        }
+    }
