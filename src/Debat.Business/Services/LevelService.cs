@@ -1,16 +1,19 @@
 ﻿using Debat.Core.Application.Repositories;
 using Debat.Core.Application.Services;
 using Debat.Core.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Debat.Business.Services
 {
     public class LevelService : ILevelService
     {
         private readonly ILevelRepository _levelData;
+        private readonly UserManager<AppUser> _userManager;
 
-        public LevelService(ILevelRepository levelData)
+        public LevelService(ILevelRepository levelData, UserManager<AppUser> userManager)
         {
             _levelData = levelData;
+            _userManager = userManager;
         }
         public async Task<Level> Get(int id)
         {
@@ -64,6 +67,21 @@ namespace Debat.Business.Services
         public Task Update(Level entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UpgradeUserLevel(AppUser user)
+        {
+            List<Level> levels = await GetAll();
+
+            foreach (Level level in levels)
+            {
+                if (user.Point >= level.RequiredPoint)
+                {
+                    user.LevelId = level.Id;
+
+                    await _userManager.UpdateAsync(user);
+                }
+            }
         }
     }
 }

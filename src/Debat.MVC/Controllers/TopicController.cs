@@ -43,92 +43,15 @@ namespace Debat.MVC.Controllers
 
                 ViewBag.Title = "Topic - " + topic.Title;
 
-
-                topic.ViewCount = topic.ViewCount + 1;
-                await _topicService.Update(topic);
-
-                topicVM.Id = topic.Id;
-                topicVM.Title = topic.Title;
-                topicVM.Content = topic.Content;
-                topicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
-                topicVM.AuthorUsername = topic.Author.UserName;
-                topicVM.IsInBookmarks = await IsInBookmarks(topic.Id);
-                topicVM.AreYouAuthor = await IsSignedUserAuthor(topic.AuthorId);
-
-                List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
-
-                foreach (UserImage userImage in userImages)
-                {
-                    if (userImage.Target == "profile")
-                    {
-                        topicVM.AuthorImage = userImage.Image.Name;
-                    }
-                }
-
-                AppUser appUser = await _userManager.FindByIdAsync(topic.AuthorId);
-
-                Level userLevel = await _levelService.Get(appUser.LevelId);
-
-                topicVM.AuthorLevel = userLevel.Name;
-                topicVM.ViewCount = topic.ViewCount;
-                topicVM.CreateDate = topic.CreateDate;
-                topicVM.UpdateDate = topic.UpdateDate;
-
-                topicVM.AnswerCount = await _answerService.GetTotalCountByTopicId(topic.Id);
-
-                topicVM.TopicCategory = new GetTopicCategoryVM
-                {
-                    Id = topic.CategoryId,
-                    Name = topic.Category.Name
-                };
-
                 List<Answer> answers = await _answerService.GetAllByTopicId(topic.Id);
+
+                #region Answer
 
                 List<GetAnswerVM> getAnswersVM = new List<GetAnswerVM>();
 
                 foreach (Answer answer in answers)
                 {
                     GetAnswerVM answerVM = new GetAnswerVM();
-
-                    answerVM.Id = answer.Id;
-                    answerVM.Content = answer.Content;
-                    answerVM.CreateDate = answer.CreateDate;
-                    answerVM.AuthorFullname = answer.AppUser.Name + " " + answer.AppUser.Surname;
-                    answerVM.AuthorUsername = answer.AppUser.UserName;
-
-                    Level level = await _levelService.Get(answer.AppUser.LevelId);
-
-                    answerVM.AuthorLevel = level.Name;
-
-                    List<UserImage> answerUserImages = await _userImageService.GetAllByUserId(answer.AppUserId);
-
-                    foreach (UserImage answerUserImage in answerUserImages)
-                    {
-                        if (answerUserImage.Target == "profile")
-                        {
-                            answerVM.AuthorImage = answerUserImage.Image.Name;
-                        }
-                    }
-
-
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                        if (answer.AppUserId == you.Id)
-                        {
-                            answerVM.AreYouAuthor = true;
-                        }
-                        else
-                        {
-                            answerVM.AreYouAuthor = false;
-                        }
-                    }
-                    else
-                    {
-                        answerVM.AreYouAuthor = false;
-                    }
-
 
                     bool isVotedByYou = false;
                     string isUpVote = "";
@@ -137,47 +60,32 @@ namespace Debat.MVC.Controllers
 
                     foreach (AnswerVote vote in answer.AnswerVotes)
                     {
-                        if (User.Identity.IsAuthenticated)
+                        if (await IsSignedUserAuthor(vote.AppUserId))
                         {
-                            AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
+                            isVotedByYou = true;
 
-                            if (vote.AppUserId == you.Id)
+                            if (vote.IsUpVote)
                             {
-                                isVotedByYou = true;
-
-                                if (vote.IsUpVote)
-                                {
-                                    isUpVote = "up";
-                                }
-                                else
-                                {
-                                    isUpVote = "down";
-                                }
+                                isUpVote = "up";
+                            }
+                            else
+                            {
+                                isUpVote = "down";
                             }
                         }
 
 
                         if (vote.IsUpVote)
                         {
-                            upVotes = upVotes + 1;
+                            upVotes++;
                         }
                         else
                         {
-                            downVotes = downVotes + 1;
+                            downVotes++;
                         }
                     }
 
-                    if (downVotes > upVotes)
-                    {
-                        answerVM.VoteCount = 0;
-                    }
-                    else
-                    {
-                        answerVM.VoteCount = upVotes - downVotes;
-                    }
-
-                    answerVM.IsVotedByYou = isVotedByYou;
-                    answerVM.YourVote = isUpVote;
+                    #region Comment
 
                     List<GetCommentVM> commentVMs = new List<GetCommentVM>();
 
@@ -187,52 +95,42 @@ namespace Debat.MVC.Controllers
                     {
                         GetCommentVM getCommentVM = new GetCommentVM();
 
-                        getCommentVM.Id = comment.Id;
-                        getCommentVM.Content = comment.Content;
-                        getCommentVM.CreateDate = comment.CreateDate;
-                        getCommentVM.UpdateDate = comment.UpdateDate;
-                        getCommentVM.AuthorUsername = comment.AppUser.UserName;
-                        getCommentVM.AuthorFullname = comment.AppUser.Name + " " + comment.AppUser.Surname;
+                        getCommentVM.Map(comment,
+                                         (await _userImageService.GetUsersProfileImage(comment.AppUserId)).Name,
+                                         await IsSignedUserAuthor(comment.AppUserId));
 
-                        if (User.Identity.IsAuthenticated)
-                        {
-                            AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                            if (comment.AppUserId == you.Id)
-                            {
-                                getCommentVM.AreYouAuthor = true;
-                            }
-                            else
-                            {
-                                getCommentVM.AreYouAuthor = false;
-                            }
-                        }
-
-                        List<UserImage> commentUserImages = await _userImageService.GetAllByUserId(comment.AppUser.Id);
-
-                        foreach (UserImage commentUserImage in commentUserImages)
-                        {
-                            if (commentUserImage.Target == "profile")
-                            {
-                                getCommentVM.AuthorImage = commentUserImage.Image.Name;
-                            }
-                        }
                         commentVMs.Add(getCommentVM);
-
                     }
-                    answerVM.CommentCount = commentVMs.Count;
-                    answerVM.Comments = commentVMs;
+
+                    #endregion
+
+                    answerVM.Map(answer,
+                                 (await _userImageService.GetUsersProfileImage(answer.AppUserId)).Name,
+                                 (await _levelService.Get(answer.AppUser.LevelId)).Name,
+                                 await IsSignedUserAuthor(answer.AppUserId),
+                                 isVotedByYou,
+                                 isUpVote,
+                                 upVotes - downVotes,
+                                 commentVMs);
 
                     getAnswersVM.Add(answerVM);
 
+                    #endregion
                 }
 
-                topicVM.Answers = getAnswersVM;
+                topicVM.Map(topic,
+                            await IsInBookmarks(topic.Id),
+                            await IsSignedUserAuthor(topic.AuthorId),
+                            (await _userImageService.GetUsersProfileImage(topic.AuthorId)).Name,
+                            (await _levelService.Get(topic.Author.LevelId)).Name,
+                            getAnswersVM);
+
+                topic.ViewCount++;
+                await _topicService.Update(topic);
             }
             catch (Exception ex)
             {
                 return RedirectToAction(actionName: "notfound", controllerName: "home");
-
             }
 
             return View(topicVM);
@@ -242,9 +140,8 @@ namespace Debat.MVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Title = "New topic";
-
             ViewData["Categories"] = await GetCategories();
+            ViewBag.Title = "New topic";
             return View();
         }
 
@@ -254,7 +151,6 @@ namespace Debat.MVC.Controllers
         public async Task<IActionResult> Create(CreateTopicVM topicVM)
         {
             ViewData["Categories"] = await GetCategories();
-
 
             if (!ModelState.IsValid)
             {
@@ -267,29 +163,19 @@ namespace Debat.MVC.Controllers
             topic.Content = topicVM.Content;
             topic.CategoryId = topicVM.CategoryId;
 
-            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            topic.AuthorId = user.Id;
-
             try
             {
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                topic.AuthorId = user.Id;
+
                 await _topicService.Create(topic);
 
-                user.Point = user.Point + 100;
+                user.Point += 100;
 
                 await _userManager.UpdateAsync(user);
 
-                List<Level> levels = await _levelService.GetAll();
-
-                foreach (Level level in levels)
-                {
-                    if (user.Point >= level.RequiredPoint)
-                    {
-                        user.LevelId = level.Id;
-
-                        await _userManager.UpdateAsync(user);
-                    }
-                }
+                await _levelService.UpgradeUserLevel(user);
 
                 return RedirectToAction(actionName: "index", controllerName: "home");
             }
@@ -315,18 +201,13 @@ namespace Debat.MVC.Controllers
 
                 EditTopicVM topicVM = new EditTopicVM();
 
-                if (topic.AuthorId == you.Id)
-                {
-                    topicVM.Id = topic.Id;
-                    topicVM.Title = topic.Title;
-                    topicVM.Content = topic.Content;
-                    topicVM.CategoryId = topic.CategoryId;
-                }
-                else
-                {
+                if (!await IsSignedUserAuthor(topic.AuthorId))
                     return RedirectToAction(actionName: "notfound", controllerName: "home");
 
-                }
+                topicVM.Id = topic.Id;
+                topicVM.Title = topic.Title;
+                topicVM.Content = topic.Content;
+                topicVM.CategoryId = topic.CategoryId;
 
                 return View(topicVM);
             }
@@ -355,21 +236,17 @@ namespace Debat.MVC.Controllers
 
                 Topic topic = await _topicService.Get(id);
 
-                if (topic.AuthorId == you.Id)
-                {
-                    topic.Title = topicVM.Title;
-                    topic.Content = topicVM.Content;
-                    topic.CategoryId = topicVM.CategoryId;
-
-                    await _topicService.Update(topic);
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
-                }
-                else
-                {
+                if (!await IsSignedUserAuthor(topic.AuthorId))
                     return RedirectToAction(actionName: "notfound", controllerName: "home");
 
-                }
+
+                topic.Title = topicVM.Title;
+                topic.Content = topicVM.Content;
+                topic.CategoryId = topicVM.CategoryId;
+
+                await _topicService.Update(topic);
+
+                return RedirectToAction(actionName: "index", controllerName: "topic", new { topic.Id });
             }
             catch (Exception ex)
             {
@@ -384,377 +261,41 @@ namespace Debat.MVC.Controllers
         {
             try
             {
+                Topic topic = await _topicService.Get(id);
+
+                if (!await IsSignedUserAuthor(topic.AuthorId))
+                    return RedirectToAction(actionName: "notfound", controllerName: "home");
+
                 await _topicService.Delete(id);
                 return RedirectToAction(controllerName: "home", actionName: "index");
             }
             catch (Exception ex)
             {
                 return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> UseVote(int id, bool usedVote)
-        {
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                AppUser you = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                foreach (AnswerVote vote in answer.AnswerVotes)
-                {
-                    if (vote.AppUserId == you.Id)
-                    {
-                        vote.IsUpVote = usedVote;
-                    }
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { answer.TopicId });
-                }
-
-                AnswerVote answerVote = new()
-                {
-                    AnswerId = answer.Id,
-                    AppUserId = you.Id,
-                    IsUpVote = true
-                };
-
-                await _answerVoteService.Create(answerVote);
-
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { answer.TopicId });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public IActionResult PostAnswer(int id)
-        {
-            ViewBag.Title = "Post answer";
-
-            ViewData["TopicId"] = id;
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> PostAnswer(PostAnswerVM answerVM)
-        {
-            try
-            {
-                Topic topic = await _topicService.Get(answerVM.TopicId);
-
-                Answer answer = new Answer();
-                answer.TopicId = topic.Id;
-                answer.Content = answerVM.Content;
-
-                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                answer.AppUserId = user.Id;
-
-                await _answerService.Create(answer);
-
-                user.Point = user.Point + 100;
-
-                await _userManager.UpdateAsync(user);
-
-                List<Level> levels = await _levelService.GetAll();
-
-                foreach (Level level in levels)
-                {
-                    if (user.Point >= level.RequiredPoint)
-                    {
-                        user.LevelId = level.Id;
-
-                        await _userManager.UpdateAsync(user);
-                    }
-                }
-
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = topic.Id });
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> EditAnswer(int id)
-        {
-            ViewBag.Title = "Edit answer";
-
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                if (await IsSignedUserAuthor(answer.AppUserId))
-                {
-                    EditAnswerVM answerVM = new()
-                    {
-                        Id = answer.Id,
-                        Content = answer.Content,
-                        TopicId = answer.TopicId
-                    };
-
-                    return View(answerVM);
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> EditAnswer(int id, EditAnswerVM answerVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(answerVM);
-            }
-
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                if (await IsSignedUserAuthor(answer.AppUserId))
-                {
-                    answer.Content = answerVM.Content;
-
-                    await _answerService.Update(answer);
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> DeleteAnswer(int id)
-        {
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                if (await IsSignedUserAuthor(answer.AppUserId))
-                {
-                    await _answerService.Delete(answer.Id);
-                }
-
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin, User")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostComment(int id, string comment)
-        {
-            try
-            {
-                Answer answer = await _answerService.Get(id);
-
-                Comment newComment = new Comment();
-                newComment.AnswerId = id;
-                newComment.Content = comment;
-
-                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                if (User.Identity.IsAuthenticated)
-                {
-                    newComment.AppUserId = user.Id;
-                    await _commentService.Create(newComment);
-
-                    user.Point = user.Point + 50;
-
-                    await _userManager.UpdateAsync(user);
-
-                    List<Level> levels = await _levelService.GetAll();
-
-                    foreach (Level level in levels)
-                    {
-                        if (user.Point >= level.RequiredPoint)
-                        {
-                            user.LevelId = level.Id;
-
-                            await _userManager.UpdateAsync(user);
-                        }
-                    }
-                }
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-
-
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> DeleteComment(int id)
-        {
-            try
-            {
-                Comment comment = await _commentService.Get(id);
-
-                Answer answer = await _answerService.Get(comment.AnswerId);
-
-                if (await IsSignedUserAuthor(comment.AppUserId))
-                {
-                    await _commentService.Delete(comment.Id);
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = answer.TopicId });
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> AddToBookmarks(int id)
-        {
-            try
-            {
-                Topic topic = await _topicService.Get(id);
-
-                bool isInBookmarks = await IsInBookmarks(topic.Id);
-
-                if (!isInBookmarks)
-                {
-                    UserBookmark newBookmark = new UserBookmark();
-                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    newBookmark.AppUserId = user.Id;
-                    newBookmark.TopicId = topic.Id;
-
-                    await _bookmarkService.Create(newBookmark);
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = topic.Id });
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-            }
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> RemoveFromBookmarks(int id)
-        {
-            try
-            {
-                Topic topic = await _topicService.Get(id);
-
-                bool isInBookmarks = await IsInBookmarks(topic.Id);
-
-                if (isInBookmarks)
-                {
-                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    UserBookmark bookmark = await _bookmarkService.GetByTopicId(topic.Id);
-
-                    await _bookmarkService.Delete(bookmark.Id);
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { id = topic.Id });
-                }
-                else
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(actionName: "notfound", controllerName: "home");
-
             }
         }
 
         private async Task<bool> IsInBookmarks(int id)
         {
-            try
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-                    List<UserBookmark> bookmarks = await _bookmarkService.GetAllByUserId(user.Id);
-
-                    bool isIn = false;
-
-                    foreach (UserBookmark bookmark in bookmarks)
-                    {
-                        if (bookmark.TopicId == id)
-                        {
-                            isIn = true;
-                            break;
-                        }
-                    }
-
-                    return isIn;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
+            if (!User.Identity.IsAuthenticated)
                 return false;
+
+            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            List<UserBookmark> bookmarks = await _bookmarkService.GetAllByUserId(user.Id);
+
+            bool isIn = false;
+
+            foreach (UserBookmark bookmark in bookmarks)
+            {
+                if (bookmark.TopicId == id)
+                {
+                    isIn = true;
+                    break;
+                }
             }
+
+            return isIn;
         }
 
         private async Task<List<Category>> GetCategories()

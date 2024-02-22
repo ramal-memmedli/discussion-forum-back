@@ -79,6 +79,44 @@ namespace Debat.Business.Services
             await _userImageData.UpdateAsync(entity);
         }
 
+        public async Task<Image> GetUsersProfileImage(string id)
+        {
+            List<UserImage> userImages = await GetAllByUserId(id);
 
+            foreach (UserImage userImage in userImages)
+            {
+                if (userImage.Target == "profile")
+                {
+                    if (userImages is null)
+                    {
+                        throw new NullReferenceException();
+                    }
+
+                    return userImage.Image;
+                }
+            }
+
+            throw new NullReferenceException();
+        }
+
+        public async Task<Image> GetUsersProfileBanner(string id)
+        {
+            List<UserImage> userImages = await GetAllByUserId(id);
+
+            foreach (UserImage userImage in userImages)
+            {
+                if (userImage.Target == "banner")
+                {
+                    if (userImages is null)
+                    {
+                        throw new NullReferenceException();
+                    }
+
+                    return userImage.Image;
+                }
+            }
+
+            throw new NullReferenceException();
+        }
     }
 }

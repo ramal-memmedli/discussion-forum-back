@@ -40,98 +40,59 @@ namespace Debat.MVC.Controllers
             {
                 AppUser user = await _userManager.FindByNameAsync(id);
 
+                ViewBag.Title = user.Name + " " + user.Surname;
+
+                Image profileImage = await _userImageService.GetUsersProfileImage(user.Id);
+                Image bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
+
+                Level level = await _levelService.Get(user.LevelId);
+
                 GetUserVM userVM = new GetUserVM()
                 {
                     Name = user.Name,
                     Surname = user.Surname,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    ProfileImage = profileImage.Name,
+                    BannerImage = bannerImage.Name,
+                    Level = level.Name
                 };
-
-                ViewBag.Title = user.Name + " " + user.Surname;
-
-                try
-                {
-                    List<UserImage> userImages = await _userImageService.GetAllByUserId(user.Id);
-
-                    foreach (UserImage userImage in userImages)
-                    {
-                        if (userImage.Target == "profile")
-                        {
-                            userVM.ProfileImage = userImage.Image.Name;
-                        }
-                        if (userImage.Target == "banner")
-                        {
-                            userVM.BannerImage = userImage.Image.Name;
-                        }
-                    }
-
-                    Level level = await _levelService.Get(user.LevelId);
-
-                    userVM.Level = level.Name;
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-
-
-
                 userProfile.User = userVM;
+
+
+
+                topics = await _topicService.GetAllByAuthor(user.Id);
+
+                foreach (Topic topic in topics)
+                {
+                    GetTopicVM getTopicVM = new GetTopicVM();
+
+                    getTopicVM.Id = topic.Id;
+                    getTopicVM.Title = topic.Title;
+                    getTopicVM.Content = topic.Content;
+                    getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
+                    getTopicVM.AuthorUsername = topic.Author.UserName;
+                    getTopicVM.AuthorLevel = level.Name;
+                    getTopicVM.AuthorImage = profileImage.Name;
+                    getTopicVM.ViewCount = topic.ViewCount;
+                    getTopicVM.CreateDate = topic.CreateDate;
+                    getTopicVM.UpdateDate = topic.UpdateDate;
+
+                    getTopicVM.TopicCategory = new GetTopicCategoryVM
+                    {
+                        Id = topic.CategoryId,
+                        Name = topic.Category.Name
+                    };
+
+                    topicVMs.Add(getTopicVM);
+                }
+
                 userProfile.Topics = topicVMs;
 
-                try
-                {
-                    topics = await _topicService.GetAllByAuthor(user.Id);
-                    Level level = await _levelService.Get(user.LevelId);
-
-                    foreach (Topic topic in topics)
-                    {
-                        GetTopicVM getTopicVM = new GetTopicVM();
-
-                        getTopicVM.Id = topic.Id;
-                        getTopicVM.Title = topic.Title;
-                        getTopicVM.Content = topic.Content;
-                        getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
-                        getTopicVM.AuthorUsername = topic.Author.UserName;
-                        getTopicVM.AuthorLevel = level.Name;
-
-
-                        List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
-
-                        foreach (UserImage userImage in userImages)
-                        {
-                            if (userImage.Target == "profile")
-                            {
-                                getTopicVM.AuthorImage = userImage.Image.Name;
-                            }
-                        }
-
-                        getTopicVM.ViewCount = topic.ViewCount;
-                        getTopicVM.CreateDate = topic.CreateDate;
-                        getTopicVM.UpdateDate = topic.UpdateDate;
-
-                        getTopicVM.TopicCategory = new GetTopicCategoryVM
-                        {
-                            Id = topic.CategoryId,
-                            Name = topic.Category.Name
-                        };
-
-                        topicVMs.Add(getTopicVM);
-                    }
-
-                    userProfile.User.TopicCount = topics.Count;
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
+                userProfile.User.TopicCount = topics.Count;
             }
             catch (Exception)
             {
                 return RedirectToAction(actionName: "notfound", controllerName: "home");
-
             }
 
             return View(userProfile);
@@ -141,109 +102,72 @@ namespace Debat.MVC.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Bookmarks()
         {
-            AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            ViewBag.Title = user.Name + " " + user.Surname + " - Bookmarks";
+            UserProfileVM userProfile = new UserProfileVM();
 
             try
             {
+                List<GetTopicVM> topicVMs = new List<GetTopicVM>();
+
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                ViewBag.Title = user.Name + " " + user.Surname + " - Bookmarks";
+
+                Image profileImage = await _userImageService.GetUsersProfileImage(user.Id);
+                Image bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
+
+                Level level = await _levelService.Get(user.LevelId);
+
+                List<UserBookmark> bookmarks = await _bookmarkService.GetAllByUserId(user.Id);
+
                 GetUserVM userVM = new GetUserVM()
                 {
                     Name = user.Name,
                     Surname = user.Surname,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    ProfileImage = profileImage.Name,
+                    BannerImage = bannerImage.Name,
+                    Level = level.Name,
                 };
 
-
-                try
+                foreach (UserBookmark bookmark in bookmarks)
                 {
-                    List<UserImage> userImages = await _userImageService.GetAllByUserId(user.Id);
+                    Topic topic = await _topicService.Get(bookmark.TopicId);
 
-                    foreach (UserImage userImage in userImages)
+                    Image authorsProfileImage = await _userImageService.GetUsersProfileImage(user.Id);
+
+                    Level authorLevel = await _levelService.Get(topic.Author.LevelId);
+
+                    GetTopicVM getTopicVM = new GetTopicVM();
+
+                    getTopicVM.Id = topic.Id;
+                    getTopicVM.Title = topic.Title;
+                    getTopicVM.Content = topic.Content;
+                    getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
+                    getTopicVM.AuthorUsername = topic.Author.UserName;
+                    getTopicVM.AuthorLevel = level.Name;
+                    getTopicVM.AuthorImage = authorsProfileImage.Name;
+                    getTopicVM.ViewCount = topic.ViewCount;
+                    getTopicVM.CreateDate = topic.CreateDate;
+                    getTopicVM.UpdateDate = topic.UpdateDate;
+
+                    getTopicVM.TopicCategory = new GetTopicCategoryVM
                     {
-                        if (userImage.Target == "profile")
-                        {
-                            userVM.ProfileImage = userImage.Image.Name;
-                        }
-                        if (userImage.Target == "banner")
-                        {
-                            userVM.BannerImage = userImage.Image.Name;
-                        }
-                    }
+                        Id = topic.CategoryId,
+                        Name = topic.Category.Name
+                    };
 
-                    Level level = await _levelService.Get(user.LevelId);
-
-                    userVM.Level = level.Name;
+                    topicVMs.Add(getTopicVM);
                 }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-
-
-                List<UserBookmark> bookmarks = await _bookmarkService.GetAllByUserId(user.Id);
-
-                List<GetTopicVM> topicVMs = new List<GetTopicVM>();
-
-                UserProfileVM userProfile = new UserProfileVM();
 
                 userProfile.User = userVM;
                 userProfile.Topics = topicVMs;
-
-                try
-                {
-                    foreach (UserBookmark bookmark in bookmarks)
-                    {
-                        Topic topic = await _topicService.Get(bookmark.TopicId);
-
-                        Level level = await _levelService.Get(topic.Author.LevelId);
-
-                        GetTopicVM getTopicVM = new GetTopicVM();
-
-                        getTopicVM.Id = topic.Id;
-                        getTopicVM.Title = topic.Title;
-                        getTopicVM.Content = topic.Content;
-                        getTopicVM.AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
-                        getTopicVM.AuthorUsername = topic.Author.UserName;
-                        getTopicVM.AuthorLevel = level.Name;
-
-                        List<UserImage> userImages = await _userImageService.GetAllByUserId(topic.AuthorId);
-
-                        foreach (UserImage userImage in userImages)
-                        {
-                            if (userImage.Target == "profile")
-                            {
-                                getTopicVM.AuthorImage = userImage.Image.Name;
-                            }
-                        }
-
-                        getTopicVM.ViewCount = topic.ViewCount;
-                        getTopicVM.CreateDate = topic.CreateDate;
-                        getTopicVM.UpdateDate = topic.UpdateDate;
-
-                        getTopicVM.TopicCategory = new GetTopicCategoryVM
-                        {
-                            Id = topic.CategoryId,
-                            Name = topic.Category.Name
-                        };
-
-                        topicVMs.Add(getTopicVM);
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return RedirectToAction(actionName: "notfound", controllerName: "home");
-
-                }
-                return View(userProfile);
             }
             catch (Exception ex)
             {
                 return RedirectToAction(actionName: "notfound", controllerName: "home");
-
             }
+
+            return View(userProfile);
         }
 
         [HttpGet]
