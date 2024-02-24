@@ -19,28 +19,5 @@ namespace Debat.Core.Application.ViewModels
         public DateTime? UpdateDate { get; set; }
         public GetTopicCategoryVM TopicCategory { get; set; }
         public List<GetAnswerVM> Answers { get; set; }
-
-        public void Map(Topic topic, bool isInBookmarks, bool areYouAuthor, string authorImage, string authorLevel, List<GetAnswerVM> answerVM)
-        {
-            Id = topic.Id;
-            AuthorFullName = topic.Author.Name + " " + topic.Author.Surname;
-            AuthorUsername = topic.Author.UserName;
-            AuthorLevel = authorLevel;
-            AuthorImage = authorImage;
-            Title = topic.Title;
-            Content = topic.Content;
-            ViewCount = topic.ViewCount;
-            AnswerCount = answerVM.Count;
-            AreYouAuthor = areYouAuthor;
-            IsInBookmarks = isInBookmarks;
-            CreateDate = topic.CreateDate;
-            UpdateDate = topic.UpdateDate;
-            TopicCategory = new GetTopicCategoryVM
-            {
-                Id = topic.CategoryId,
-                Name = topic.Category.Name
-            };
-            Answers = answerVM;
-        }
     }
 }

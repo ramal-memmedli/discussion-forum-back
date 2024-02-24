@@ -1,4 +1,5 @@
-﻿using Debat.Core.Application.Services;
+﻿using Debat.Core.Application.Mappings;
+using Debat.Core.Application.Services;
 using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -95,35 +96,32 @@ namespace Debat.MVC.Controllers
                     {
                         GetCommentVM getCommentVM = new GetCommentVM();
 
-                        getCommentVM.Map(comment,
-                                         (await _userImageService.GetUsersProfileImage(comment.AppUserId)).Name,
-                                         await IsSignedUserAuthor(comment.AppUserId));
+                        getCommentVM = comment.MapToVM((await _userImageService.GetUsersProfileImage(comment.AppUserId)).Name,
+                                                       await IsSignedUserAuthor(comment.AppUserId));
 
                         commentVMs.Add(getCommentVM);
                     }
 
                     #endregion
 
-                    answerVM.Map(answer,
-                                 (await _userImageService.GetUsersProfileImage(answer.AppUserId)).Name,
-                                 (await _levelService.Get(answer.AppUser.LevelId)).Name,
-                                 await IsSignedUserAuthor(answer.AppUserId),
-                                 isVotedByYou,
-                                 isUpVote,
-                                 upVotes - downVotes,
-                                 commentVMs);
+                    answerVM = answer.MapToVM((await _userImageService.GetUsersProfileImage(answer.AppUserId)).Name,
+                                              (await _levelService.Get(answer.AppUser.LevelId)).Name,
+                                              await IsSignedUserAuthor(answer.AppUserId),
+                                              isVotedByYou,
+                                              isUpVote,
+                                              upVotes - downVotes,
+                                              commentVMs);
 
                     getAnswersVM.Add(answerVM);
 
                     #endregion
                 }
 
-                topicVM.Map(topic,
-                            await IsInBookmarks(topic.Id),
-                            await IsSignedUserAuthor(topic.AuthorId),
-                            (await _userImageService.GetUsersProfileImage(topic.AuthorId)).Name,
-                            (await _levelService.Get(topic.Author.LevelId)).Name,
-                            getAnswersVM);
+                topicVM = topic.MapToVM(await IsInBookmarks(topic.Id),
+                                        await IsSignedUserAuthor(topic.AuthorId),
+                                        (await _userImageService.GetUsersProfileImage(topic.AuthorId)).Name,
+                                        (await _levelService.Get(topic.Author.LevelId)).Name,
+                                        getAnswersVM);
 
                 topic.ViewCount++;
                 await _topicService.Update(topic);
@@ -153,21 +151,13 @@ namespace Debat.MVC.Controllers
             ViewData["Categories"] = await GetCategories();
 
             if (!ModelState.IsValid)
-            {
                 return View(topicVM);
-            }
-
-            Topic topic = new Topic();
-
-            topic.Title = topicVM.Title;
-            topic.Content = topicVM.Content;
-            topic.CategoryId = topicVM.CategoryId;
 
             try
             {
                 AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-                topic.AuthorId = user.Id;
+                Topic topic = topicVM.MapToModel(user.Id);
 
                 await _topicService.Create(topic);
 

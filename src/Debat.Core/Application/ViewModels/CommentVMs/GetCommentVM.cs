@@ -12,17 +12,5 @@ namespace Debat.Core.Application.ViewModels
         public string AuthorFullname { get; set; }
         public string AuthorImage { get; set; }
         public bool AreYouAuthor { get; set; }
-
-        public void Map(Comment comment, string authorImage, bool areYouUser)
-        {
-            Id = comment.Id;
-            Content = comment.Content;
-            CreateDate = comment.CreateDate;
-            UpdateDate = comment.UpdateDate;
-            AuthorUsername = comment.AppUser.UserName;
-            AuthorFullname = comment.AppUser.Name + " " + comment.AppUser.Surname;
-            AuthorImage = authorImage;
-            AreYouAuthor = areYouUser;
-    }
     }
 }
