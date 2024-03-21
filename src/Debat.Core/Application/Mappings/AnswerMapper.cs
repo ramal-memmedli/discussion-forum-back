@@ -35,6 +35,8 @@ namespace Debat.Core.Application.Mappings
             vm.VoteCount = voteCount;
             vm.CommentCount = commentsVM.Count;
             vm.Comments = commentsVM;
+
+            return vm;
         }
     }
 }

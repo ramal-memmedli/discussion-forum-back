@@ -168,9 +168,8 @@ namespace Debat.MVC.Controllers
                     if (vote.AppUserId == you.Id)
                     {
                         vote.IsUpVote = usedVote;
+                        return RedirectToAction(actionName: "index", controllerName: "topic", routeValues: new { id = answer.TopicId });
                     }
-
-                    return RedirectToAction(actionName: "index", controllerName: "topic", new { answer.TopicId });
                 }
 
                 AnswerVote answerVote = new()
@@ -182,7 +181,7 @@ namespace Debat.MVC.Controllers
 
                 await _answerVoteService.Create(answerVote);
 
-                return RedirectToAction(actionName: "index", controllerName: "topic", new { answer.TopicId });
+                return RedirectToAction(actionName: "index", controllerName: "topic", routeValues: new { id = answer.TopicId });
             }
             catch (Exception ex)
             {

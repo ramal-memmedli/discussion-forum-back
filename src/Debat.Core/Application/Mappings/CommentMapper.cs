@@ -24,6 +24,7 @@ namespace Debat.Core.Application.Mappings
             vm.AuthorFullname = comment.AppUser.Name + " " + comment.AppUser.Surname;
             vm.AuthorImage = authorImage;
             vm.AreYouAuthor = areYouUser;
+            return vm;
         }
     }
 }
