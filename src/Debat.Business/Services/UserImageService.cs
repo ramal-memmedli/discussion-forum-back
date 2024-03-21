@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Repositories;
+using Debat.Core.Application.Repositories;
 using Debat.Core.Application.Services;
 using Debat.Core.Domain.Entities;
 
@@ -25,7 +25,7 @@ namespace Debat.Business.Services
             return image;
         }
 
-        public async Task<List<UserImage>> GetAllByUserId(string id)
+        public async Task<List<UserImage>> GetAllByUserId(string? id)
         {
             List<UserImage> images = await _userImageData.GetAllAsync(null, true, n => n.AppUserId == id, "Image");
 
@@ -79,7 +79,7 @@ namespace Debat.Business.Services
             await _userImageData.UpdateAsync(entity);
         }
 
-        public async Task<Image> GetUsersProfileImage(string id)
+        public async Task<Image?> GetUsersProfileImage(string? id)
         {
             List<UserImage> userImages = await GetAllByUserId(id);
 
@@ -99,7 +99,7 @@ namespace Debat.Business.Services
             throw new NullReferenceException();
         }
 
-        public async Task<Image> GetUsersProfileBanner(string id)
+        public async Task<Image?> GetUsersProfileBanner(string? id)
         {
             List<UserImage> userImages = await GetAllByUserId(id);
 

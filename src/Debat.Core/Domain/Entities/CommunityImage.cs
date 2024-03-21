@@ -1,14 +1,13 @@
 ﻿using Debat.Core.Domain.Models.Abstract;
 
-namespace Debat.Core.Domain.Entities
+namespace Debat.Core.Domain.Entities;
+
+public class CommunityImage : IEntity
 {
-    public class CommunityImage : IEntity
-    {
-        public int Id { get; set; }
-        public int CommunityId { get; set; }
-        public Community Community { get; set; }
-        public int ImageId { get; set; }
-        public Image Image { get; set; }
-        public string Target { get; set; }
-    }
+    public int Id { get; set; }
+    public int CommunityId { get; set; }
+    public Community? Community { get; set; }
+    public int ImageId { get; set; }
+    public Image? Image { get; set; }
+    public string? Target { get; set; }
 }

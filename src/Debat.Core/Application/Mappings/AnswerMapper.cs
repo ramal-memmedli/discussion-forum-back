@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.ViewModels;
+using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,8 +12,8 @@ namespace Debat.Core.Application.Mappings
     public static class AnswerMapper
     {
         public static GetAnswerVM MapToVM(this Answer answer,
-                                          string authorImage,
-                                          string authorLevel,
+                                          string? authorImage,
+                                          string? authorLevel,
                                           bool areYouAuthor,
                                           bool isVotedByYou,
                                           string yourVote,

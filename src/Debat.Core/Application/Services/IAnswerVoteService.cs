@@ -1,9 +1,8 @@
 ﻿using Debat.Core.Domain.Entities;
 using Debat.Core.Domain.Models.Abstract;
 
-namespace Debat.Core.Application.Services
+namespace Debat.Core.Application.Services;
+
+public interface IAnswerVoteService : IBaseService<AnswerVote>
 {
-    public interface IAnswerVoteService : IBaseService<AnswerVote>
-    {
-    }
 }

@@ -1,4 +1,4 @@
-﻿@inject IDefaultValueService _defaultValueService;
+@inject IDefaultValueService _defaultValueService;
 @inject UserManager<AppUser> _userService;
 @inject IImageService _imageService;
 @inject IUserImageService _userImageService;
@@ -7,7 +7,7 @@
 @{
     Dictionary<string, string> values = (await _defaultValueService.GetAll()).ToDictionary(n => n.Key, n => n.Value);
 
-    string currentUserImage = "";
+    string? currentUserImage = "";
 
     if(User.Identity.IsAuthenticated)
     {

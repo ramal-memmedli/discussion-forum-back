@@ -1,6 +1,3 @@
-﻿namespace Debat.Core.Domain.Models.Abstract
-{
-    public interface IEntity
-    {
-    }
-}
+﻿namespace Debat.Core.Domain.Models.Abstract;
+
+public interface IEntity{}

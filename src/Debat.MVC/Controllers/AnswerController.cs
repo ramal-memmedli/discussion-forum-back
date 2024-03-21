@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Services;
+using Debat.Core.Application.Services;
 using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +19,15 @@ namespace Debat.MVC.Controllers
         private readonly IAnswerVoteService _answerVoteService;
         private readonly IBookmarkService _bookmarkService;
 
-        public AnswerController(ITopicService topicService, UserManager<AppUser> userManager, IUserImageService userImageService, ICategoryService categoryService, ILevelService levelService, IAnswerService answerService, ICommentService commentService, IAnswerVoteService answerVoteService, IBookmarkService bookmarkService)
+        public AnswerController(ITopicService topicService,
+            UserManager<AppUser> userManager,
+            IUserImageService userImageService,
+            ICategoryService categoryService,
+            ILevelService levelService,
+            IAnswerService answerService,
+            ICommentService commentService,
+            IAnswerVoteService answerVoteService,
+            IBookmarkService bookmarkService)
         {
             _topicService = topicService;
             _userManager = userManager;
@@ -192,7 +200,7 @@ namespace Debat.MVC.Controllers
 
 
         // Copied temporarily
-        private async Task<bool> IsSignedUserAuthor(string authorId)
+        private async Task<bool> IsSignedUserAuthor(string? authorId)
         {
             if (User.Identity.IsAuthenticated)
             {

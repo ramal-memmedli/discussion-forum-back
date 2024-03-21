@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Services;
+using Debat.Core.Application.Services;
 using Debat.Core.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +39,7 @@ namespace Debat.MVC.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin, User")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PostComment(int id, string comment)
+        public async Task<IActionResult> PostComment(int id, string? comment)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Debat.MVC.Controllers
         }
 
         // Copied temporarily
-        private async Task<bool> IsSignedUserAuthor(string authorId)
+        private async Task<bool> IsSignedUserAuthor(string? authorId)
         {
             if (User.Identity.IsAuthenticated)
             {

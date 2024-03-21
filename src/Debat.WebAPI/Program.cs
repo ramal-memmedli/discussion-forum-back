@@ -4,6 +4,7 @@ using Debat.Core.Application.Services;
 using Debat.Core.Application.Validators;
 using Debat.Core.Domain.Entities;
 using Debat.Persistence.AppDbContext;
+using Debat.WebAPI.Controllers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -57,6 +58,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapAccountEndpoints();
 
 app.UseAuthentication();
 app.UseAuthorization();

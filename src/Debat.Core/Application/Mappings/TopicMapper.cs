@@ -1,11 +1,11 @@
-﻿using Debat.Core.Application.ViewModels;
+using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 
 namespace Debat.Core.Application.Mappings
 {
     public static class TopicMapper
     {
-        public static GetTopicVM MapToVM(this Topic topic, bool isInBookmarks, bool areYouAuthor, string authorImage, string authorLevel, List<GetAnswerVM> answerVM)
+        public static GetTopicVM MapToVM(this Topic topic, bool isInBookmarks, bool areYouAuthor, string? authorImage, string? authorLevel, List<GetAnswerVM> answerVM)
         {
             GetTopicVM vm = new GetTopicVM();
 
@@ -33,7 +33,7 @@ namespace Debat.Core.Application.Mappings
         }
 
         public static Topic MapToModel(this CreateTopicVM topicVM,
-                                       string userId)
+                                       string? userId)
         {
             Topic topic = new Topic();
 

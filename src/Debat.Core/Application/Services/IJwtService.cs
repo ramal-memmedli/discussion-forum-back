@@ -1,9 +1,8 @@
 ﻿using Debat.Core.Domain.Entities;
 
-namespace Debat.Core.Application.Services
+namespace Debat.Core.Application.Services;
+
+public interface IJwtService
 {
-    public interface IJwtService
-    {
-        string GenerateToken(AppUser user);
-    }
+    string GenerateToken(AppUser user);
 }

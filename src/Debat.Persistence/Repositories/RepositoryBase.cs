@@ -2,151 +2,133 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Debat.Persistence.Repositories
+namespace Debat.Persistence.Repositories;
+
+public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBase<TEntity>
+    where TEntity : class, IEntity, new()
+    where TContext : DbContext
 {
-    public class RepositoryBase<TEntity, TContext> : IRepositoryBase<TEntity>
-        where TEntity : class, IEntity, new()
-        where TContext : DbContext
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
     {
-        private readonly TContext _context;
+        return await GetQuery(expression, includes).FirstOrDefaultAsync();
+    }
 
-        public RepositoryBase(TContext context)
-        {
-            _context = context;
-        }
+    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, object>> orderBy = null,
+        bool isAscending = true,
+        Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
+    {
+        return await GetAllQuery(isAscending,
+            orderBy,
+            expression,
+            includes).ToListAsync();
+    }
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = GetQuery(expression, includes);
+    public async Task<List<TEntity>> GetAllPaginatedAsync(int currentPage,
+        int pageCapacity,
+        Expression<Func<TEntity, object>> orderBy = null,
+        bool isAscending = true,
+        Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
+    {
+        return await GetAllPaginatedQuery(currentPage,
+            pageCapacity,
+            isAscending,
+            orderBy,
+            expression,
+            includes).ToListAsync();
+    }
 
-            TEntity entity = await query.FirstOrDefaultAsync();
+    public async Task<int> GetTotalCountAsync(Expression<Func<TEntity, bool>> expression = null)
+    {
+        return expression is null
+            ? await context.Set<TEntity>().CountAsync()
+            : await context.Set<TEntity>().Where(expression).CountAsync();
+    }
 
-            return entity;
-        }
+    public async Task AddAsync(TEntity entity)
+    {
+        var data = context.Entry(entity);
+        data.State = EntityState.Added;
+        await context.SaveChangesAsync();
+    }
 
-        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, object>> orderBy = null, bool isAscending = true, Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = GetAllQuery(isAscending, orderBy, expression, includes);
+    public async Task UpdateAsync(TEntity entity)
+    {
+        var data = context.Entry(entity);
+        data.State = EntityState.Modified;
+        await context.SaveChangesAsync();
+    }
 
-            List<TEntity> entities = await query.ToListAsync();
+    public async Task DeleteAsync(TEntity entity)
+    {
+        var data = context.Entry(entity);
+        data.State = EntityState.Deleted;
+        await context.SaveChangesAsync();
+    }
 
-            return entities;
-        }
+    private IQueryable<TEntity> GetQuery(Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
+    {
+        IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().AsQueryable();
 
-        public async Task<List<TEntity>> GetAllPaginatedAsync(int currentPage, int pageCapacity, Expression<Func<TEntity, object>> orderBy = null, bool isAscending = true, Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = GetAllPaginatedQuery(currentPage, pageCapacity, isAscending, orderBy, expression, includes);
+        if (expression != null) query = AddExpressionToQuery(query, expression);
 
-            List<TEntity> entities = await query.ToListAsync();
+        if (includes != null) query = AddIncludesToQuery(query, includes);
 
-            return entities;
-        }
+        return query;
+    }
 
-        public async Task<int> GetTotalCountAsync(Expression<Func<TEntity, bool>> expression = null)
-        {
-            int entityCount = expression is null
-                ? await _context.Set<TEntity>().CountAsync()
-                : await _context.Set<TEntity>().Where(expression).CountAsync();
+    private IQueryable<TEntity> GetAllQuery(bool isAscending,
+        Expression<Func<TEntity, object>> orderBy = null,
+        Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
+    {
+        IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().AsQueryable();
 
-            return entityCount;
-        }
+        if (expression != null) query = AddExpressionToQuery(query, expression);
 
-        public async Task AddAsync(TEntity entity)
-        {
-            var data = _context.Entry(entity);
-            data.State = EntityState.Added;
-            await _context.SaveChangesAsync();
-        }
+        if (includes != null) query = AddIncludesToQuery(query, includes);
 
-        public async Task UpdateAsync(TEntity entity)
-        {
-            var data = _context.Entry(entity);
-            data.State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
+        if (orderBy != null) return AddOrderByToQuery(query, isAscending, orderBy);
 
-        public async Task DeleteAsync(TEntity entity)
-        {
-            var data = _context.Entry(entity);
-            data.State = EntityState.Deleted;
-            await _context.SaveChangesAsync();
-        }
+        return query;
+    }
 
-        private IQueryable<TEntity> GetQuery(Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().AsQueryable();
-
-            if (expression != null)
-            {
-                query = AddExpressionToQuery(query, expression);
-            }
-
-            if (includes != null)
-            {
-                query = AddIncludesToQuery(query, includes);
-            }
-
-            return query;
-        }
-
-        private IQueryable<TEntity> GetAllQuery(bool isAscending, Expression<Func<TEntity, object>> orderBy = null, Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = _context.Set<TEntity>().AsNoTracking().AsQueryable();
-
-            if (expression != null)
-            {
-                query = AddExpressionToQuery(query, expression);
-            }
-
-            if (includes != null)
-            {
-                query = AddIncludesToQuery(query, includes);
-            }
-
-            if (orderBy != null)
-            {
-                query = AddOrderByToQuery(query, isAscending, orderBy);
-            }
-
-            return query;
-        }
-
-        private IQueryable<TEntity> GetAllPaginatedQuery(int currentPageNumber, int pageCapacity, bool isAscending, Expression<Func<TEntity, object>> orderBy = null, Expression<Func<TEntity, bool>> expression = null, params string[] includes)
-        {
-            IQueryable<TEntity> query = GetAllQuery(isAscending, orderBy, expression, includes);
-
-            query = query.Skip((currentPageNumber - 1) * pageCapacity).Take(pageCapacity);
-
-            return query;
-        }
+    private IQueryable<TEntity> GetAllPaginatedQuery(int currentPageNumber,
+        int pageCapacity,
+        bool isAscending,
+        Expression<Func<TEntity, object>> orderBy = null,
+        Expression<Func<TEntity, bool>> expression = null,
+        params string[] includes)
+    {
+        return GetAllQuery(isAscending,
+                orderBy,
+                expression,
+                includes)
+            .Skip((currentPageNumber - 1) * pageCapacity)
+            .Take(pageCapacity);
+    }
 
 
-        private IQueryable<TEntity> AddExpressionToQuery(IQueryable<TEntity> query, Expression<Func<TEntity, bool>> expression)
-        {
-            return query.Where(expression);
-        }
+    private IQueryable<TEntity> AddExpressionToQuery(IQueryable<TEntity> query,
+        Expression<Func<TEntity, bool>> expression)
+    {
+        return query.Where(expression);
+    }
 
-        private IQueryable<TEntity> AddIncludesToQuery(IQueryable<TEntity> query, params string[] includes)
-        {
-            foreach (string include in includes)
-            {
-                query = query.Include(include);
-            }
+    private IQueryable<TEntity> AddIncludesToQuery(IQueryable<TEntity> query,
+        params string[] includes)
+    {
+        foreach (string include in includes) query = query.Include(include);
+        return query;
+    }
 
-            return query;
-        }
-
-        private IQueryable<TEntity> AddOrderByToQuery(IQueryable<TEntity> query, bool isAscending, Expression<Func<TEntity, object>> orderBy = null)
-        {
-            if (isAscending)
-            {
-                query = query.OrderBy(orderBy);
-            }
-            else
-            {
-                query = query.OrderByDescending(orderBy);
-            }
-            return query;
-        }
+    private IQueryable<TEntity> AddOrderByToQuery(IQueryable<TEntity> query,
+        bool isAscending,
+        Expression<Func<TEntity, object>> orderBy = null)
+    {
+        return isAscending ? query.OrderBy(orderBy) : query.OrderByDescending(orderBy);
     }
 }

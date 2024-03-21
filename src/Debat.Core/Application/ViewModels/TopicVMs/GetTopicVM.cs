@@ -1,4 +1,4 @@
-﻿using Debat.Core.Domain.Entities;
+using Debat.Core.Domain.Entities;
 
 namespace Debat.Core.Application.ViewModels
 {
@@ -7,10 +7,10 @@ namespace Debat.Core.Application.ViewModels
         public int Id { get; set; }
         public string AuthorFullName { get; set; }
         public string AuthorUsername { get; set; }
-        public string AuthorLevel { get; set; }
-        public string AuthorImage { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string? AuthorLevel { get; set; }
+        public string? AuthorImage { get; set; }
+        public string? Title { get; set; }
+        public string? Content { get; set; }
         public int ViewCount { get; set; }
         public int AnswerCount { get; set; }
         public bool AreYouAuthor { get; set; }

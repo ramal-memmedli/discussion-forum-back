@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Mappings;
+using Debat.Core.Application.Mappings;
 using Debat.Core.Application.Services;
 using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
@@ -294,7 +294,7 @@ namespace Debat.MVC.Controllers
             return categories;
         }
 
-        private async Task<bool> IsSignedUserAuthor(string authorId)
+        private async Task<bool> IsSignedUserAuthor(string? authorId)
         {
             if (User.Identity.IsAuthenticated)
             {

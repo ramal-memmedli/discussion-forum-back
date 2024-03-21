@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace Debat.Common.Helpers
 {
     public static class Extensions
     {
-        public async static Task<string> CreateImage(this IFormFile imageFile, string webRootPath, string target = null)
+        public async static Task<string?> CreateImage(this IFormFile imageFile, string webRootPath, string target = null)
         {
-            string fileName = imageFile.FileName;
+            string? fileName = imageFile.FileName;
 
             if (fileName.Length > 219)
             {

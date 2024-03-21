@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Services;
+using Debat.Core.Application.Services;
 using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -236,7 +236,7 @@ namespace Debat.MVC.Controllers
                     return View(editVM);
                 }
 
-                string fileName = await Extensions.CreateImage(editVM.ProfileImage, _environment.WebRootPath, "UserImage");
+                string? fileName = await Extensions.CreateImage(editVM.ProfileImage, _environment.WebRootPath, "UserImage");
 
                 Image image = new Image();
                 image.Name = fileName;
@@ -288,7 +288,7 @@ namespace Debat.MVC.Controllers
                     return View(editVM);
                 }
 
-                string fileName = await Extensions.CreateImage(editVM.BannerImage, _environment.WebRootPath, "UserImage");
+                string? fileName = await Extensions.CreateImage(editVM.BannerImage, _environment.WebRootPath, "UserImage");
 
                 Image image = new Image();
                 image.Name = fileName;

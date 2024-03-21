@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.ViewModels;
+using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Debat.Core.Application.Mappings
     public static class CommentMapper
     {
         public static GetCommentVM MapToVM(this Comment comment,
-                                           string authorImage,
+                                           string? authorImage,
                                            bool areYouUser)
         {
             GetCommentVM vm = new GetCommentVM();

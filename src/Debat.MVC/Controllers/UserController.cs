@@ -1,4 +1,4 @@
-﻿using Debat.Core.Application.Services;
+using Debat.Core.Application.Services;
 using Debat.Core.Application.ViewModels;
 using Debat.Core.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -42,8 +42,8 @@ namespace Debat.MVC.Controllers
 
                 ViewBag.Title = user.Name + " " + user.Surname;
 
-                Image profileImage = await _userImageService.GetUsersProfileImage(user.Id);
-                Image bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
+                Image? profileImage = await _userImageService.GetUsersProfileImage(user.Id);
+                Image? bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
 
                 Level level = await _levelService.Get(user.LevelId);
 
@@ -112,8 +112,8 @@ namespace Debat.MVC.Controllers
 
                 ViewBag.Title = user.Name + " " + user.Surname + " - Bookmarks";
 
-                Image profileImage = await _userImageService.GetUsersProfileImage(user.Id);
-                Image bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
+                Image? profileImage = await _userImageService.GetUsersProfileImage(user.Id);
+                Image? bannerImage = await _userImageService.GetUsersProfileBanner(user.Id);
 
                 Level level = await _levelService.Get(user.LevelId);
 
@@ -133,7 +133,7 @@ namespace Debat.MVC.Controllers
                 {
                     Topic topic = await _topicService.Get(bookmark.TopicId);
 
-                    Image authorsProfileImage = await _userImageService.GetUsersProfileImage(user.Id);
+                    Image? authorsProfileImage = await _userImageService.GetUsersProfileImage(user.Id);
 
                     Level authorLevel = await _levelService.Get(topic.Author.LevelId);
 
