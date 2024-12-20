@@ -15,7 +15,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Comment>> GetAllByAnswerId(int id)
         {
-            List<Comment> comments = await _commentData.GetAllAsync(n => n.CreateDate, false, n => n.AnswerId == id, "AppUser");
+            List<Comment> comments = await _commentData.GetAllAsync(n => n.AnswerId == id, n => n.CreateDate, false, n => n.AppUser);
 
             if (comments is null)
             {

@@ -16,7 +16,7 @@ namespace Debat.Business.Services
 
         public async Task<Community> Get(int id)
         {
-            Community community = await _communityData.GetAsync(n => !n.IsDeleted && n.Id == id, "CommunityMembers", "CommunityImages");
+            Community community = await _communityData.GetAsync(n => !n.IsDeleted && n.Id == id, n => n.CommunityMembers, n => n.CommunityImages);
 
             if (community is null)
             {
@@ -28,7 +28,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Community>> GetAll()
         {
-            List<Community> communities = await _communityData.GetAllAsync(null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(n => !n.IsDeleted, null, true, n => n.CommunityMembers, n => n.CommunityImages);
 
             if (communities is null)
             {
@@ -40,7 +40,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Community>> GetAllAscOrdered(Expression<Func<Community, object>> orderBy = null)
         {
-            List<Community> communities = await _communityData.GetAllAsync(orderBy, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(n => !n.IsDeleted, orderBy, true, n => n.CommunityMembers, n => n.CommunityImages);
 
             if (communities is null)
             {
@@ -52,7 +52,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Community>> GetAllDescOrdered(Expression<Func<Community, object>> orderBy = null)
         {
-            List<Community> communities = await _communityData.GetAllAsync(orderBy, false, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllAsync(n => !n.IsDeleted, orderBy, false, n => n.CommunityMembers, n => n.CommunityImages);
 
             if (communities is null)
             {
@@ -64,7 +64,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Community>> GetAllPaginated(int currentPage, int pageCapacity)
         {
-            List<Community> communities = await _communityData.GetAllPaginatedAsync(currentPage, pageCapacity, null, true, n => !n.IsDeleted, "CommunityMembers", "CommunityImages");
+            List<Community> communities = await _communityData.GetAllPaginatedAsync(currentPage, pageCapacity, n => !n.IsDeleted, null, true, n => n.CommunityMembers, n => n.CommunityImages);
 
             if (communities is null)
             {

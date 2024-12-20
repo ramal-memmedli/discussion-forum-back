@@ -1,5 +1,4 @@
 ﻿using Debat.Core.Domain.Entities;
-using Debat.Core.Domain.Models.Abstract;
 using System.Linq.Expressions;
 
 namespace Debat.Core.Application.Services;
