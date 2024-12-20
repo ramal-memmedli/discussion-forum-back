@@ -49,7 +49,7 @@ namespace Debat.Business.Services
 
         public async Task<List<UserBookmark>> GetAllByUserId(string userId)
         {
-            List<UserBookmark> bookmarks = await _bookmarkData.GetAllAsync(null, true, n => n.AppUserId == userId, "Topic");
+            List<UserBookmark> bookmarks = await _bookmarkData.GetAllAsync(null, true, n => n.AppUserId == userId, n => n.Topic);
 
             if (bookmarks is null)
             {

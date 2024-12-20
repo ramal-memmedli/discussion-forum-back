@@ -15,7 +15,7 @@ namespace Debat.Business.Services
 
         public async Task<CommunityMember> Get(int id)
         {
-            CommunityMember communityMember = await _communityMemberData.GetAsync(n => n.Id == id, "AppUser");
+            CommunityMember communityMember = await _communityMemberData.GetAsync(n => n.Id == id, n=> n.AppUser);
 
             if (communityMember is null)
             {

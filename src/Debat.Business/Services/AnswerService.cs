@@ -15,7 +15,7 @@ namespace Debat.Business.Services
 
         public async Task<Answer> Get(int id)
         {
-            Answer answer = await _answerData.GetAsync(n => n.Id == id && !n.IsDeleted, "AppUser", "AnswerVotes");
+            Answer answer = await _answerData.GetAsync(n => n.Id == id && !n.IsDeleted, n => n.AppUser, n => n.AnswerVotes);
 
             if (answer is null)
             {
@@ -27,7 +27,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Answer>> GetAllByTopicId(int id)
         {
-            List<Answer> answers = await _answerData.GetAllAsync(n => n.CreateDate, false, n => !n.IsDeleted && n.TopicId == id, "AppUser", "AnswerVotes");
+            List<Answer> answers = await _answerData.GetAllAsync(n => n.CreateDate, false, n => !n.IsDeleted && n.TopicId == id, n => n.AppUser, n => n.AnswerVotes);
 
             if (answers is null)
             {

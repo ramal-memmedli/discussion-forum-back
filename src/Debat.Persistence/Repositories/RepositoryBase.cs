@@ -10,15 +10,15 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
     where TContext : DbContext
 {
     public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+        params Expression<Func<TEntity, object>>[] includes)
     {
-        return await GetQuery(expression, includes).FirstOrDefaultAsync();
+        return await GenerateGetQuery(expression, includes).FirstOrDefaultAsync();
     }
 
     public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, object>> orderBy = null,
         bool isAscending = true,
         Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+        params Expression<Func<TEntity, object>>[] includes)
     {
         return await GetAllQuery(isAscending,
             orderBy,
@@ -31,7 +31,7 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
         Expression<Func<TEntity, object>> orderBy = null,
         bool isAscending = true,
         Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+        params Expression<Func<TEntity, object>>[] includes)
     {
         return await GetAllPaginatedQuery(currentPage,
             pageCapacity,
@@ -69,8 +69,8 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
         await context.SaveChangesAsync();
     }
 
-    private IQueryable<TEntity> GetQuery(Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+    private IQueryable<TEntity> GenerateGetQuery(Expression<Func<TEntity, bool>> expression = null,
+                                                 params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().AsQueryable();
 
@@ -84,7 +84,7 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
     private IQueryable<TEntity> GetAllQuery(bool isAscending,
         Expression<Func<TEntity, object>> orderBy = null,
         Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+        params Expression<Func<TEntity, object>>[] includes)
     {
         IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().AsQueryable();
 
@@ -102,7 +102,7 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
         bool isAscending,
         Expression<Func<TEntity, object>> orderBy = null,
         Expression<Func<TEntity, bool>> expression = null,
-        params string[] includes)
+        params Expression<Func<TEntity, object>>[] includes)
     {
         return GetAllQuery(isAscending,
                 orderBy,
@@ -114,15 +114,21 @@ public class RepositoryBase<TEntity, TContext>(TContext context) : IRepositoryBa
 
 
     private IQueryable<TEntity> AddExpressionToQuery(IQueryable<TEntity> query,
-        Expression<Func<TEntity, bool>> expression)
+                                                     Expression<Func<TEntity, bool>> expression)
     {
         return query.Where(expression);
     }
 
-    private IQueryable<TEntity> AddIncludesToQuery(IQueryable<TEntity> query,
-        params string[] includes)
+    private IQueryable<TEntity> AddSelectorToQuery(IQueryable<TEntity> query,
+                                                   Expression<Func<TEntity, TEntity>> selector)
     {
-        foreach (string include in includes) query = query.Include(include);
+        return query.Select(selector);
+    }
+
+    private IQueryable<TEntity> AddIncludesToQuery(IQueryable<TEntity> query,
+                                                   params Expression<Func<TEntity, object>>[] includes)
+    {
+        foreach (Expression<Func<TEntity, object>> include in includes) query = query.Include(include);
         return query;
     }
 

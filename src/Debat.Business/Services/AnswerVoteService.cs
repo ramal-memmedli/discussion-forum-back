@@ -32,7 +32,7 @@ namespace Debat.Business.Services
 
         public async Task<AnswerVote> Get(int id)
         {
-            AnswerVote answerVote = await _answerVoteData.GetAsync(n => n.Id == id, "AppUser", "Answer");
+            AnswerVote answerVote = await _answerVoteData.GetAsync(n => n.Id == id, n => n.AppUser, n => n.Answer);
 
             if (answerVote is null)
             {
