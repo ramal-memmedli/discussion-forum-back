@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
+using Debat.Core.Domain.Entities.Abstracts;
 
-namespace Debat.Core.Domain.Models.Abstract;
+namespace Debat.Core.Application.Repositories;
 
 public interface IRepositoryBase<TEntity> where TEntity : class, IEntity, new()
 {

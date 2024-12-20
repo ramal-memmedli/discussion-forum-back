@@ -1,4 +1,4 @@
-﻿namespace Debat.Core.Domain.Models.Abstract;
+﻿namespace Debat.Core.Application.Services;
 
 public interface IBaseService<TEntity>
 {

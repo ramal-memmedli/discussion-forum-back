@@ -1,4 +1,5 @@
-﻿using Debat.Core.Domain.Models.Abstract;
+﻿using Debat.Core.Application.Repositories;
+using Debat.Core.Domain.Entities.Abstracts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

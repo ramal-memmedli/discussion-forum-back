@@ -130,7 +130,7 @@ namespace Debat.MVC.Controllers
                 return RedirectToAction(actionName: "notfound", controllerName: "home");
             }
 
-            AppUser user = await _userManager.FindByIdAsync(userId);
+            AppUser? user = await _userManager.FindByIdAsync(userId);
 
             if (user is null)
             {
