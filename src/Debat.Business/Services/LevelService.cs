@@ -42,7 +42,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Level>> GetAll()
         {
-            List<Level> levels = await _levelData.GetAllAsync(n => n.RequiredPoint, true);
+            List<Level> levels = await _levelData.GetAllAsync(null, n => n.RequiredPoint);
 
             if (levels is null)
             {

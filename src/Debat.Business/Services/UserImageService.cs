@@ -27,7 +27,7 @@ namespace Debat.Business.Services
 
         public async Task<List<UserImage>> GetAllByUserId(string? id)
         {
-            List<UserImage> images = await _userImageData.GetAllAsync(null, true, n => n.AppUserId == id, n => n.Image);
+            List<UserImage> images = await _userImageData.GetAllAsync(n => n.AppUserId == id, null, true, n => n.Image);
 
             if (images is null)
             {

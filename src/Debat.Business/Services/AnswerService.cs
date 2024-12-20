@@ -27,7 +27,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Answer>> GetAllByTopicId(int id)
         {
-            List<Answer> answers = await _answerData.GetAllAsync(n => n.CreateDate, false, n => !n.IsDeleted && n.TopicId == id, n => n.AppUser, n => n.AnswerVotes);
+            List<Answer> answers = await _answerData.GetAllAsync(n => !n.IsDeleted && n.TopicId == id, n => n.CreateDate, false, n => n.AppUser, n => n.AnswerVotes);
 
             if (answers is null)
             {

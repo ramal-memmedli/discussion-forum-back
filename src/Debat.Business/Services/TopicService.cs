@@ -39,7 +39,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Topic>> GetAllByAuthor(string id)
         {
-            List<Topic> topics = await _topicData.GetAllAsync(n => n.CreateDate, false, n => !n.IsDeleted && n.AuthorId == id, n => n.Author, n => n.Category);
+            List<Topic> topics = await _topicData.GetAllAsync(n => !n.IsDeleted && n.AuthorId == id, n => n.CreateDate, false, n => n.Author, n => n.Category);
 
             if (topics is null)
             {
@@ -56,7 +56,7 @@ namespace Debat.Business.Services
                 throw new ArgumentNullException();
             }
 
-            List<Topic> topics = await _topicData.GetAllAsync(n => n.Title, true, n => n.Title.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Content.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Category.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Surname.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.UserName.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")), n => n.Author, n => n.Category);
+            List<Topic> topics = await _topicData.GetAllAsync(n => n.Title.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Content.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Category.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Name.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.Surname.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")) || n.Author.UserName.Trim().Replace(" ", "").Contains(content.Trim().Replace(" ", "")), n => n.Title, true, n => n.Author, n => n.Category);
 
             if (topics is null)
             {
@@ -68,7 +68,7 @@ namespace Debat.Business.Services
 
         public async Task<List<Topic>> GetAllPaginated(int currentPage, int pageCapacity)
         {
-            List<Topic> topics = await _topicData.GetAllPaginatedAsync(currentPage, pageCapacity, n => n.CreateDate, false, n => !n.IsDeleted, n => n.Author, n => n.Category);
+            List<Topic> topics = await _topicData.GetAllPaginatedAsync(currentPage, pageCapacity, n => !n.IsDeleted, n => n.CreateDate, false, n => n.Author, n => n.Category);
 
             if (topics is null)
             {
